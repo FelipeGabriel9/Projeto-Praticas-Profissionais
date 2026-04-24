@@ -29,7 +29,7 @@ namespace MyMoney.Data
 
             // Configuração da tabela Categoria
             modelBuilder.Entity<Categoria>().HasKey(c => c.idCategoria);
-            modelBuilder.Entity<Categoria>().Property(c => c.NomeCategria).IsRequired().HasColumnType("varchar(30)");
+            modelBuilder.Entity<Categoria>().Property(c => c.NomeCategoria).IsRequired().HasColumnType("varchar(30)");
             modelBuilder.Entity<Categoria>().Property(c => c.Tipo).IsRequired().HasColumnType("varchar(10)");
             modelBuilder.Entity<Categoria>().HasOne<Usuario>().HasForeignKey(c => c.idUsuario).IsRequired(false);
 

@@ -34,54 +34,54 @@ public static class UsuarioEndpoints
         //POST
         grupo.MapPost("/", async (Usuario novoUsuario, AppDbContext db) =>
         {
-        // Adiciona o novo usuário
-        db.Usuario.Add(novoUsuario);
-        // Salva as alterações no banco de dados
-        await db.SaveChangesAsync();
-        // Retorna Created (sucesso 201) e o endereço onde o item criado pode ser encontrado
-        return Results.Created($"/usuarios/{novoUsuario.idUsuario}", novoUsuario);
+            // Adiciona o novo usuário
+            db.Usuario.Add(novoUsuario);
+            // Salva as alterações no banco de dados
+            await db.SaveChangesAsync();
+            // Retorna Created (sucesso 201) e o endereço onde o item criado pode ser encontrado
+            return Results.Created($"/usuarios/{novoUsuario.idUsuario}", novoUsuario);
         });
 
 
         //PUT
         grupo.MapPut("/{id}", async (int id, Usuario usuarioAtualizado, AppDbContext db) =>
         {
-        // Busca o cliente original no banco
-        var usuario = await db.Usuario.FindAsync(id);
-        // Se não achar, retorna 404
-        if (usuario is null) return Results.NotFound();
+            // Busca o usuário original no banco
+            var usuario = await db.Usuario.FindAsync(id);
+            // Se não achar, retorna 404
+            if (usuario is null) return Results.NotFound();
 
-        // Atualiza o nome
-        usuario.nome = usuarioAtualizado.nome;
-        // Atualiza o email
-        usuario.email = usuarioAtualizado.email;
-        // Atualiza a senha
-        usuario.senhaHash = usuarioAtualizado.senhaHash;
-        // Atualiza a moeda padrão
-        usuario.moedaPadrao = usuarioAtualizado.moedaPadrao;
-        // Atualiza o idioma
-        usuario.idioma = usuarioAtualizado.idioma;
-        // Salva as alterações no banco
-        await db.SaveChangesAsync();
-        // Retorna NoContent (sucesso 204, feito sem retornar dados novos)
-        return Results.NoContent();
+            // Atualiza o nome
+            usuario.nome = usuarioAtualizado.nome;
+            // Atualiza o email
+            usuario.email = usuarioAtualizado.email;
+            // Atualiza a senha
+            usuario.senhaHash = usuarioAtualizado.senhaHash;
+            // Atualiza a moeda padrão
+            usuario.moedaPadrao = usuarioAtualizado.moedaPadrao;
+            // Atualiza o idioma
+            usuario.idioma = usuarioAtualizado.idioma;
+            // Salva as alterações no banco
+            await db.SaveChangesAsync();
+            // Retorna NoContent (sucesso 204, feito sem retornar dados novos)
+            return Results.NoContent();
         });
 
 
         //DELETE
         grupo.MapDelete("/{id}", async (int id, AppDbContext db) =>
         {
-        // Busca o cliente pelo ID
-        var usuario = await db.Usuario.FindAsync(id);
-        // Se não achar, retorna 404
-        if (usuario is null) return Results.NotFound();
+            // Busca o usuário pelo ID
+            var usuario = await db.Usuario.FindAsync(id);
+            // Se não achar, retorna 404
+            if (usuario is null) return Results.NotFound();
 
-        // Remove o cliente da memória do contexto
-        db.Usuario.Remove(usuario);
-        // Efetiva a exclusão no banco de dados
-        await db.SaveChangesAsync();
-        // Retorna NoContent (sucesso 204)
-        return Results.NoContent();
+            // Remove o usuário da memória do contexto
+            db.Usuario.Remove(usuario);
+            // Efetiva a exclusão no banco de dados
+            await db.SaveChangesAsync();
+            // Retorna NoContent (sucesso 204)
+            return Results.NoContent();
         });
     } 
 }
