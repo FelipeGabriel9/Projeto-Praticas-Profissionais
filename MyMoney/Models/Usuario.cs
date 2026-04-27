@@ -5,7 +5,7 @@ namespace MyMoney.Models;
 public class Usuario
 {
     // Propriedades
-    public required int idUsuario {get; set;}
+    public int idUsuario {get; set;}
     public required string nome {get; set;}
     public required string email {get; set;}
     public required string senhaHash {get; set;}

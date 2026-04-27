@@ -8,14 +8,14 @@ public static class MensagemEndpoints
 {
     public static void MapMensagemEndpoints(this WebApplication app)
     {
-        var grupo = app.MapGroup("/mensagens"); // grupo de rotas que começam com /mensagens
+        var grupo = app.MapGroup("/mensagens"); // grupo de rotas que comeï¿½am com /mensagens
 
 
         //GET
         grupo.MapGet("/", async (AppDbContext db) =>
         {
             return await db.Mensagem.ToListAsync();
-            // retorna uma lista de mensagens após ler a tabela no BD
+            // retorna uma lista de mensagens apï¿½s ler a tabela no BD
         });
 
 
@@ -26,8 +26,8 @@ public static class MensagemEndpoints
             // busca uma mensagem com um determinado id no BD
 
             return mensagem is null ? Results.NotFound() : Results.Ok(mensagem);
-            // se não houver uma mensagem com o id (variável mensagem é null),
-            // retorna um erro (404). Caso contrário, retorna a mensagem
+            // se nï¿½o houver uma mensagem com o id (variï¿½vel mensagem ï¿½ null),
+            // retorna um erro (404). Caso contrï¿½rio, retorna a mensagem
         });
 
 
@@ -35,9 +35,9 @@ public static class MensagemEndpoints
         grupo.MapPost("/", async (Mensagem novaMensagem, AppDbContext db) =>
         {
             db.Mensagem.Add(novaMensagem); // Adiciona a nova mensagem
-            await db.SaveChangesAsync(); // Salva as alterações no banco de dados
+            await db.SaveChangesAsync(); // Salva as alteraï¿½ï¿½es no banco de dados
 
-            return Results.Created($"/mensagens/{novaMensagem.idMensagem}", novaMensagem); // Retorna Created (sucesso 201) e o endereço onde o item criado pode ser encontrado
+            return Results.Created($"/mensagens/{novaMensagem.idMensagem}", novaMensagem); // Retorna Created (sucesso 201) e o endereï¿½o onde o item criado pode ser encontrado
 
         });
 
@@ -47,16 +47,16 @@ public static class MensagemEndpoints
         {
             // Busca a mensagem original no banco
             var mensagem = await db.Mensagem.FindAsync(id);
-            // Se não achar, retorna 404
+            // Se nï¿½o achar, retorna 404
             if (mensagem is null)
                 return Results.NotFound();
 
             // Atualiza o assunto da mensagem
             mensagem.Assunto = mensagemAtualizada.Assunto;
             // Atualiza a mensagem
-            mensagem.Mensagem = mensagemAtualizada.Mensagem;
+            mensagem.mensagem = mensagemAtualizada.mensagem;
             
-            // Salva as alterações no banco
+            // Salva as alteraï¿½ï¿½es no banco
             await db.SaveChangesAsync();
             // Retorna NoContent (sucesso 204, feito sem retornar dados novos)
             return Results.NoContent();
@@ -68,13 +68,13 @@ public static class MensagemEndpoints
         {
             // Busca a mensagem pelo ID
             var mensagem = await db.Categoria.FindAsync(id);
-            // Se não achar, retorna 404
+            // Se nï¿½o achar, retorna 404
             if (mensagem is null)
                 return Results.NotFound();
 
-            // Remove a mensagem da memória do contexto
+            // Remove a mensagem da memï¿½ria do contexto
             db.Categoria.Remove(mensagem);
-            // Efetiva a exclusão no banco de dados
+            // Efetiva a exclusï¿½o no banco de dados
             await db.SaveChangesAsync();
             // Retorna NoContent (sucesso 204)
             return Results.NoContent();
