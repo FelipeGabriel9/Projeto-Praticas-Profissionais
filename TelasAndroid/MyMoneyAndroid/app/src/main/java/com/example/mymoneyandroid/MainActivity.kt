@@ -13,35 +13,38 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.mymoneyandroid.ui.theme.MyMoneyAndroidTheme
 
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import com.example.mymoneyandroid.navigation.AppNavigation
+
+// Cria a classe principal (a primeira que o Android procura para abrir o app)
 class MainActivity : ComponentActivity() {
+
+    // Função que é executada no exato momento que o app é aberto
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        // Chama a preparação padrão do sistema Android
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+
+        // Inicia o ambiente Jetpack Compose (tudo aqui dentro é interface visual)
         setContent {
-            MyMoneyAndroidTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+
+            // Aplica o tema visual (cores, modos claro/escuro) do projeto
+            MyMoneyAndroidTheme() {
+
+                // Cria um contêiner base (uma folha de papel em branco)
+                Surface(
+                    // Diz para essa folha ocupar a tela toda
+                    modifier = Modifier.fillMaxSize(),
+                    // Cor de fundo padrão do tema
+                    color = MaterialTheme.colorScheme.background
+                ) {
+
+                    // Chama a nossa função que contém o mapa. Ela cuidará de exibir a Tela 1 de início.
+                    AppNavigation()
+
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    MyMoneyAndroidTheme {
-        Greeting("Android")
     }
 }

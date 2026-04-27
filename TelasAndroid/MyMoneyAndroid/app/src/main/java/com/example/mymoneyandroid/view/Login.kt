@@ -27,18 +27,17 @@ private val AccentGreen   = Color(0xFF34C759)
 
 
 @Composable
-fun CadastroScreen(
-    onRealizarCadastro: (name: String, cpf: String, email: String) -> Unit = { _, _, _ -> },
+fun LoginScreen(
+    onRealizarLogin: (name: String, email: String, senha: String) -> Unit = { _, _, _ -> },
     onLoginClick: () -> Unit = {}
 ) {
     var name  by remember { mutableStateOf("") }
-    var cpf   by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
+    var senha   by remember { mutableStateOf("") }
+
 
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(GreenPrimary)
+        modifier = Modifier.fillMaxSize().background(GreenPrimary)
     ) {
 
         TopBar()
@@ -55,7 +54,7 @@ fun CadastroScreen(
             modifier = Modifier.fillMaxWidth()
         )
         Text(
-            text = "Cadastro",
+            text = "Login",
             color = TextWhite.copy(alpha = 0.85f),
             fontSize = 18.sp,
             fontWeight = FontWeight.Normal,
@@ -89,24 +88,24 @@ fun CadastroScreen(
                 )
 
                 LoginField(
-                    label = "CPF",
-                    value = cpf,
-                    onValueChange = { cpf = it },
-                    keyboardType = KeyboardType.Number
-                )
-
-                LoginField(
                     label = "Email",
                     value = email,
                     onValueChange = { email = it },
                     keyboardType = KeyboardType.Email
                 )
 
+                LoginField(
+                    label = "Senha",
+                    value = senha,
+                    onValueChange = { senha = it },
+                    keyboardType = KeyboardType.Password
+                )
+
                 Spacer(modifier = Modifier.height(4.dp))
 
 
                 Button(
-                    onClick = { onRealizarCadastro(name, cpf, email) },
+                    onClick = { onRealizarLogin(name, email, senha) },
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(50.dp),
@@ -114,7 +113,7 @@ fun CadastroScreen(
                     colors = ButtonDefaults.buttonColors(containerColor = TextWhite)
                 ) {
                     Text(
-                        text = "Realizar cadastro",
+                        text = "Realizar login",
                         color = DarkCard,
                         fontWeight = FontWeight.SemiBold,
                         fontSize = 16.sp
@@ -123,29 +122,6 @@ fun CadastroScreen(
             }
         }
 
-        Spacer(modifier = Modifier.height(20.dp))
-
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.Center
-        ) {
-            Text(
-                text = "Já tem uma conta? ",
-                color = TextWhite,
-                fontSize = 14.sp
-            )
-            TextButton(
-                onClick = onLoginClick,
-                contentPadding = PaddingValues(0.dp)
-            ) {
-                Text(
-                    text = "Faça login agora",
-                    color = AccentGreen,
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.SemiBold
-                )
-            }
-        }
     }
 }
 
@@ -215,6 +191,6 @@ private fun TopBar() {
 
 @Preview(showBackground = true, widthDp = 360, heightDp = 720)
 @Composable
-fun CadastroScreenPreview() {
-    CadastroScreen()
+fun LoginScreenPreview() {
+    LoginScreen()
 }
