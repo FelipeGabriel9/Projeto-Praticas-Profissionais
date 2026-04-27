@@ -3,32 +3,40 @@
   "WorkspaceRootPath": "C:\\Users\\u25130\\Documents\\GitHub\\Projeto-Praticas-Profissionais\\MyMoney\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\u25130\\Documents\\GitHub\\Projeto-Praticas-Profissionais\\MyMoney\\Endpoints\\MetaEndpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Endpoints\\MetaEndpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\u25130\\Documents\\GitHub\\Projeto-Praticas-Profissionais\\MyMoney\\Data\\AppDbContext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Data\\AppDbContext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\u25130\\Documents\\GitHub\\Projeto-Praticas-Profissionais\\MyMoney\\Models\\Mensagem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Models\\Mensagem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\u25130\\Documents\\GitHub\\Projeto-Praticas-Profissionais\\MyMoney\\Models\\Meta.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Models\\Meta.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\u25130\\Documents\\GitHub\\Projeto-Praticas-Profissionais\\MyMoney\\Models\\Usuario.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Models\\Usuario.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\u25130\\Documents\\GitHub\\Projeto-Praticas-Profissionais\\MyMoney\\Models\\Categoria.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Models\\Categoria.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\u25130\\Documents\\GitHub\\Projeto-Praticas-Profissionais\\MyMoney\\Endpoints\\MensagemEndpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Endpoints\\MensagemEndpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\u25130\\Documents\\GitHub\\Projeto-Praticas-Profissionais\\MyMoney\\Data\\AppDbContext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Data\\AppDbContext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\u25130\\Documents\\GitHub\\Projeto-Praticas-Profissionais\\MyMoney\\Endpoints\\TransacoesEndpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Endpoints\\TransacoesEndpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\u25130\\Documents\\GitHub\\Projeto-Praticas-Profissionais\\MyMoney\\Endpoints\\MetaEndpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Endpoints\\MetaEndpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\u25130\\Documents\\GitHub\\Projeto-Praticas-Profissionais\\MyMoney\\Endpoints\\CategoriaEndpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Endpoints\\CategoriaEndpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\u25130\\Documents\\GitHub\\Projeto-Praticas-Profissionais\\MyMoney\\Models\\Usuario.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Models\\Usuario.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\u25130\\Documents\\GitHub\\Projeto-Praticas-Profissionais\\MyMoney\\Endpoints\\UsuarioEndpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -46,32 +54,19 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Meta.cs",
-              "DocumentMoniker": "C:\\Users\\u25130\\Documents\\GitHub\\Projeto-Praticas-Profissionais\\MyMoney\\Models\\Meta.cs",
-              "RelativeDocumentMoniker": "Models\\Meta.cs",
-              "ToolTip": "C:\\Users\\u25130\\Documents\\GitHub\\Projeto-Praticas-Profissionais\\MyMoney\\Models\\Meta.cs",
-              "RelativeToolTip": "Models\\Meta.cs",
-              "ViewState": "AgIAAAEAAAAAAAAAAAAAAA4AAAABAAAAAAAAAA==",
+              "DocumentIndex": 3,
+              "Title": "MensagemEndpoints.cs",
+              "DocumentMoniker": "C:\\Users\\u25130\\Documents\\GitHub\\Projeto-Praticas-Profissionais\\MyMoney\\Endpoints\\MensagemEndpoints.cs",
+              "RelativeDocumentMoniker": "Endpoints\\MensagemEndpoints.cs",
+              "ToolTip": "C:\\Users\\u25130\\Documents\\GitHub\\Projeto-Praticas-Profissionais\\MyMoney\\Endpoints\\MensagemEndpoints.cs",
+              "RelativeToolTip": "Endpoints\\MensagemEndpoints.cs",
+              "ViewState": "AgIAACoAAAAAAAAAAAAAADQAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-27T14:04:06.208Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "MetaEndpoints.cs",
-              "DocumentMoniker": "C:\\Users\\u25130\\Documents\\GitHub\\Projeto-Praticas-Profissionais\\MyMoney\\Endpoints\\MetaEndpoints.cs",
-              "RelativeDocumentMoniker": "Endpoints\\MetaEndpoints.cs",
-              "ToolTip": "C:\\Users\\u25130\\Documents\\GitHub\\Projeto-Praticas-Profissionais\\MyMoney\\Endpoints\\MetaEndpoints.cs",
-              "RelativeToolTip": "Endpoints\\MetaEndpoints.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFMAAAAeAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-27T13:50:09.23Z",
+              "WhenOpened": "2026-04-27T14:19:53.952Z",
               "EditorCaption": ""
             },
             {
@@ -82,40 +77,40 @@
               "RelativeDocumentMoniker": "Endpoints\\TransacoesEndpoints.cs",
               "ToolTip": "C:\\Users\\u25130\\Documents\\GitHub\\Projeto-Praticas-Profissionais\\MyMoney\\Endpoints\\TransacoesEndpoints.cs",
               "RelativeToolTip": "Endpoints\\TransacoesEndpoints.cs",
-              "ViewState": "AgIAABIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB8AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-04-27T13:26:38.622Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 4,
               "Title": "AppDbContext.cs",
               "DocumentMoniker": "C:\\Users\\u25130\\Documents\\GitHub\\Projeto-Praticas-Profissionais\\MyMoney\\Data\\AppDbContext.cs",
               "RelativeDocumentMoniker": "Data\\AppDbContext.cs",
               "ToolTip": "C:\\Users\\u25130\\Documents\\GitHub\\Projeto-Praticas-Profissionais\\MyMoney\\Data\\AppDbContext.cs",
               "RelativeToolTip": "Data\\AppDbContext.cs",
-              "ViewState": "AgIAAA8AAAAAAAAAAAAAACgAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAAfAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-04-27T13:28:02.005Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Usuario.cs",
-              "DocumentMoniker": "C:\\Users\\u25130\\Documents\\GitHub\\Projeto-Praticas-Profissionais\\MyMoney\\Models\\Usuario.cs",
-              "RelativeDocumentMoniker": "Models\\Usuario.cs",
-              "ToolTip": "C:\\Users\\u25130\\Documents\\GitHub\\Projeto-Praticas-Profissionais\\MyMoney\\Models\\Usuario.cs",
-              "RelativeToolTip": "Models\\Usuario.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAABAAAAAAAAAA==",
+              "DocumentIndex": 0,
+              "Title": "Mensagem.cs",
+              "DocumentMoniker": "C:\\Users\\u25130\\Documents\\GitHub\\Projeto-Praticas-Profissionais\\MyMoney\\Models\\Mensagem.cs",
+              "RelativeDocumentMoniker": "Models\\Mensagem.cs",
+              "ToolTip": "C:\\Users\\u25130\\Documents\\GitHub\\Projeto-Praticas-Profissionais\\MyMoney\\Models\\Mensagem.cs",
+              "RelativeToolTip": "Models\\Mensagem.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-27T13:28:17.086Z",
+              "WhenOpened": "2026-04-27T14:19:36.014Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 2,
               "Title": "Categoria.cs",
               "DocumentMoniker": "C:\\Users\\u25130\\Documents\\GitHub\\Projeto-Praticas-Profissionais\\MyMoney\\Models\\Categoria.cs",
               "RelativeDocumentMoniker": "Models\\Categoria.cs",
@@ -128,7 +123,58 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Meta.cs",
+              "DocumentMoniker": "C:\\Users\\u25130\\Documents\\GitHub\\Projeto-Praticas-Profissionais\\MyMoney\\Models\\Meta.cs",
+              "RelativeDocumentMoniker": "Models\\Meta.cs",
+              "ToolTip": "C:\\Users\\u25130\\Documents\\GitHub\\Projeto-Praticas-Profissionais\\MyMoney\\Models\\Meta.cs",
+              "RelativeToolTip": "Models\\Meta.cs",
+              "ViewState": "AgIAAAEAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-27T14:04:06.208Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "MetaEndpoints.cs",
+              "DocumentMoniker": "C:\\Users\\u25130\\Documents\\GitHub\\Projeto-Praticas-Profissionais\\MyMoney\\Endpoints\\MetaEndpoints.cs",
+              "RelativeDocumentMoniker": "Endpoints\\MetaEndpoints.cs",
+              "ToolTip": "C:\\Users\\u25130\\Documents\\GitHub\\Projeto-Praticas-Profissionais\\MyMoney\\Endpoints\\MetaEndpoints.cs",
+              "RelativeToolTip": "Endpoints\\MetaEndpoints.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-27T13:50:09.23Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 7,
+              "Title": "CategoriaEndpoints.cs",
+              "DocumentMoniker": "C:\\Users\\u25130\\Documents\\GitHub\\Projeto-Praticas-Profissionais\\MyMoney\\Endpoints\\CategoriaEndpoints.cs",
+              "RelativeDocumentMoniker": "Endpoints\\CategoriaEndpoints.cs",
+              "ToolTip": "C:\\Users\\u25130\\Documents\\GitHub\\Projeto-Praticas-Profissionais\\MyMoney\\Endpoints\\CategoriaEndpoints.cs",
+              "RelativeToolTip": "Endpoints\\CategoriaEndpoints.cs",
+              "ViewState": "AgIAAC0AAAAAAAAAAAAIwDkAAAAjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-27T13:28:09.066Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "Usuario.cs",
+              "DocumentMoniker": "C:\\Users\\u25130\\Documents\\GitHub\\Projeto-Praticas-Profissionais\\MyMoney\\Models\\Usuario.cs",
+              "RelativeDocumentMoniker": "Models\\Usuario.cs",
+              "ToolTip": "C:\\Users\\u25130\\Documents\\GitHub\\Projeto-Praticas-Profissionais\\MyMoney\\Models\\Usuario.cs",
+              "RelativeToolTip": "Models\\Usuario.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-27T13:28:17.086Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
               "Title": "UsuarioEndpoints.cs",
               "DocumentMoniker": "C:\\Users\\u25130\\Documents\\GitHub\\Projeto-Praticas-Profissionais\\MyMoney\\Endpoints\\UsuarioEndpoints.cs",
               "RelativeDocumentMoniker": "Endpoints\\UsuarioEndpoints.cs",
@@ -140,7 +186,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 10,
               "Title": "Transacoes.cs",
               "DocumentMoniker": "C:\\Users\\u25130\\Documents\\GitHub\\Projeto-Praticas-Profissionais\\MyMoney\\Models\\Transacoes.cs",
               "RelativeDocumentMoniker": "Models\\Transacoes.cs",
@@ -149,19 +195,6 @@
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-04-27T13:28:14.033Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "CategoriaEndpoints.cs",
-              "DocumentMoniker": "C:\\Users\\u25130\\Documents\\GitHub\\Projeto-Praticas-Profissionais\\MyMoney\\Endpoints\\CategoriaEndpoints.cs",
-              "RelativeDocumentMoniker": "Endpoints\\CategoriaEndpoints.cs",
-              "ToolTip": "C:\\Users\\u25130\\Documents\\GitHub\\Projeto-Praticas-Profissionais\\MyMoney\\Endpoints\\CategoriaEndpoints.cs",
-              "RelativeToolTip": "Endpoints\\CategoriaEndpoints.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAABAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-27T13:28:09.066Z",
-              "EditorCaption": ""
             }
           ]
         }

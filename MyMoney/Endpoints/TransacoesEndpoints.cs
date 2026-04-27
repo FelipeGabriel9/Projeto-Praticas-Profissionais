@@ -6,7 +6,7 @@ namespace MyMoney.Endpoints;
 
 public static class TransacoesEndpoints
 {
-    public static void MapCategoriaEndpoints(this WebApplication app)
+    public static void MapTransacoesEndpoints(this WebApplication app)
     {
         var grupo = app.MapGroup("/transacoes"); // grupo de rotas que começam com /transacoes
 

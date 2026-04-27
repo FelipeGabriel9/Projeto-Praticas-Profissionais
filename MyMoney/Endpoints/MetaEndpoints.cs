@@ -6,7 +6,7 @@ namespace MyMoney.Endpoints;
 
 public static class MetaEndpoints
 {
-	public static void MapCategoriaEndpoints(this WebApplication app)
+	public static void MapMetaEndpoints(this WebApplication app)
 	{
 		var grupo = app.MapGroup("/metas"); // grupo de rotas que começam com /metas
 
