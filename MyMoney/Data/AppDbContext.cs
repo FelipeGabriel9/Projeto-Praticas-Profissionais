@@ -7,11 +7,12 @@ namespace MyMoney.Data
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
-        public DbSet<Usuario> Usuario { get; set; }
-        public DbSet<Categoria> Categoria { get; set; }
-        public DbSet<Transacoes> Transacoes { get; set; }
-        public DbSet<Meta> Meta { get; set; }
-        public DbSet<Mensagem> Mensagem { get; set; }
+        public DbSet<Usuario> Usuario { get; set; } = null!;
+        public DbSet<Categoria> Categoria { get; set; } = null!;
+        public DbSet<Transacoes> Transacoes { get; set; } = null!;
+        public DbSet<Meta> Meta { get; set; } = null!;
+
+        public DbSet<Mensagem> Mensagem { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -20,6 +21,7 @@ namespace MyMoney.Data
 
             // Configuração da tabela Usuario
             modelBuilder.Entity<Usuario>().HasKey(c => c.idUsuario);
+            
             modelBuilder.Entity<Usuario>().Property(c => c.nome).IsRequired().HasColumnType("varchar(50)");
             modelBuilder.Entity<Usuario>().Property(c => c.email).IsRequired().HasColumnType("varchar(50)");
             modelBuilder.Entity<Usuario>().Property(c => c.senhaHash).IsRequired().HasColumnType("varchar(300)");
@@ -38,7 +40,7 @@ namespace MyMoney.Data
             modelBuilder.Entity<Transacoes>().HasOne(c => c.Categoria).WithMany().HasForeignKey(c => c.idCategoria).IsRequired(false);
             modelBuilder.Entity<Transacoes>().HasOne(c => c.Usuario).WithMany().HasForeignKey(c => c.idUsuario).IsRequired(true);
             modelBuilder.Entity<Transacoes>().Property(c => c.Tipo).IsRequired().HasColumnType("varchar(10)");
-            modelBuilder.Entity<Transacoes>().Property(c => c.Valor).IsRequired().HasColumnType("money");
+            modelBuilder.Entity<Transacoes>().Property(c => c.Valor).IsRequired().HasColumnType("decimal(18,2)");
             modelBuilder.Entity<Transacoes>().Property(c => c.Descricao).IsRequired().HasColumnType("varchar(30)");
             modelBuilder.Entity<Transacoes>().Property(c => c.DataTransacao).IsRequired().HasColumnType("datetime");
         
@@ -46,8 +48,8 @@ namespace MyMoney.Data
             modelBuilder.Entity<Meta>().HasKey(c => c.idMeta);
             modelBuilder.Entity<Meta>().HasOne(c => c.Usuario).WithMany().HasForeignKey(c => c.idUsuario).IsRequired(true);
             modelBuilder.Entity<Meta>().Property(c => c.NomeMeta).IsRequired().HasColumnType("varchar(20)");
-            modelBuilder.Entity<Meta>().Property(c => c.ValorObjetivo).IsRequired().HasColumnType("money");
-            modelBuilder.Entity<Meta>().Property(c => c.ValorAtual).IsRequired().HasColumnType("money");
+            modelBuilder.Entity<Meta>().Property(c => c.ValorObjetivo).IsRequired().HasColumnType("decimal(18,2)");
+            modelBuilder.Entity<Meta>().Property(c => c.ValorAtual).IsRequired().HasColumnType("decimal(18,2)");
             modelBuilder.Entity<Meta>().Property(c => c.DataCriacao).IsRequired().HasColumnType("datetime");
 
             // Configuração da tabela Mensagem
