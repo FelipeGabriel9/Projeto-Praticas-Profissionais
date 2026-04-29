@@ -7,6 +7,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.mymoneyandroid.view.CadastroScreen
 import com.example.mymoneyandroid.view.LoginScreen
 import com.example.mymoneyandroid.view.CategoriaScreen
+import com.example.mymoneyandroid.view.PrincipalScreen
 
 
 @Composable
@@ -41,5 +42,9 @@ fun AppNavigation() {
             CategoriaScreen()
         }
 
+        composable("principal") {
+            PrincipalScreen()
+
+        }
     }
 }

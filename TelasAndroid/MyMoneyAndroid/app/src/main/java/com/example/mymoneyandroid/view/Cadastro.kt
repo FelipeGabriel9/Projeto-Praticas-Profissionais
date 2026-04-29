@@ -198,9 +198,9 @@ private fun TopBar() {
     ) {
 
         Text(
-            text = "⊞",
+            text = "(POSSIVEL LOGO)",
             color = TextWhite,
-            fontSize = 24.sp,
+            fontSize = 8.sp,
             fontWeight = FontWeight.Bold
         )
 
