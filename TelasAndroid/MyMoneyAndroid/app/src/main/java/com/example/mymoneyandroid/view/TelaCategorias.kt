@@ -17,10 +17,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
-private val ColorBackground  = Color(0xFF2E7D32)   // verde escuro
-private val ColorHeader      = Color(0xFF1C1C1E)   // card escuro
-private val ColorButton   = Color(0xFF3A3A3C)   // borda dos campos
-private val ColorTextWhite   = Color(0xFFFFFFFF)   // borda dos campos
+private val ColorBackground  = Color(0xFF2E7D32)   // cor de fundo parte inferior
+private val ColorHeader      = Color(0xFF1C1C1E)   // cor de fundo da parte superior
+private val ColorButton   = Color(0xFF3A3A3C)   // cor dos botões
+private val ColorTextWhite   = Color(0xFFFFFFFF)   // cor do texto principal
 
 @Composable
 fun CategoriaScreen() {
