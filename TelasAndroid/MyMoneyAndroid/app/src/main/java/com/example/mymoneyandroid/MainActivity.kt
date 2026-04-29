@@ -15,7 +15,11 @@ import com.example.mymoneyandroid.ui.theme.MyMoneyAndroidTheme
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.example.mymoneyandroid.navigation.AppNavigation
+import com.example.mymoneyandroid.view.CategoriaScreen
 
 // Cria a classe principal (a primeira que o Android procura para abrir o app)
 class MainActivity : ComponentActivity() {
@@ -44,6 +48,26 @@ class MainActivity : ComponentActivity() {
                     AppNavigation()
 
                 }
+            }
+        }
+    }
+
+    @Composable
+    fun MinhaApp() {
+        val navController = rememberNavController()
+
+        NavHost(navController = navController, startDestination = "categorias") {
+            composable("categorias") {
+                CategoriaScreen (navController)
+            }
+            composable("perfil") {
+                // TelaPerfilScreen (navController)
+            }
+            composable("mensagem") {
+                // TelaMensagemScreen (navController)
+            }
+            composable("principal") {
+                // TelaPrincipalScreen (navController)
             }
         }
     }

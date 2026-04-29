@@ -38,7 +38,7 @@ fun AppNavigation() {
         }
 
         composable("categoria") {
-            CategoriaScreen()
+            CategoriaScreen(navController = navController) // Tela de categoria
         }
 
     }
