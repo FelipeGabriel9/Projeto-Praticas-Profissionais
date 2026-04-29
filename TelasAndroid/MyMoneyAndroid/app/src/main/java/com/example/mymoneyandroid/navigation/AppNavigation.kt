@@ -6,7 +6,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.mymoneyandroid.view.CadastroScreen
 import com.example.mymoneyandroid.view.LoginScreen
-
+import com.example.mymoneyandroid.view.CategoriaScreen
 
 
 @Composable
@@ -17,7 +17,7 @@ fun AppNavigation() {
     val navController = rememberNavController()
 
     // Cria o mapa, entrega para o controlador para começar pela tela1
-    NavHost(navController = navController, startDestination = "cadastro") {
+    NavHost(navController = navController, startDestination = "categoria") {
 
         // Cria o endereço/rota chamado exatamente "tela1"
         composable("cadastro") {
@@ -35,6 +35,10 @@ fun AppNavigation() {
         composable("login") {
             LoginScreen() // Sua tela de login
 
+        }
+
+        composable("categoria") {
+            CategoriaScreen()
         }
 
     }
