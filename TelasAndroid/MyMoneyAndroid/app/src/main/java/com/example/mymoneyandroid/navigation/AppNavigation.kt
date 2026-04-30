@@ -7,11 +7,10 @@ import androidx.navigation.compose.rememberNavController
 import com.example.mymoneyandroid.view.CadastroScreen
 import com.example.mymoneyandroid.view.LoginScreen
 import com.example.mymoneyandroid.view.CategoriaScreen
-<<<<<<< HEAD
 import com.example.mymoneyandroid.view.PrincipalScreen
-=======
 import com.example.mymoneyandroid.view.DetalheCategoriaScreen
->>>>>>> db2d0ccc757376d5dd2ffe60e12a0f3d27f0d1dc
+import com.example.mymoneyandroid.view.TelaInicial
+
 
 
 @Composable
@@ -22,7 +21,11 @@ fun AppNavigation() {
     val navController = rememberNavController()
 
     // Cria o mapa, entrega para o controlador para começar pela tela1
-    NavHost(navController = navController, startDestination = "categoria") {
+    NavHost(navController = navController, startDestination = "telaInicial") {
+
+        composable("telaInicial") {
+            TelaInicial(navController = navController)
+        }
 
         // Cria o endereço/rota chamado exatamente "tela1"
         composable("cadastro") {
