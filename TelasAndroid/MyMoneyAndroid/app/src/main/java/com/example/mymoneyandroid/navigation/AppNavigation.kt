@@ -23,7 +23,7 @@ fun AppNavigation() {
     val navController = rememberNavController()
 
     // Cria o mapa, entrega para o controlador para começar pela tela1
-    NavHost(navController = navController, startDestination = "telaIInicial") {
+    NavHost(navController = navController, startDestination = "telaInicial") {
 
         composable("telaInicial") {
             TelaInicial(navController = navController)
