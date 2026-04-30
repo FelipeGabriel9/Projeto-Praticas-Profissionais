@@ -13,69 +13,54 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 
-private val ColorBackground  = Color(0xFF2E7D32)   // cor de fundo parte inferior
-private val ColorHeader      = Color(0xFF1C1C1E)   // cor de fundo da parte superior
-private val ColorButton   = Color(0xFF3A3A3C)   // cor dos botões
-private val ColorTextWhite   = Color(0xFFFFFFFF)   // cor do texto principal
+private val ColorBackground = Color(0xFF2E7D32)   // Verde
+private val ColorButton = Color(0xFF3A3A3C)   // Cinza 
+private val ColorTextWhite = Color(0xFFFFFFFF) // Branco
 
 @Composable
-fun CategoriaScreen() {
-    val categorias = listOf(
-        "Saúde", "Lazer", "Casa",
-        "Café", "Educação", "Presentes",
-        "Compras", "Família", "Exercícios",
-        "Transporte", "Criar"
-    )
+fun CategoriaScreen(navController: NavController) {
+    // Chamamos o Menu que você, que já cria  o Header preto e o título "Categorias"
+    AbaMenu(title = "Categorias", navController = navController) { paddingValues ->
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(ColorBackground)
-    ) {
+        val categorias = listOf("Saúde", "Lazer", "Casa", "Café", "Educação", "Presentes", "Compras",
+            "Família", "Exercícios", "Transporte", "Criar")
+
+        // Esta Column preenche o espaço que sobra abaixo do Header
         Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .background(ColorHeader)
-                .padding(bottom = 48.dp)
+                .fillMaxSize()
+                .background(ColorBackground) // Aplica o verde no fundo
+                .padding(paddingValues)      // Evita que o grid fique "atrás" do header
         ) {
-            TopBarIcons()
-
-            Spacer(modifier = Modifier.height(40.dp))
-
-            Text(
-                text = "Categorias",
-                color = ColorTextWhite,
-                fontSize = 34.sp,
-                fontWeight = FontWeight.Normal,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.fillMaxWidth()
-            )
-        }
-
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(3),
-            contentPadding = PaddingValues(24.dp),
-            horizontalArrangement = Arrangement.spacedBy(12.dp),
-            verticalArrangement = Arrangement.spacedBy(60.dp),
-            modifier = Modifier.fillMaxSize()
-        ) {
-            items(categorias) { categoria -> CategoriaButtonItem(name = categoria) }
+            LazyVerticalGrid(
+                columns = GridCells.Fixed(3),
+                contentPadding = PaddingValues(24.dp),
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
+                verticalArrangement = Arrangement.spacedBy(40.dp), // Espalha os botões na vertical
+                modifier = Modifier.fillMaxSize()
+            ) {
+                items(categorias) { categoria ->
+                    CategoriaButtonItem(name = categoria, onClick = {
+                        navController.navigate("detalhe_categoria/$categoria")
+                    } )
+                }
+            }
         }
     }
 }
 
 @Composable
-private fun CategoriaButtonItem(name: String) {
+private fun CategoriaButtonItem(name: String, onClick: () -> Unit) {
     Surface(
-        onClick = { /*conectar com API*/ },
+        onClick = onClick,
         color = ColorButton,
         shape = RoundedCornerShape(12.dp),
         modifier = Modifier
-            .height(65.dp)
+            .height(55.dp)
             .fillMaxWidth()
     ) {
         Box(
@@ -91,33 +76,4 @@ private fun CategoriaButtonItem(name: String) {
             )
         }
     }
-}
-
-@Composable
-private fun TopBarIcons() {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 20.dp, vertical = 16.dp),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Text(
-            text = "⊞",
-            color = ColorTextWhite,
-            fontSize = 26.sp
-        )
-
-        Text(
-            text = "≡",
-            color = ColorTextWhite,
-            fontSize = 30.sp
-        )
-    }
-}
-
-@Preview(showBackground = true, widthDp = 360, heightDp = 720)
-@Composable
-fun CategoriaScreenPreview() {
-    CategoriaScreen()
 }

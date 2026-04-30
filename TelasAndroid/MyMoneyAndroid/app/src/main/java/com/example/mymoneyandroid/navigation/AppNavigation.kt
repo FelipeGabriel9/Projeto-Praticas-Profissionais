@@ -7,7 +7,11 @@ import androidx.navigation.compose.rememberNavController
 import com.example.mymoneyandroid.view.CadastroScreen
 import com.example.mymoneyandroid.view.LoginScreen
 import com.example.mymoneyandroid.view.CategoriaScreen
+<<<<<<< HEAD
 import com.example.mymoneyandroid.view.PrincipalScreen
+=======
+import com.example.mymoneyandroid.view.DetalheCategoriaScreen
+>>>>>>> db2d0ccc757376d5dd2ffe60e12a0f3d27f0d1dc
 
 
 @Composable
@@ -31,7 +35,6 @@ fun AppNavigation() {
                 }
             )
         }
-
         // Rota de Login
         composable("login") {
             LoginScreen() // Sua tela de login
@@ -39,7 +42,15 @@ fun AppNavigation() {
         }
 
         composable("categoria") {
-            CategoriaScreen()
+            CategoriaScreen(navController = navController) // Tela de categoria
+        }
+
+
+        // TESTANDO GEMINI
+        // No seu NavHost (AppNavigation ou MainActivity)
+        composable("detalhe_categoria/{categoriaNome}") { backStackEntry ->
+            val nome = backStackEntry.arguments?.getString("categoriaNome")
+            DetalheCategoriaScreen(navController, nome)
         }
 
         composable("principal") {
