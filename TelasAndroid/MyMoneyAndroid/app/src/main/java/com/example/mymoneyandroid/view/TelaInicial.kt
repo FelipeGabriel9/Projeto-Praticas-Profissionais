@@ -45,8 +45,6 @@ fun TelaInicial(navController: NavController) {
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            PiggyBankIcon()
-
             Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
                 repeat(3) {
                     Box(
@@ -57,6 +55,8 @@ fun TelaInicial(navController: NavController) {
                     )
                 }
             }
+
+            PiggyBankIcon()
         }
 
         Column(
