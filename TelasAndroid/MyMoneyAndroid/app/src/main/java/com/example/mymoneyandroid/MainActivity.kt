@@ -55,33 +55,4 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    @Composable
-    fun MinhaApp() {
-        val navController = rememberNavController()
-
-        NavHost(navController = navController, startDestination = "categorias") {
-            composable("categorias") {
-                CategoriaScreen (navController)
-            }
-            composable("perfil") {
-                // TelaPerfilScreen (navController)
-            }
-            composable("mensagem") {
-                // TelaMensagemScreen (navController)
-            }
-            composable("principal") {
-                // TelaPrincipalScreen (navController)
-            }
-
-            // TESTANDO GEMINI
-            composable(
-                route = "det_categoria/{categoriaNome}",
-                arguments = listOf(navArgument("categoriaNome") { type = NavType.StringType })
-            ) { backStackEntry ->
-                val nome = backStackEntry.arguments?.getString("categoriaNome")
-                DetalheCategoriaScreen(navController, nome)
-            }
-
-        }
-    }
 }

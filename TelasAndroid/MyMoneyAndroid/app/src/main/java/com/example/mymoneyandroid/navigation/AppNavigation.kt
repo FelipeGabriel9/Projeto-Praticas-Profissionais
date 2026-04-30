@@ -1,9 +1,11 @@
 package com.example.mymoneyandroid.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.mymoneyandroid.view.CadastroScreen
 import com.example.mymoneyandroid.view.LoginScreen
 import com.example.mymoneyandroid.view.CategoriaScreen
@@ -21,7 +23,7 @@ fun AppNavigation() {
     val navController = rememberNavController()
 
     // Cria o mapa, entrega para o controlador para começar pela tela1
-    NavHost(navController = navController, startDestination = "telaInicial") {
+    NavHost(navController = navController, startDestination = "telaIInicial") {
 
         composable("telaInicial") {
             TelaInicial(navController = navController)
@@ -59,6 +61,14 @@ fun AppNavigation() {
         composable("principal") {
             PrincipalScreen()
 
+        }
+
+        composable(
+            route = "det_categoria/{categoriaNome}",
+            arguments = listOf(navArgument("categoriaNome") { type = NavType.StringType })
+        ) { backStackEntry ->
+            val nome = backStackEntry.arguments?.getString("categoriaNome")
+            DetalheCategoriaScreen(navController, nome)
         }
     }
 }
