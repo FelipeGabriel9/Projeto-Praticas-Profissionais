@@ -33,7 +33,7 @@ namespace MyMoney.Data
             modelBuilder.Entity<Categoria>().HasKey(c => c.idCategoria);
             modelBuilder.Entity<Categoria>().Property(c => c.NomeCategoria).IsRequired().HasColumnType("varchar(30)");
             modelBuilder.Entity<Categoria>().Property(c => c.Tipo).IsRequired().HasColumnType("varchar(10)");
-            modelBuilder.Entity<Categoria>().HasOne(c => c.Usuario).WithMany().HasForeignKey(c => c.idUsuario).IsRequired(true);
+            modelBuilder.Entity<Categoria>().HasOne<Usuario>().WithMany().HasForeignKey(c => c.idUsuario);
 
             // Configuração da tabela Transações
             modelBuilder.Entity<Transacoes>().HasKey(c => c.idTransacoes);

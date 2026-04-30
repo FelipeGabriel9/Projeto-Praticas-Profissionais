@@ -17,5 +17,6 @@ app.UseSwagger();
 app.UseSwaggerUI();
 
 app.MapUsuarioEndpoints();
+app.MapCategoriaEndpoints();
     
 app.Run();

@@ -37,8 +37,7 @@ public static class CategoriaEndpoints
             db.Categoria.Add(novaCategoria); // Adiciona a nova categoria
             await db.SaveChangesAsync(); // Salva as alterações no banco de dados
 
-            return Results.Created($"/categorias/{novaCategoria.idCategoria}", novaCategoria); // Retorna Created (sucesso 201) e o endereço onde o item criado pode ser encontrado
-
+            return Results.Ok(novaCategoria);
         });
 
 

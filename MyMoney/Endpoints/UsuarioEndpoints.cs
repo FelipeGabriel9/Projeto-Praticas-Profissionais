@@ -55,12 +55,15 @@ public static class UsuarioEndpoints
             usuario.nome = usuarioAtualizado.nome;
             // Atualiza o email
             usuario.email = usuarioAtualizado.email;
-            // Atualiza a senha
-            usuario.senhaHash = usuarioAtualizado.senhaHash;
             // Atualiza a moeda padrão
             usuario.moedaPadrao = usuarioAtualizado.moedaPadrao;
             // Atualiza o idioma
             usuario.idioma = usuarioAtualizado.idioma;
+
+            if (!string.IsNullOrWhiteSpace(usuarioAtualizado.senhaHash))
+            {
+                usuario.senhaHash = usuarioAtualizado .senhaHash; 
+            }
             // Salva as alterações no banco
             await db.SaveChangesAsync();
             // Retorna NoContent (sucesso 204, feito sem retornar dados novos)
