@@ -15,11 +15,14 @@ import com.example.mymoneyandroid.ui.theme.MyMoneyAndroidTheme
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.mymoneyandroid.navigation.AppNavigation
 import com.example.mymoneyandroid.view.CategoriaScreen
+import com.example.mymoneyandroid.view.DetalheCategoriaScreen
 
 // Cria a classe principal (a primeira que o Android procura para abrir o app)
 class MainActivity : ComponentActivity() {
@@ -69,6 +72,16 @@ class MainActivity : ComponentActivity() {
             composable("principal") {
                 // TelaPrincipalScreen (navController)
             }
+
+            // TESTANDO GEMINI
+            composable(
+                route = "det_categoria/{categoriaNome}",
+                arguments = listOf(navArgument("categoriaNome") { type = NavType.StringType })
+            ) { backStackEntry ->
+                val nome = backStackEntry.arguments?.getString("categoriaNome")
+                DetalheCategoriaScreen(navController, nome)
+            }
+
         }
     }
 }

@@ -44,7 +44,9 @@ fun CategoriaScreen(navController: NavController) {
                 modifier = Modifier.fillMaxSize()
             ) {
                 items(categorias) { categoria ->
-                    CategoriaButtonItem(name = categoria)
+                    CategoriaButtonItem(name = categoria, onClick = {
+                        navController.navigate("detalhe_categoria/$categoria")
+                    } )
                 }
             }
         }
@@ -52,9 +54,9 @@ fun CategoriaScreen(navController: NavController) {
 }
 
 @Composable
-private fun CategoriaButtonItem(name: String) {
+private fun CategoriaButtonItem(name: String, onClick: () -> Unit) {
     Surface(
-        onClick = { /* Funcionamento dos botões */ },
+        onClick = onClick,
         color = ColorButton,
         shape = RoundedCornerShape(12.dp),
         modifier = Modifier
