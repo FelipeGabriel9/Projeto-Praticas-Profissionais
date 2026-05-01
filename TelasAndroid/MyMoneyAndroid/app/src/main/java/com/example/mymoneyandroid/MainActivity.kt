@@ -36,18 +36,18 @@ class MainActivity : ComponentActivity() {
         // Inicia o ambiente Jetpack Compose (tudo aqui dentro é interface visual)
         setContent {
 
-            // Aplica o tema visual (cores, modos claro/escuro) do projeto
+            // Aplica o tema visual do projeto
             MyMoneyAndroidTheme() {
 
-                // Cria um contêiner base (uma folha de papel em branco)
+                // Cria um contêiner base
                 Surface(
-                    // Diz para essa folha ocupar a tela toda
+                    // O contêiner passa a ocupar a tela toda
                     modifier = Modifier.fillMaxSize(),
-                    // Cor de fundo padrão do tema
+                    // Cor de fundo padrão
                     color = MaterialTheme.colorScheme.background
                 ) {
 
-                    // Chama a nossa função que contém o mapa. Ela cuidará de exibir a Tela 1 de início.
+                    // Chama o appNavigation, onde temos as interações entre telas
                     AppNavigation()
 
                 }

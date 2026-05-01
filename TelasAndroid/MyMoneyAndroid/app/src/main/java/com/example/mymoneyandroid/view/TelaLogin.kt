@@ -166,13 +166,13 @@ private fun LoginField(
 
             // Cores usadas em cada campo
             colors = OutlinedTextFieldDefaults.colors(
-                focusedContainerColor   = fundoCampos,
+                focusedContainerColor = fundoCampos,
                 unfocusedContainerColor = fundoCampos,
-                focusedBorderColor      = fundoBotao,
-                unfocusedBorderColor    = bordaCampos,
-                focusedTextColor        = corTexto,
-                unfocusedTextColor      = corTexto,
-                cursorColor             = fundoBotao
+                focusedBorderColor = fundoBotao,
+                unfocusedBorderColor = bordaCampos,
+                focusedTextColor = corTexto,
+                unfocusedTextColor = corTexto,
+                cursorColor = fundoBotao
             ),
 
             // Tipo do teclado
@@ -181,35 +181,8 @@ private fun LoginField(
     }
 }
 
-
-@Composable
-private fun TopBar() {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 20.dp, vertical = 16.dp),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-
-        Text(
-            text = "⊞",
-            color = corTexto,
-            fontSize = 24.sp,
-            fontWeight = FontWeight.Bold
-        )
-
-        Text(
-            text = "≡",
-            color = corTexto,
-            fontSize = 28.sp
-        )
-    }
-}
-
-
-@Preview(showBackground = true, widthDp = 360, heightDp = 720)
+@Preview(showBackground = true,) // Indica que a função é uma pré-visualização
 @Composable
 fun LoginScreenPreview() {
-    LoginScreen()
+    LoginScreen() // Define a tela a ser visualizada
 }

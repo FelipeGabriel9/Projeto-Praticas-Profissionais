@@ -77,3 +77,28 @@ private fun CategoriaButtonItem(name: String, onClick: () -> Unit) {
         }
     }
 }
+
+//@Composable
+//private fun TopBar() {
+//    Row(
+//        modifier = Modifier
+//            .fillMaxWidth()
+//            .padding(horizontal = 20.dp, vertical = 16.dp),
+//        horizontalArrangement = Arrangement.SpaceBetween,
+//        verticalAlignment = Alignment.CenterVertically
+//    ) {
+//
+//        Text(
+//            text = "⊞",
+//            color = corTexto,
+//            fontSize = 24.sp,
+//            fontWeight = FontWeight.Bold
+//        )
+//
+//        Text(
+//            text = "≡",
+//            color = corTexto,
+//            fontSize = 28.sp
+//        )
+//    }
+//}

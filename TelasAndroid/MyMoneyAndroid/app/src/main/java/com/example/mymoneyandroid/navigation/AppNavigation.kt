@@ -23,7 +23,7 @@ fun AppNavigation() {
     val navController = rememberNavController()
 
     // Cria o mapa, entrega para o controlador para começar pela telaInicial
-    NavHost(navController = navController, startDestination = "telaLogin") {
+    NavHost(navController = navController, startDestination = "telaInicial") {
 
         composable("telaInicial") {
             TelaInicial(navController = navController)
@@ -43,12 +43,13 @@ fun AppNavigation() {
 
         // Rota de Login
         composable("telaLogin") {
+            // Chama os eventos da tela de login
             LoginScreen(
                 irParaPrincipal = {
                 // O NavController faz a transição para a rota da tela principal
                   navController.navigate("telaPrincipal")
                 }
-            ) // Chama os eventos da tela de login
+            )
 
         }
 
