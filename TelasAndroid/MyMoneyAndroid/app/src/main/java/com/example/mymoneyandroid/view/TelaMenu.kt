@@ -25,7 +25,7 @@ private val ColorTextWhite  = Color(0xFFFFFFFF)
 private val ColorMenu   = Color(0xFF1C1C1E)
 
 @Composable
-fun AbaMenu(title: String, navController: NavController, content: @Composable (PaddingValues) -> Unit)
+fun AbaMenu(tituloDaPagina: String, navController: NavController, content: @Composable (PaddingValues) -> Unit)
 {
     val estadoMenu = rememberDrawerState(initialValue = DrawerValue.Closed) // Começa fechado
     val controleMenu = rememberCoroutineScope() // Serve para funções assíncronas
@@ -48,7 +48,7 @@ fun AbaMenu(title: String, navController: NavController, content: @Composable (P
                     BarraSuperior(onMenuClick = { controleMenu.launch { estadoMenu.open() } })
 
                     Text(
-                        text = title,
+                        text = tituloDaPagina,
                         color = ColorTextWhite,
                         fontSize = 30.sp,
                         textAlign = TextAlign.Center,
@@ -115,7 +115,7 @@ fun TelaCampos(navController: NavController, estadoMenu: DrawerState, controleMe
                     }
             )
 
-            Spacer(modifier = Modifier.weight(1f))
+            Spacer(modifier = Modifier.weight(1f)) // Joga o texto para a parte de baixo da tela
 
             // Mensagem
             Text(
@@ -133,7 +133,7 @@ fun TelaCampos(navController: NavController, estadoMenu: DrawerState, controleMe
 }
 
 @Composable
-private fun BarraSuperior(onMenuClick: () -> Unit) {
+fun BarraSuperior(onMenuClick: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()

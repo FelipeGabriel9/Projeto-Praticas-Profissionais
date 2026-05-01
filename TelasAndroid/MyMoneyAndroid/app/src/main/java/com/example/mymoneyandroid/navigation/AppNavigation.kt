@@ -23,7 +23,7 @@ fun AppNavigation() {
     val navController = rememberNavController()
 
     // Cria o mapa, entrega para o controlador para começar pela telaInicial
-    NavHost(navController = navController, startDestination = "telaInicial") {
+    NavHost(navController = navController, startDestination = "telaPrincipal") {
 
         composable("telaInicial") {
             TelaInicial(navController = navController)
@@ -60,7 +60,7 @@ fun AppNavigation() {
 
         // Rota da tela Principal
         composable("telaPrincipal") {
-            PrincipalScreen() // Chama os eventos da tela principal
+            PrincipalScreen(navController = navController) // Chama os eventos da tela principal
         }
 
         // TESTANDO GEMINI

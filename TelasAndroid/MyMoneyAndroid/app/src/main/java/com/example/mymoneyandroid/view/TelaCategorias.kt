@@ -24,7 +24,7 @@ private val ColorTextWhite = Color(0xFFFFFFFF) // Branco
 @Composable
 fun CategoriaScreen(navController: NavController) {
     // Chamamos o Menu que você, que já cria  o Header preto e o título "Categorias"
-    AbaMenu(title = "Categorias", navController = navController) { paddingValues ->
+    AbaMenu(tituloDaPagina = "Categorias", navController = navController) { paddingValues ->
 
         val categorias = listOf("Saúde", "Lazer", "Casa", "Café", "Educação", "Presentes", "Compras",
             "Família", "Exercícios", "Transporte", "Criar")
@@ -77,28 +77,3 @@ private fun CategoriaButtonItem(name: String, onClick: () -> Unit) {
         }
     }
 }
-
-//@Composable
-//private fun TopBar() {
-//    Row(
-//        modifier = Modifier
-//            .fillMaxWidth()
-//            .padding(horizontal = 20.dp, vertical = 16.dp),
-//        horizontalArrangement = Arrangement.SpaceBetween,
-//        verticalAlignment = Alignment.CenterVertically
-//    ) {
-//
-//        Text(
-//            text = "⊞",
-//            color = corTexto,
-//            fontSize = 24.sp,
-//            fontWeight = FontWeight.Bold
-//        )
-//
-//        Text(
-//            text = "≡",
-//            color = corTexto,
-//            fontSize = 28.sp
-//        )
-//    }
-//}

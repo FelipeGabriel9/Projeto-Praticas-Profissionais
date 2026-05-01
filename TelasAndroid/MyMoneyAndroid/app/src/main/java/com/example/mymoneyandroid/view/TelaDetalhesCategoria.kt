@@ -2,8 +2,6 @@ package com.example.mymoneyandroid.view
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -22,7 +20,7 @@ fun DetalheCategoriaScreen(navController: NavController, categoriaNome: String?)
     // Se o nome vier nulo, tratamos para não quebrar
     val nome = categoriaNome ?: "Categoria"
 
-    AbaMenu(title = nome, navController = navController) { paddingValues ->
+    AbaMenu(tituloDaPagina = nome, navController = navController) { paddingValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
