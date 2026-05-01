@@ -22,45 +22,51 @@ fun AppNavigation() {
     // Cria o controlador que gerencia o histórico e a troca de telas
     val navController = rememberNavController()
 
-    // Cria o mapa, entrega para o controlador para começar pela tela1
-    NavHost(navController = navController, startDestination = "cadastro") {
+    // Cria o mapa, entrega para o controlador para começar pela telaInicial
+    NavHost(navController = navController, startDestination = "telaLogin") {
 
         composable("telaInicial") {
             TelaInicial(navController = navController)
         }
 
-        // Cria o endereço/rota chamado exatamente "tela1"
-        composable("cadastro") {
+        // Rota de cadastro
+        composable("telaCadastro") {
 
-            // Chama o desenho da Tela 1
+            // Chama os eventos da tela
             CadastroScreen(
                 irParaLogin = {
                     // O NavController faz a transição para a rota de login
-                    navController.navigate("login")
+                    navController.navigate("telaLogin")
                 }
             )
         }
+
         // Rota de Login
-        composable("login") {
-            LoginScreen() // Sua tela de login
+        composable("telaLogin") {
+            LoginScreen(
+                irParaPrincipal = {
+                // O NavController faz a transição para a rota da tela principal
+                  navController.navigate("telaPrincipal")
+                }
+            ) // Chama os eventos da tela de login
 
         }
 
-        composable("categoria") {
-            CategoriaScreen(navController = navController) // Tela de categoria
+        // Rota de Categorias
+        composable("telaCategoria") {
+            CategoriaScreen(navController = navController) // Chama os eventos da tela de categoria
         }
 
+        // Rota da tela Principal
+        composable("telaPrincipal") {
+            PrincipalScreen() // Chama os eventos da tela principal
+        }
 
         // TESTANDO GEMINI
         // No seu NavHost (AppNavigation ou MainActivity)
         composable("detalhe_categoria/{categoriaNome}") { backStackEntry ->
             val nome = backStackEntry.arguments?.getString("categoriaNome")
             DetalheCategoriaScreen(navController, nome)
-        }
-
-        composable("principal") {
-            PrincipalScreen()
-
         }
 
         composable(
