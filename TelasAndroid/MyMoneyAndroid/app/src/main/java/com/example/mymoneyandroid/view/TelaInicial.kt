@@ -22,7 +22,6 @@ import androidx.compose.foundation.Canvas
 import androidx.navigation.NavController
 
 private val InicialGreenPrimary = Color(0xFF22C55E)
-private val InicialGreenLight   = Color(0xFF4ADE80)
 private val InicialGreenDark    = Color(0xFF16A34A)
 private val InicialDarkBg       = Color(0xFF1A1A1A)
 private val InicialDarkBgGreen  = Color(0xFF1A2E1A)
