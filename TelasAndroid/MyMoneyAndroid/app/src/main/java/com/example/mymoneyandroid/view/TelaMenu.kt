@@ -148,7 +148,7 @@ fun ConteudoMenu(
                     .padding(vertical = 12.dp)
                     .clickable {
                         controleMenu.launch { estadoMenu.close() }
-                        controleNavegacao.navigate("mensagem")
+                        controleNavegacao.navigate("TelaMensagem")
                     }
             )
         }
