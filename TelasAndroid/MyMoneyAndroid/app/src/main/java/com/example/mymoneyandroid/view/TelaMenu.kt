@@ -19,55 +19,73 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 // Cores padrão para o App
-private val ColorHeader     = Color(0xFF222222)
-private val ColorBackground = Color(0xFF1B823E)
-private val ColorTextWhite  = Color(0xFFFFFFFF)
-private val ColorMenu   = Color(0xFF1C1C1E)
+private val CorHeader     = Color(0xFF222222)
+private val CorDeFundo = Color(0xFF1B823E)
+private val CorTexto  = Color(0xFFFFFFFF)
+private val CorFundoMenu   = Color(0xFF1C1C1E)
 
+// Criando a função do menu
 @Composable
-fun AbaMenu(tituloDaPagina: String, navController: NavController, content: @Composable (PaddingValues) -> Unit)
+fun AbaMenu(
+    tituloDaPagina: String,
+    controleNagegacao: NavController,
+    conteudoPagina: @Composable (PaddingValues) -> Unit)
 {
-    val estadoMenu = rememberDrawerState(initialValue = DrawerValue.Closed) // Começa fechado
+    val estadoMenu = rememberDrawerState(initialValue = DrawerValue.Closed) // Controla se o menu está aberto ou fechado. Começa fechado
     val controleMenu = rememberCoroutineScope() // Serve para funções assíncronas
 
+    // Permite abrir uma aba lateral
     ModalNavigationDrawer(
         drawerState = estadoMenu,
         drawerContent = {
-            TelaCampos(navController, estadoMenu, controleMenu)
+            ConteudoMenu(controleNagegacao, estadoMenu, controleMenu)
         }
     ) {
+
+        // Estrutura das telas
         Scaffold(
             topBar = {
                 // Header que vai se repetir em todas as telas
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .background(ColorHeader)
-                        .padding(bottom = 20.dp)
+                        .background(CorHeader)
                 ) {
+                    // Chama a função que cria a barra superior com o ícone do menu
                     BarraSuperior(onMenuClick = { controleMenu.launch { estadoMenu.open() } })
 
-                    Text(
-                        text = tituloDaPagina,
-                        color = ColorTextWhite,
-                        fontSize = 30.sp,
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier.fillMaxWidth()
-                    )
+                    // Título da página atual
+                    if(tituloDaPagina.isNotEmpty())
+                    {
+                        Text(
+                            text = tituloDaPagina,
+                            color = CorTexto,
+                            fontSize = 30.sp,
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(bottom = 10.dp)
+                        )
+                    }
                 }
             },
-            containerColor = ColorBackground // Fundo verde
-        ) { paddingValues ->
+            containerColor = CorDeFundo // Cor de fundo verde
+        ) { valoresPreenchimento ->
             // Aqui é onde o conteúdo específico de cada tela aparece
-            content(paddingValues)
+            conteudoPagina(valoresPreenchimento)
         }
     }
 }
 
+// Função que define o visual e os itens dentro do menu
 @Composable
-fun TelaCampos(navController: NavController, estadoMenu: DrawerState, controleMenu: CoroutineScope) {
+fun ConteudoMenu(
+    controleNavegacao: NavController,
+    estadoMenu: DrawerState,
+    controleMenu: CoroutineScope
+) {
     ModalDrawerSheet(
-        drawerContainerColor = ColorMenu,
+        drawerContainerColor = CorFundoMenu,
         drawerShape = RoundedCornerShape(0.dp),
         modifier = Modifier.width(280.dp)
     ) {
@@ -76,74 +94,80 @@ fun TelaCampos(navController: NavController, estadoMenu: DrawerState, controleMe
                 .fillMaxHeight()
                 .padding(24.dp)
         ) {
-            Text("Menu", color = ColorTextWhite, fontSize = 24.sp, fontWeight = FontWeight.Bold)
+            Text(
+                text = "Menu",
+                color = CorTexto,
+                fontSize = 24.sp,
+                fontWeight = FontWeight.Bold)
+
             Spacer(modifier = Modifier.height(40.dp))
 
             // Perfil
             Text(
                 text = "Perfil",
-                color = ColorTextWhite,
+                color = CorTexto,
                 modifier = Modifier
                     .padding(vertical = 12.dp)
                     .clickable {
                         controleMenu.launch { estadoMenu.close() } // Fecha a aba
-                        navController.navigate("perfil") // Vai para a tela de perfil
+                        controleNavegacao.navigate("TelaPerfil") // Vai para a tela de perfil
                     }
             )
 
             // Tela Principal
             Text(
                 text = "Principal",
-                color = ColorTextWhite,
+                color = CorTexto,
                 modifier = Modifier
                     .padding(vertical = 12.dp)
                     .clickable {
                         controleMenu.launch { estadoMenu.close() }
-                        navController.navigate("principal")
+                        controleNavegacao.navigate("TelaPrincipal")
                     }
             )
 
             // Categorias
             Text(
                 text = "Categorias",
-                color = ColorTextWhite,
+                color = CorTexto,
                 modifier = Modifier
                     .padding(vertical = 12.dp)
                     .clickable {
                         controleMenu.launch { estadoMenu.close() }
-                        navController.navigate("categorias")
+                        controleNavegacao.navigate("TelaCategoria")
                     }
             )
 
-            Spacer(modifier = Modifier.weight(1f)) // Joga o texto para a parte de baixo da tela
+            Spacer(modifier = Modifier.weight(1f)) // Joga o próximo texto para a parte de baixo da tela
 
             // Mensagem
             Text(
                 text = "Mensagem",
-                color = ColorTextWhite,
+                color = CorTexto,
                 modifier = Modifier
                     .padding(vertical = 12.dp)
                     .clickable {
                         controleMenu.launch { estadoMenu.close() }
-                        navController.navigate("mensagem")
+                        controleNavegacao.navigate("mensagem")
                     }
             )
         }
     }
 }
 
+// Função usada em nesta e em outras classes para criar a barra no topo da página
 @Composable
 fun BarraSuperior(onMenuClick: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 20.dp, vertical = 16.dp),
+            .padding(horizontal = 20.dp, vertical = 2.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
             text = "≡",
-            color = ColorTextWhite,
+            color = CorTexto,
             fontSize = 30.sp,
             modifier = Modifier.clickable { onMenuClick() }
         )

@@ -35,32 +35,32 @@ private val valorOutros    = Color(0xFF8E8E93)
 @Composable
 fun PrincipalScreen(
     valorTotal: String = "R$ 0000,00",
-    botaoMenu: () -> Unit = {},
     navController: NavController
 ) {
-    AbaMenu(tituloDaPagina = "", navController = navController) { paddingValues ->
+    AbaMenu(
+        tituloDaPagina = " ",
+        controleNagegacao = navController
+    ) { valoresPadding ->
         var selecionarPeriodo by remember { mutableStateOf("Mês") }
 
         Column(
             modifier = Modifier
                 .fillMaxSize()
+                .padding(valoresPadding)
                 .background(fundoTela)
                 .verticalScroll(rememberScrollState())
         ) {
 
-            // ── Top Bar ─────────────────────────────────────────────────────────
-            BarraSuperior(onMenuClick = botaoMenu)
-
             Spacer(modifier = Modifier.height(24.dp))
-            // ── Banner com logo ─────────────────────────────────────────────────
+
+            // Header
             ConfiguracaoHeader()
 
-            // ── Total ───────────────────────────────────────────────────────────
             Spacer(modifier = Modifier.height(24.dp))
             Text(
                 text = "Saldo em conta",
                 color = corTexto,
-                fontSize = 32.sp,
+                fontSize = 24.sp,
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.fillMaxWidth()
@@ -107,14 +107,14 @@ private fun ConfiguracaoHeader() {
             Text(
                 text = "MyMoney",
                 color = corTexto,
-                fontSize = 22.sp,
+                fontSize = 32.sp,
                 fontWeight = FontWeight.ExtraBold,
                 letterSpacing = 0.5.sp
             )
             Text(
                 text = "CONTROLE FINANCEIRO",
                 color = corTexto,
-                fontSize = 10.sp,
+                fontSize = 16.sp,
                 letterSpacing = 2.sp
             )
         }

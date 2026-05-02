@@ -24,7 +24,7 @@ private val ColorTextWhite = Color(0xFFFFFFFF) // Branco
 @Composable
 fun CategoriaScreen(navController: NavController) {
     // Chamamos o Menu que você, que já cria  o Header preto e o título "Categorias"
-    AbaMenu(tituloDaPagina = "Categorias", navController = navController) { paddingValues ->
+    AbaMenu(tituloDaPagina = "Categorias", controleNagegacao = navController) { paddingValues ->
 
         val categorias = listOf("Saúde", "Lazer", "Casa", "Café", "Educação", "Presentes", "Compras",
             "Família", "Exercícios", "Transporte", "Criar")
