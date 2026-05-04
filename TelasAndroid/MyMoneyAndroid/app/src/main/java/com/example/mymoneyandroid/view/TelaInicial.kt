@@ -85,14 +85,14 @@ fun TelaInicial(navController: NavController) {
             Spacer(modifier = Modifier.height(24.dp))
             Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                 OutlinedButton(
-                    onClick = { navController.navigate("cadastro") },
+                    onClick = { navController.navigate("telaCadastro") },
                     border = androidx.compose.foundation.BorderStroke(1.dp, InicialGreenPrimary),
                     colors = ButtonDefaults.outlinedButtonColors(contentColor = InicialGreenPrimary)
                 ) {
                     Text("Criar nova conta", fontSize = 13.sp)
                 }
                 Button(
-                    onClick = { navController.navigate("login") },
+                    onClick = { navController.navigate("telaLogin") },
                     colors = ButtonDefaults.buttonColors(
                         containerColor = InicialGreenPrimary,
                         contentColor = InicialDarkBg

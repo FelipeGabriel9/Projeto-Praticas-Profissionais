@@ -19,6 +19,8 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.mymoneyandroid.R
 
 // Cores usadas na tela
@@ -32,6 +34,7 @@ private val fundoBotao = Color(0xFF34C759)
 
 @Composable
 fun CadastroScreen(
+    navController: NavHostController,
     realizarCadastro: (name: String, cpf: String, email: String, senha: String) -> Unit = { _, _, _, _ -> },
     irParaLogin: () -> Unit = {}
 ) {
@@ -140,7 +143,8 @@ fun CadastroScreen(
 
                 // Botão de criar conta
                 Button(
-                    onClick = { realizarCadastro(nome, cpf, email, senha) },
+                    onClick = { realizarCadastro(nome, cpf, email, senha)
+                            navController.navigate("telaPrincipal")},
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(50.dp),
@@ -221,9 +225,3 @@ private fun LoginField(
 }
 
 
-
-@Preview(showBackground = true) // Indica que a função é uma pré-visualização
-@Composable
-fun CadastroScreenPreview() {
-    CadastroScreen() // Define a tela a ser visualizada
-}
