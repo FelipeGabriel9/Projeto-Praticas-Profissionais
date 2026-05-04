@@ -32,14 +32,43 @@ public static class UsuarioEndpoints
 
 
         //POST
-        grupo.MapPost("/", async (Usuario novoUsuario, AppDbContext db) =>
+        grupo.MapPost("/", async (RegistroRequest request, AppDbContext db) =>
         {
-            // Adiciona o novo usuário
+            if (await db.Usuario.AnyAsync(u => u.email == request.Email))
+                return Results.BadRequest("Email já cadastrado!");
+
+            var novoUsuario = new Usuario {
+                nome = request.Nome,
+                email = request.Email,
+                moedaPadrao = request.MoedaPadrao,
+                idioma = request.Idioma,
+                dataCriacao = DateTime.UtcNow, // Pega a data atual automaticamente
+                senhaHash = BCrypt.Net.BCrypt.HashPassword(request.Senha)
+            };
+
             db.Usuario.Add(novoUsuario);
-            // Salva as alterações no banco de dados
             await db.SaveChangesAsync();
-            // Retorna Created (sucesso 201) e o endereço onde o item criado pode ser encontrado
-            return Results.Created($"/usuarios/{novoUsuario.idUsuario}", novoUsuario);
+
+            return Results.Ok(novoUsuario);
+        });
+
+        //LOGIN
+        grupo.MapPost("/login", async (LoginRequest login, AppDbContext db) =>
+{
+            // Busca o usuário pelo email
+            var usuario = await db.Usuario.FirstOrDefaultAsync(u => u.email == login.Email);
+
+            if (usuario is null) 
+                return Results.Unauthorized(); // Email não existe
+
+            // Verifica se a senha digitada é igual ao Hash do banco
+            bool senhaValida = BCrypt.Net.BCrypt.Verify(login.Senha, usuario.senhaHash);
+
+            if (!senhaValida) 
+                return Results.Unauthorized(); // Senha errada
+
+            // Se deu certo, retorna os dados do usuário
+            return Results.Ok(new UsuarioResponse(usuario.idUsuario, usuario.nome, usuario.email));
         });
 
 

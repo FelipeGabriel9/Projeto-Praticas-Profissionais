@@ -8,14 +8,14 @@ public static class MetaEndpoints
 {
 	public static void MapMetaEndpoints(this WebApplication app)
 	{
-		var grupo = app.MapGroup("/metas"); // grupo de rotas que começam com /metas
+		var grupo = app.MapGroup("/metas"); // grupo de rotas que comeï¿½am com /metas
 
 
 		//GET
 		grupo.MapGet("/", async (AppDbContext db) =>
 		{
 			return await db.Meta.ToListAsync();
-			// retorna uma lista de metas após ler a tabela no BD
+			// retorna uma lista de metas apï¿½s ler a tabela no BD
 		});
 
 
@@ -26,8 +26,8 @@ public static class MetaEndpoints
 			// busca uma meta adeterminado id no BD
 
 			return metas is null ? Results.NotFound() : Results.Ok(metas);
-			// se não houver uma meta com o id (variável meta é null),
-			// retorna um erro (404). Caso contrário, retorna a meta
+			// se nï¿½o houver uma meta com o id (variï¿½vel meta ï¿½ null),
+			// retorna um erro (404). Caso contrï¿½rio, retorna a meta
 		});
 
 
@@ -35,9 +35,9 @@ public static class MetaEndpoints
 		grupo.MapPost("/", async (Meta novaMeta, AppDbContext db) =>
 		{
 			db.Meta.Add(novaMeta); // Adiciona a nova meta
-			await db.SaveChangesAsync(); // Salva as alterações no banco de dados
+			await db.SaveChangesAsync(); // Salva as alteraï¿½ï¿½es no banco de dados
 
-			return Results.Created($"/metas/{novaMeta.idMeta}", novaMeta); // Retorna Created (sucesso 201) e o endereço onde o item criado pode ser encontrado
+			return Results.Ok(novaMeta);
 
 		});
 
@@ -47,7 +47,7 @@ public static class MetaEndpoints
 		{
 			// Busca a meta original no banco
 			var metas = await db.Meta.FindAsync(id);
-			// Se não achar, retorna 404
+			// Se nï¿½o achar, retorna 404
 			if (metas is null)
 				return Results.NotFound();
 
@@ -60,7 +60,7 @@ public static class MetaEndpoints
             // Atualiza o valor atual
             metas.ValorAtual = metaAtualizada.ValorAtual;
 
-            // Salva as alterações no banco
+            // Salva as alteraï¿½ï¿½es no banco
             await db.SaveChangesAsync();
 			// Retorna NoContent (sucesso 204, feito sem retornar dados novos)
 			return Results.NoContent();
@@ -72,13 +72,13 @@ public static class MetaEndpoints
 		{
 			// Busca a meta pelo ID
 			var metas = await db.Meta.FindAsync(id);
-			// Se não achar, retorna 404
+			// Se nï¿½o achar, retorna 404
 			if (metas is null)
 				return Results.NotFound();
 
-			// Remove a meta da memória do contexto
+			// Remove a meta da memï¿½ria do contexto
 			db.Meta.Remove(metas);
-			// Efetiva a exclusão no banco de dados
+			// Efetiva a exclusï¿½o no banco de dados
 			await db.SaveChangesAsync();
 			// Retorna NoContent (sucesso 204)
 			return Results.NoContent();

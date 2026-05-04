@@ -5,8 +5,7 @@ namespace MyMoney.Models;
 public class Meta
 {
     // Propriedades
-    public required int idMeta { get; set; }
-    public required Usuario Usuario { get; set; }
+    public int idMeta { get; set; }
     public required int idUsuario { get; set; }
     public required string NomeMeta { get; set; }
     public required decimal ValorObjetivo { get; set; }

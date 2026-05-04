@@ -37,8 +37,7 @@ public static class TransacoesEndpoints
             db.Transacoes.Add(novaTransacao); // Adiciona a nova transação
             await db.SaveChangesAsync(); // Salva as alterações no banco de dados
 
-            return Results.Created($"/transacoes/{novaTransacao.idTransacoes}", novaTransacao); // Retorna Created (sucesso 201) e o endereço onde o item criado pode ser encontrado
-
+            return Results.Ok(novaTransacao);
         });
 
 

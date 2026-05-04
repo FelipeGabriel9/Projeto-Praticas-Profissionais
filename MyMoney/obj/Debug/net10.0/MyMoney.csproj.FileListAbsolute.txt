@@ -318,3 +318,4 @@ C:\Users\u25130\Documents\GitHub\Projeto-Praticas-Profissionais\MyMoney\obj\Debu
 C:\Users\u25130\Documents\GitHub\Projeto-Praticas-Profissionais\MyMoney\obj\Debug\net10.0\MyMoney.pdb
 C:\Users\u25130\Documents\GitHub\Projeto-Praticas-Profissionais\MyMoney\obj\Debug\net10.0\MyMoney.genruntimeconfig.cache
 C:\Users\u25130\Documents\GitHub\Projeto-Praticas-Profissionais\MyMoney\obj\Debug\net10.0\ref\MyMoney.dll
+C:\Users\u25130\Documents\GitHub\Projeto-Praticas-Profissionais\MyMoney\bin\Debug\net10.0\BCrypt.Net-Next.dll

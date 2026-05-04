@@ -12,7 +12,7 @@ public static class CategoriaEndpoints
 
 
         //GET
-        grupo.MapGet("/", async(AppDbContext db) =>
+        grupo.MapGet("/", async(AppDbContext db) => // OK
         {
            return await db.Categoria.ToListAsync(); 
            // retorna uma lista de categorias após ler a tabela no BD
@@ -20,7 +20,7 @@ public static class CategoriaEndpoints
 
 
         //GET BY ID
-        grupo.MapGet("/{id}", async (int id, AppDbContext db) =>
+        grupo.MapGet("/{id}", async (int id, AppDbContext db) => // OK
         {
            var categoria = await db.Categoria.FindAsync(id);
            // busca uma categoria com um determinado id no BD
@@ -32,7 +32,7 @@ public static class CategoriaEndpoints
 
 
         //POST
-        grupo.MapPost("/", async (Categoria novaCategoria, AppDbContext db) =>
+        grupo.MapPost("/", async (Categoria novaCategoria, AppDbContext db) => // OK
         {
             db.Categoria.Add(novaCategoria); // Adiciona a nova categoria
             await db.SaveChangesAsync(); // Salva as alterações no banco de dados
@@ -42,7 +42,7 @@ public static class CategoriaEndpoints
 
 
         //PUT
-        grupo.MapPut("/{id}", async (int id, Categoria categoriaAtualizada, AppDbContext db) =>
+        grupo.MapPut("/{id}", async (int id, Categoria categoriaAtualizada, AppDbContext db) => // OK
         {
             // Busca a categoria original no banco
             var categoria = await db.Categoria.FindAsync(id);
@@ -64,7 +64,7 @@ public static class CategoriaEndpoints
 
 
         //DELETE
-        grupo.MapDelete("/{id}", async (int id, AppDbContext db) =>
+        grupo.MapDelete("/{id}", async (int id, AppDbContext db) => // OK
         {
             // Busca a categoria pelo ID
             var categoria = await db.Categoria.FindAsync(id);

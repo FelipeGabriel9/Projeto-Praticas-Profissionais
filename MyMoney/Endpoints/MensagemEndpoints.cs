@@ -12,7 +12,7 @@ public static class MensagemEndpoints
 
 
         //GET
-        grupo.MapGet("/", async (AppDbContext db) =>
+        grupo.MapGet("/", async (AppDbContext db) => // OK
         {
             return await db.Mensagem.ToListAsync();
             // retorna uma lista de mensagens ap�s ler a tabela no BD
@@ -20,7 +20,7 @@ public static class MensagemEndpoints
 
 
         //GET BY ID
-        grupo.MapGet("/{id}", async (int id, AppDbContext db) =>
+        grupo.MapGet("/{id}", async (int id, AppDbContext db) => // OK
         {
             var mensagem = await db.Mensagem.FindAsync(id);
             // busca uma mensagem com um determinado id no BD
@@ -32,18 +32,18 @@ public static class MensagemEndpoints
 
 
         //POST
-        grupo.MapPost("/", async (Mensagem novaMensagem, AppDbContext db) =>
-        {
+        grupo.MapPost("/", async (Mensagem novaMensagem, AppDbContext db) => // OK
+        { 
             db.Mensagem.Add(novaMensagem); // Adiciona a nova mensagem
             await db.SaveChangesAsync(); // Salva as altera��es no banco de dados
 
-            return Results.Created($"/mensagens/{novaMensagem.idMensagem}", novaMensagem); // Retorna Created (sucesso 201) e o endere�o onde o item criado pode ser encontrado
+            return Results.Ok(novaMensagem);
 
         });
 
 
         //PUT
-        grupo.MapPut("/{id}", async (int id, Mensagem mensagemAtualizada, AppDbContext db) =>
+        grupo.MapPut("/{id}", async (int id, Mensagem mensagemAtualizada, AppDbContext db) => // OK
         {
             // Busca a mensagem original no banco
             var mensagem = await db.Mensagem.FindAsync(id);
@@ -67,13 +67,13 @@ public static class MensagemEndpoints
         grupo.MapDelete("/{id}", async (int id, AppDbContext db) =>
         {
             // Busca a mensagem pelo ID
-            var mensagem = await db.Categoria.FindAsync(id);
+            var mensagem = await db.Mensagem.FindAsync(id);
             // Se n�o achar, retorna 404
             if (mensagem is null)
                 return Results.NotFound();
 
             // Remove a mensagem da mem�ria do contexto
-            db.Categoria.Remove(mensagem);
+            db.Mensagem.Remove(mensagem);
             // Efetiva a exclus�o no banco de dados
             await db.SaveChangesAsync();
             // Retorna NoContent (sucesso 204)

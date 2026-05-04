@@ -18,5 +18,8 @@ app.UseSwaggerUI();
 
 app.MapUsuarioEndpoints();
 app.MapCategoriaEndpoints();
-    
+app.MapMensagemEndpoints();
+app.MapMetaEndpoints();
+app.MapTransacoesEndpoints();
+
 app.Run();
