@@ -15,20 +15,22 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 
-// Cores seguindo o padrão das telas anteriores
+// Cores usadas na tela
 private val CorFundoTela = Color(0xFF0F0F0F)
-private val CorTexto      = Color(0xFFFFFFFF)
-private val CorBotao      = Color(0xFF1B823E)
+private val CorTexto = Color(0xFFFFFFFF)
+private val CorBotao = Color(0xFF1B823E)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TelaMensagem(navController: NavController) {
-    AbaMenu(tituloDaPagina = "", controleNagegacao = navController) { valoresPadding ->
+fun MensagemScreen(navController: NavController) {
+    MenuScreen(tituloDaPagina = "", controleNagegacao = navController) { valoresPadding ->
 
+        // Variáveis que vão guardar os valores lidos
         var assunto by remember { mutableStateOf("") }
         var mensagem by remember { mutableStateOf("") }
         var usarEmailCadastrado by remember { mutableStateOf(false) }
 
+        // Cria a tela, que é ocupada inteiramente pela cor preta
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -38,8 +40,9 @@ fun TelaMensagem(navController: NavController) {
                 .padding(20.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            // Header
             Text(
-                text = "Enviar Mensagem",
+                text = "Converse conosco",
                 color = CorTexto,
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold
@@ -47,13 +50,12 @@ fun TelaMensagem(navController: NavController) {
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            // --- Campo: Assunto ---
+            // Campo onde o usuário vai digitar o assunto principal da mensagem
             OutlinedTextField(
                 value = assunto,
                 onValueChange = { assunto = it },
                 label = { Text("Assunto") },
                 modifier = Modifier.fillMaxWidth(),
-                // CORREÇÃO AQUI: Usando OutlinedTextFieldDefaults.colors
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedBorderColor = CorBotao,
                     unfocusedBorderColor = Color.Gray,
@@ -67,7 +69,7 @@ fun TelaMensagem(navController: NavController) {
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // --- Checkbox: Usar E-mail Cadastrado ---
+            // Checkbox onde o usuário coloca se quer usar o email cadastrado
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -89,7 +91,7 @@ fun TelaMensagem(navController: NavController) {
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // --- Campo: Mensagem ---
+            // Campo onde o usuário digita sua mensagem
             OutlinedTextField(
                 value = mensagem,
                 onValueChange = { mensagem = it },
@@ -97,7 +99,7 @@ fun TelaMensagem(navController: NavController) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(200.dp),
-                colors = OutlinedTextFieldDefaults.colors( // CORREÇÃO AQUI TAMBÉM
+                colors = OutlinedTextFieldDefaults.colors(
                     focusedBorderColor = CorBotao,
                     unfocusedBorderColor = Color.Gray,
                     focusedLabelColor = CorBotao,
@@ -105,20 +107,21 @@ fun TelaMensagem(navController: NavController) {
                     focusedTextColor = CorTexto,
                     unfocusedTextColor = CorTexto
                 ),
-                maxLines = 10 // Melhor usar maxLines do que multiline puro
+                maxLines = 10
             )
 
             Spacer(modifier = Modifier.height(32.dp))
 
+            // Botão de enviar mensagem
             Button(
-                onClick = { /* Lógica de envio */ },
+                onClick = {  },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(50.dp),
                 colors = ButtonDefaults.buttonColors(containerColor = CorBotao),
                 shape = RoundedCornerShape(8.dp)
             ) {
-                Text(text = "ENVIAR", fontWeight = FontWeight.Bold, fontSize = 16.sp)
+                Text(text = "Enviar", fontWeight = FontWeight.Bold, fontSize = 16.sp)
             }
         }
     }

@@ -23,28 +23,29 @@ private val ColorTextWhite = Color(0xFFFFFFFF) // Branco
 
 @Composable
 fun CategoriaScreen(navController: NavController) {
-    // Chamamos o Menu que você, que já cria  o Header preto e o título "Categorias"
-    AbaMenu(tituloDaPagina = "Categorias", controleNagegacao = navController) { paddingValues ->
+
+    MenuScreen(tituloDaPagina = "Categorias", controleNagegacao = navController) { paddingValues ->
 
         val categorias = listOf("Saúde", "Lazer", "Casa", "Café", "Educação", "Presentes", "Compras",
             "Família", "Exercícios", "Transporte", "Criar")
 
-        // Esta Column preenche o espaço que sobra abaixo do Header
+        // Preenche o espaço que sobra abaixo do Header, aplicando a cor verde ao fundo
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(ColorBackground) // Aplica o verde no fundo
-                .padding(paddingValues)      // Evita que o grid fique "atrás" do header
+                .background(ColorBackground)
+                .padding(paddingValues)
         ) {
+            // Cria o 'agrupamento' dos botões
             LazyVerticalGrid(
                 columns = GridCells.Fixed(3),
                 contentPadding = PaddingValues(24.dp),
                 horizontalArrangement = Arrangement.spacedBy(12.dp),
-                verticalArrangement = Arrangement.spacedBy(40.dp), // Espalha os botões na vertical
+                verticalArrangement = Arrangement.spacedBy(40.dp),
                 modifier = Modifier.fillMaxSize()
             ) {
                 items(categorias) { categoria ->
-                    CategoriaButtonItem(name = categoria, onClick = {
+                    BotaoCategoria(nome = categoria, onClick = {
                         navController.navigate("detalhe_categoria/$categoria")
                     } )
                 }
@@ -53,8 +54,9 @@ fun CategoriaScreen(navController: NavController) {
     }
 }
 
+// Cria uma função reutilizável para acessar cada botão de categoria
 @Composable
-private fun CategoriaButtonItem(name: String, onClick: () -> Unit) {
+private fun BotaoCategoria(nome: String, onClick: () -> Unit) {
     Surface(
         onClick = onClick,
         color = ColorButton,
@@ -68,7 +70,7 @@ private fun CategoriaButtonItem(name: String, onClick: () -> Unit) {
             modifier = Modifier.padding(4.dp)
         ) {
             Text(
-                text = name,
+                text = nome,
                 color = ColorTextWhite,
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Medium,

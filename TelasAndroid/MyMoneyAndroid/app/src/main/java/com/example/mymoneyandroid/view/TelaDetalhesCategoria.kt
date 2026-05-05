@@ -20,7 +20,7 @@ fun DetalheCategoriaScreen(navController: NavController, categoriaNome: String?)
     // Se o nome vier nulo, tratamos para não quebrar
     val nome = categoriaNome ?: "Categoria"
 
-    AbaMenu(tituloDaPagina = nome, controleNagegacao = navController) { paddingValues ->
+    MenuScreen(tituloDaPagina = nome, controleNagegacao = navController) { paddingValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()

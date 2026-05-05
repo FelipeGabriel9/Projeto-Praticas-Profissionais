@@ -18,20 +18,20 @@ import androidx.navigation.NavController
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-// Cores padrão para o App
-private val CorHeader     = Color(0xFF222222)
+// Cores usadas na tela
+private val CorHeader = Color(0xFF222222)
 private val CorDeFundo = Color(0xFF1B823E)
-private val CorTexto  = Color(0xFFFFFFFF)
-private val CorFundoMenu   = Color(0xFF1C1C1E)
+private val CorTexto = Color(0xFFFFFFFF)
+private val CorFundoMenu = Color(0xFF1C1C1E)
 
 // Criando a função do menu
 @Composable
-fun AbaMenu(
+fun MenuScreen(
     tituloDaPagina: String,
     controleNagegacao: NavController,
     conteudoPagina: @Composable (PaddingValues) -> Unit)
 {
-    val estadoMenu = rememberDrawerState(initialValue = DrawerValue.Closed) // Controla se o menu está aberto ou fechado. Começa fechado
+    val estadoMenu = rememberDrawerState(initialValue = DrawerValue.Closed) // Controla se o menu está aberto ou fechado. Nesse caso, começa fechado
     val controleMenu = rememberCoroutineScope() // Serve para funções assíncronas
 
     // Permite abrir uma aba lateral
@@ -70,8 +70,7 @@ fun AbaMenu(
                 }
             },
             containerColor = CorDeFundo // Cor de fundo verde
-        ) { valoresPreenchimento ->
-            // Aqui é onde o conteúdo específico de cada tela aparece
+        ) { valoresPreenchimento -> // Aqui é onde o conteúdo específico de cada tela aparece
             conteudoPagina(valoresPreenchimento)
         }
     }
@@ -155,13 +154,13 @@ fun ConteudoMenu(
     }
 }
 
-// Função usada em nesta e em outras classes para criar a barra no topo da página
+// Função usada nesta e em outras classes para criar a barra no topo da página
 @Composable
 fun BarraSuperior(onMenuClick: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 20.dp, vertical = 2.dp),
+            .padding(horizontal = 20.dp, vertical = 16.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {

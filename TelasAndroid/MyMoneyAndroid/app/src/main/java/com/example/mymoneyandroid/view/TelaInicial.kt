@@ -21,42 +21,25 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.foundation.Canvas
 import androidx.navigation.NavController
 
-private val InicialGreenPrimary = Color(0xFF22C55E)
+private val verdePrincipal = Color(0xFF22C55E)
+private val CorTexto = Color(0xFFFFFFFF)
 private val InicialGreenDark    = Color(0xFF16A34A)
 private val InicialDarkBg       = Color(0xFF1A1A1A)
 private val InicialDarkBgGreen  = Color(0xFF1A2E1A)
 
 data class PieSliceInicial(val fraction: Float, val color: Color)
 
+// Criando a tela inicial
 @Composable
-fun TelaInicial(navController: NavController) {
+fun InicialScreen(navController: NavController) {
+
+    // Preenche o espaço que sobra abaixo do Header, aplicando a cor verde ao fundo
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(Color(0xFFF1F5F1))
             .verticalScroll(rememberScrollState())
     ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(InicialDarkBg)
-                .padding(horizontal = 16.dp, vertical = 12.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                repeat(3) {
-                    Box(
-                        modifier = Modifier
-                            .width(18.dp)
-                            .height(2.dp)
-                            .background(Color.White, RoundedCornerShape(1.dp))
-                    )
-                }
-            }
-
-            PiggyBankIcon()
-        }
 
         Column(
             modifier = Modifier
@@ -73,28 +56,27 @@ fun TelaInicial(navController: NavController) {
                 text = "MyMoney",
                 fontSize = 28.sp,
                 fontWeight = FontWeight.Bold,
-                color = InicialGreenPrimary,
-                letterSpacing = (-0.5).sp
+                color = verdePrincipal
             )
             Spacer(modifier = Modifier.height(4.dp))
             Text(
-                text = "Tela inicial",
+                text = "Seu sistema de controle financeiro",
                 fontSize = 13.sp,
-                color = Color.White.copy(alpha = 0.55f)
+                color = CorTexto.copy(alpha = 0.55f)
             )
             Spacer(modifier = Modifier.height(24.dp))
             Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                 OutlinedButton(
                     onClick = { navController.navigate("telaCadastro") },
-                    border = androidx.compose.foundation.BorderStroke(1.dp, InicialGreenPrimary),
-                    colors = ButtonDefaults.outlinedButtonColors(contentColor = InicialGreenPrimary)
+                    border = androidx.compose.foundation.BorderStroke(1.dp, verdePrincipal),
+                    colors = ButtonDefaults.outlinedButtonColors(contentColor = verdePrincipal)
                 ) {
                     Text("Criar nova conta", fontSize = 13.sp)
                 }
                 Button(
                     onClick = { navController.navigate("telaLogin") },
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = InicialGreenPrimary,
+                        containerColor = verdePrincipal,
                         contentColor = InicialDarkBg
                     ),
                     shape = RoundedCornerShape(6.dp)
@@ -113,13 +95,13 @@ fun TelaInicial(navController: NavController) {
             ChartCardInicial(
                 label = "Gastos separados por setor",
                 slices = listOf(
-                    PieSliceInicial(0.35f, InicialGreenPrimary),
+                    PieSliceInicial(0.35f, verdePrincipal),
                     PieSliceInicial(0.20f, Color(0xFFE07028)),
                     PieSliceInicial(0.25f, Color(0xFF9BABB8)),
                     PieSliceInicial(0.20f, Color(0xFFBBF7D0))
                 ),
                 legends = listOf(
-                    Pair(InicialGreenPrimary, "Alimentação"),
+                    Pair(verdePrincipal, "Alimentação"),
                     Pair(Color(0xFFE07028), "Transporte"),
                     Pair(Color(0xFF9BABB8), "Lazer"),
                     Pair(Color(0xFFBBF7D0), "Outros")
@@ -129,12 +111,12 @@ fun TelaInicial(navController: NavController) {
             ChartCardInicial(
                 label = "Total em conta",
                 slices = listOf(
-                    PieSliceInicial(0.45f, InicialGreenPrimary),
+                    PieSliceInicial(0.45f, verdePrincipal),
                     PieSliceInicial(0.35f, Color(0xFFE07028)),
                     PieSliceInicial(0.20f, Color(0xFF9BABB8))
                 ),
                 legends = listOf(
-                    Pair(InicialGreenPrimary, "Poupança"),
+                    Pair(verdePrincipal, "Poupança"),
                     Pair(Color(0xFFE07028), "Corrente"),
                     Pair(Color(0xFF9BABB8), "Investimento")
                 )
@@ -161,7 +143,7 @@ fun ChartCardInicial(
             modifier = Modifier
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp))
-                .background(InicialGreenPrimary)
+                .background(verdePrincipal)
                 .height(3.dp)
         )
         Spacer(modifier = Modifier.height(8.dp))
@@ -216,18 +198,3 @@ fun DrawScope.drawPieInicial(slices: List<PieSliceInicial>) {
     }
 }
 
-@Composable
-fun PiggyBankIcon() {
-    Canvas(modifier = Modifier.size(34.dp, 30.dp)) {
-        drawOval(
-            color = Color(0xFF22C55E),
-            topLeft = Offset(5.dp.toPx(), 7.dp.toPx()),
-            size = Size(22.dp.toPx(), 18.dp.toPx())
-        )
-        drawOval(
-            color = Color(0xFF4ADE80),
-            topLeft = Offset(23.dp.toPx(), 11.dp.toPx()),
-            size = Size(7.dp.toPx(), 5.6f.dp.toPx())
-        )
-    }
-}

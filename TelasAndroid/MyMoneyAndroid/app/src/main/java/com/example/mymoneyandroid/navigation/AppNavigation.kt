@@ -11,8 +11,8 @@ import com.example.mymoneyandroid.view.LoginScreen
 import com.example.mymoneyandroid.view.CategoriaScreen
 import com.example.mymoneyandroid.view.PrincipalScreen
 import com.example.mymoneyandroid.view.DetalheCategoriaScreen
-import com.example.mymoneyandroid.view.TelaInicial
-
+import com.example.mymoneyandroid.view.InicialScreen
+import com.example.mymoneyandroid.view.MensagemScreen
 
 
 @Composable
@@ -26,7 +26,7 @@ fun AppNavigation() {
     NavHost(navController = navController, startDestination = "telaInicial") {
 
         composable("telaInicial") {
-            TelaInicial(navController = navController)
+            InicialScreen(navController = navController)
         }
 
         // Rota de cadastro
@@ -34,7 +34,7 @@ fun AppNavigation() {
 
             // Chama os eventos da tela
             CadastroScreen(
-                navController = navController, // <--- ADICIONE ESTA LINHA
+                navController = navController,
                 irParaLogin = {
                     navController.navigate("telaLogin")
                 }
@@ -45,12 +45,15 @@ fun AppNavigation() {
         composable("telaLogin") {
             // Chama os eventos da tela de login
             LoginScreen(
-                irParaPrincipal = {
-                // O NavController faz a transição para a rota da tela principal
-                  navController.navigate("telaPrincipal")
-                }
+                navController = navController
             )
 
+        }
+
+
+        // Rota Mensagem
+        composable("telaMensagem") {
+            MensagemScreen(navController = navController) // Chama os eventos da tela mensagem
         }
 
         // Rota de Categorias

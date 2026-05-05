@@ -8,7 +8,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
@@ -17,6 +16,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 
 // Cores usadas na tela
 private val verdePrincipal = Color(0xFF2E7D32)
@@ -27,14 +28,14 @@ private val corTexto = Color(0xFFFFFFFF)
 private val fundoBotao = Color(0xFF34C759)
 
 
+// Criando a função que realiza o login do usuário
 @Composable
 fun LoginScreen(
-    realizarLogin: (name: String, email: String, senha: String) -> Unit = { _, _, _ -> },
-    irParaPrincipal: () -> Unit = {}
+    navController: NavHostController,
+    realizarLogin: (email: String, senha: String) -> Unit = { _, _ -> }
 ) {
 
     // Váriaveis para guardar os valores de cada campo
-    var nome  by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var senha   by remember { mutableStateOf("") }
 
@@ -86,34 +87,28 @@ fun LoginScreen(
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
 
-                // Chamando LoginField para criar os campos
+                // Chamando a função LoginField para criar os campos
 
                 LoginField(
-                    label = "Nome",
-                    value = nome,
-                    onValueChange = { nome = it },
-                    keyboardType = KeyboardType.Text
-                )
-
-                LoginField(
-                    label = "Email",
-                    value = email,
+                    nomeCampo = "Email",
+                    valorCampo = email,
                     onValueChange = { email = it },
-                    keyboardType = KeyboardType.Email
+                    tipoTeclado = KeyboardType.Email
                 )
 
                 LoginField(
-                    label = "Senha",
-                    value = senha,
+                    nomeCampo = "Senha",
+                    valorCampo = senha,
                     onValueChange = { senha = it },
-                    keyboardType = KeyboardType.Password
+                    tipoTeclado = KeyboardType.Password
                 )
 
                 Spacer(modifier = Modifier.height(4.dp))
 
-                // Botão de fazer login
+                // Botão de fazer login (por enquanto funciona independente de o usuário ter digitado algo)
                 Button(
-                    onClick = { realizarLogin(nome, email, senha) },
+                    onClick = { realizarLogin( email, senha)
+                                navController.navigate("telaPrincipal")},
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(50.dp),
@@ -133,13 +128,13 @@ fun LoginScreen(
     }
 }
 
-// Função usada para criar um campo de login (input e label)
+// Função usada para criar os campos de login (input e label)
 @Composable
 private fun LoginField(
-    label: String,
-    value: String,
+    nomeCampo: String,
+    valorCampo: String,
     onValueChange: (String) -> Unit,
-    keyboardType: KeyboardType = KeyboardType.Text
+    tipoTeclado: KeyboardType = KeyboardType.Text
 ) {
 
     // Organiza os campos na vertical
@@ -147,7 +142,7 @@ private fun LoginField(
 
         // Texto com o nome do campo (label)
         Text(
-            text = label,
+            text = nomeCampo,
             color = corTexto,
             fontSize = 13.sp,
             fontWeight = FontWeight.Medium
@@ -155,7 +150,7 @@ private fun LoginField(
 
         // Campo de entrada (input)
         OutlinedTextField(
-            value = value,
+            value = valorCampo,
             onValueChange = onValueChange,
             placeholder = {
                 Text(text = " ")
@@ -176,13 +171,13 @@ private fun LoginField(
             ),
 
             // Tipo do teclado
-            keyboardOptions = KeyboardOptions(keyboardType = keyboardType)
+            keyboardOptions = KeyboardOptions(keyboardType = tipoTeclado)
         )
     }
 }
 
-@Preview(showBackground = true,) // Indica que a função é uma pré-visualização
+@Preview(showBackground = true) // Indica que a função é uma pré-visualização
 @Composable
 fun LoginScreenPreview() {
-    LoginScreen() // Define a tela a ser visualizada
+    LoginScreen(navController = rememberNavController()) // Define a tela a ser visualizada
 }

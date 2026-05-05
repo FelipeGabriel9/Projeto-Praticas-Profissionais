@@ -32,6 +32,7 @@ private val corTexto = Color(0xFFFFFFFF)
 private val fundoBotao = Color(0xFF34C759)
 
 
+// Criando a função que permite um usuário se cadastrar no sistema
 @Composable
 fun CadastroScreen(
     navController: NavHostController,
@@ -43,7 +44,8 @@ fun CadastroScreen(
     var cpf   by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var senha by remember { mutableStateOf("") }
-    var arredondarPontas = androidx.compose.ui.layout.ContentScale.Crop
+
+    val arredondarPontas = androidx.compose.ui.layout.ContentScale.Crop
 
     // Criando a tela
     Column(

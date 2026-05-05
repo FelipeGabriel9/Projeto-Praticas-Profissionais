@@ -27,21 +27,24 @@ private val fundoHeader = Color(0xFF1C1C1E)
 private val fundoPeriodos = Color(0xFF2C2C2E)
 private val corPeriodoSelecionado = Color(0xFF2E7D32)
 private val corTexto = Color(0xFFFFFFFF)
-private val valorTotal    = Color(0xFF8E8E93)
-private val valorEntrada  = Color(0xFFE8693A)
-private val valorSaida    = Color(0xFF4A90D9)
-private val valorOutros    = Color(0xFF8E8E93)
+private val valorTotal = Color(0xFF8E8E93)
+private val valorEntrada = Color(0xFFE8693A)
+private val valorSaida = Color(0xFF4A90D9)
+private val valorOutros = Color(0xFF8E8E93)
 
+
+// Criando a tela principal, a primeira que o usuário vê depois de realizar cadastro ou login
 @Composable
 fun PrincipalScreen(
     valorTotal: String = "R$ 0000,00",
     navController: NavController
 ) {
-    AbaMenu(
+    MenuScreen(
         tituloDaPagina = " ",
         controleNagegacao = navController
     ) { valoresPadding ->
-        var selecionarPeriodo by remember { mutableStateOf("Mês") }
+
+        var selecionarPeriodo by remember { mutableStateOf("Mês") } // O período se inicia em "Mês"
 
         Column(
             modifier = Modifier
@@ -53,10 +56,12 @@ fun PrincipalScreen(
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            // Header
+            // Chama a função que configura o Header
             ConfiguracaoHeader()
 
             Spacer(modifier = Modifier.height(24.dp))
+
+            // Subtítulos
             Text(
                 text = "Saldo em conta",
                 color = corTexto,
@@ -76,7 +81,7 @@ fun PrincipalScreen(
 
             Spacer(modifier = Modifier.height(20.dp))
 
-            // ── Filtro de período ────────────────────────────────────────────────
+            // Chama a função que filtra o período (Dia, Semana, Mês, Ano)
             FiltrarPeriodo(
                 periodoSelecionado = selecionarPeriodo,
                 selecionar = { selecionarPeriodo = it }
@@ -84,13 +89,13 @@ fun PrincipalScreen(
 
             Spacer(modifier = Modifier.height(20.dp))
 
-            // ── Gráfico ──────────────────────────────────────────────────────────
+            // Chama a função que cria gráficos
             CardComGraficos()
         }
     }
 }
 
-
+// Função que configura o header
 @Composable
 private fun ConfiguracaoHeader() {
     Box(
@@ -104,6 +109,7 @@ private fun ConfiguracaoHeader() {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Spacer(modifier = Modifier.height(8.dp))
+            // Títulos da página
             Text(
                 text = "MyMoney",
                 color = corTexto,
@@ -122,7 +128,7 @@ private fun ConfiguracaoHeader() {
 }
 
 
-
+// Função que filtra o período desejado
 @Composable
 private fun FiltrarPeriodo(
     periodoSelecionado: String,
@@ -138,6 +144,7 @@ private fun FiltrarPeriodo(
         colors = CardDefaults.cardColors(containerColor = fundoPeriodos),
         elevation = CardDefaults.cardElevation(0.dp)
     ) {
+        // Cria o campo onde o usuário pode escolher o período
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -151,10 +158,10 @@ private fun FiltrarPeriodo(
                         .weight(1f)
                         .background(
                             color = 
-                                if (estaSelecionado)
-                                    corPeriodoSelecionado
+                                if (estaSelecionado) // Se um período está selecionado
+                                    corPeriodoSelecionado // A 'cor de fundo' dele fica verde
                                 else 
-                                    Color.Transparent,
+                                    Color.Transparent, // Senão, mantém a cor de fundo padrão
                             
                             shape = RoundedCornerShape(8.dp)
                         )
@@ -179,8 +186,10 @@ private fun FiltrarPeriodo(
 }
 
 
+// Criando a função que cria gráficos
 @Composable
 private fun CardComGraficos() {
+    // Primeiro, cria-se um card, e dentro dele inserimos os gráficos
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -195,25 +204,28 @@ private fun CardComGraficos() {
                 .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            // Chama a função GraficoPizza, e passa alguns valores hipotéticos
             GraficoPizza(
                 modifier = Modifier
                     .size(180.dp)
                     .padding(8.dp),
                 camposDoGrafico = listOf(
+                    // Chama o data class, que recebe um angulo e uma cor
                     DividirGrafico(0.45f, valorEntrada),   // Entradas
                     DividirGrafico(0.35f, valorSaida),     // Saídas
-                    DividirGrafico(0.20f, valorOutros)      // Outros
+                    DividirGrafico(0.20f, valorOutros)     // Outros
                 )
             )
 
             Spacer(modifier = Modifier.height(8.dp))
 
+            // Cria uma linha onde será inserido a legenda
             Row(
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                Legenda(color = valorEntrada, label = "Entradas")
-                Legenda(color = valorSaida,   label = "Saídas")
-                Legenda(color = valorOutros,   label = "Outros")
+                Legenda(cor = valorEntrada, textoLegenda = "Entradas")
+                Legenda(cor = valorSaida,   textoLegenda = "Saídas")
+                Legenda(cor = valorOutros,   textoLegenda = "Outros")
             }
         }
     }
@@ -221,11 +233,13 @@ private fun CardComGraficos() {
 
 data class DividirGrafico(val angulo: Float, val cor: Color)
 
+// Cria o gráfico com os valores hipotéticos passados pela função anterior
 @Composable
 private fun GraficoPizza(
     modifier: Modifier = Modifier,
     camposDoGrafico: List<DividirGrafico>
 ) {
+    // Chama a classe Canvas, que com algumas informações, vai criar os gráficos
     Canvas(modifier = modifier) {
         var anguloInicial = -90f
         camposDoGrafico.forEach { campo ->
@@ -243,16 +257,20 @@ private fun GraficoPizza(
     }
 }
 
+// Cria a função de Legenda
 @Composable
-private fun Legenda(color: Color, label: String) {
+private fun Legenda(cor: Color, textoLegenda: String) {
+    // Cria uma linha, onde se armazenará a legenda
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(4.dp)
     ) {
+        // Usa-se Canvas para criar um pequeno círculo, mostrando a cor de determinado item da
+        // legenda
         Canvas(modifier = Modifier.size(10.dp)) {
-            drawCircle(color = color)
+            drawCircle(color = cor)
         }
-        Text(text = label, fontSize = 11.sp, color = Color(0xFF555555))
+        Text(text = textoLegenda, fontSize = 11.sp, color = Color(0xFF555555))
     }
 }
 
