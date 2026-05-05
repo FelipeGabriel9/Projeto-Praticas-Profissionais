@@ -32,7 +32,6 @@ private val valorEntrada = Color(0xFFE8693A)
 private val valorSaida = Color(0xFF4A90D9)
 private val valorOutros = Color(0xFF8E8E93)
 
-
 // Criando a tela principal, a primeira que o usuário vê depois de realizar cadastro ou login
 @Composable
 fun PrincipalScreen(
@@ -231,7 +230,6 @@ private fun CardComGraficos() {
     }
 }
 
-data class DividirGrafico(val angulo: Float, val cor: Color)
 
 // Cria o gráfico com os valores hipotéticos passados pela função anterior
 @Composable

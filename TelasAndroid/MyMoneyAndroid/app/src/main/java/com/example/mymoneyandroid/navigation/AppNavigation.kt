@@ -26,7 +26,7 @@ fun AppNavigation() {
     NavHost(navController = navController, startDestination = "telaInicial") {
 
         composable("telaInicial") {
-            InicialScreen(navController = navController)
+            InicialScreen(controleNavegacao = navController)
         }
 
         // Rota de cadastro
