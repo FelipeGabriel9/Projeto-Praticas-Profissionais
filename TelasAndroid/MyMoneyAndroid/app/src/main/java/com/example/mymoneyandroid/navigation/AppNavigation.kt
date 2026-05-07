@@ -34,7 +34,7 @@ fun AppNavigation() {
 
             // Chama os eventos da tela
             CadastroScreen(
-                navController = navController,
+                controleNavegacao = navController,
                 irParaLogin = {
                     navController.navigate("telaLogin")
                 }
@@ -45,7 +45,7 @@ fun AppNavigation() {
         composable("telaLogin") {
             // Chama os eventos da tela de login
             LoginScreen(
-                navController = navController
+                controleNavegacao = navController
             )
 
         }
@@ -53,17 +53,17 @@ fun AppNavigation() {
 
         // Rota Mensagem
         composable("telaMensagem") {
-            MensagemScreen(navController = navController) // Chama os eventos da tela mensagem
+            MensagemScreen(controleNavegacao = navController) // Chama os eventos da tela mensagem
         }
 
         // Rota de Categorias
         composable("telaCategoria") {
-            CategoriaScreen(navController = navController) // Chama os eventos da tela de categoria
+            CategoriaScreen(controleNavegacao = navController) // Chama os eventos da tela de categoria
         }
 
         // Rota da tela Principal
         composable("telaPrincipal") {
-            PrincipalScreen(navController = navController) // Chama os eventos da tela principal
+            PrincipalScreen(controleNavegacao = navController) // Chama os eventos da tela principal
         }
 
         // TESTANDO GEMINI

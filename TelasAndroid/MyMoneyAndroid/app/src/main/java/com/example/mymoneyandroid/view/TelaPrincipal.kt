@@ -36,11 +36,11 @@ private val valorOutros = Color(0xFF8E8E93)
 @Composable
 fun PrincipalScreen(
     valorTotal: String = "R$ 0000,00",
-    navController: NavController
+    controleNavegacao: NavController
 ) {
     MenuScreen(
         tituloDaPagina = " ",
-        controleNagegacao = navController
+        controleNagegacao = controleNavegacao
     ) { valoresPadding ->
 
         var selecionarPeriodo by remember { mutableStateOf("Mês") } // O período se inicia em "Mês"

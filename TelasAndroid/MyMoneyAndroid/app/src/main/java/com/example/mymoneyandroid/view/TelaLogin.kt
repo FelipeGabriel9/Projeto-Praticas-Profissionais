@@ -31,13 +31,13 @@ private val fundoBotao = Color(0xFF34C759)
 // Criando a função que realiza o login do usuário
 @Composable
 fun LoginScreen(
-    navController: NavHostController,
+    controleNavegacao: NavHostController,
     realizarLogin: (email: String, senha: String) -> Unit = { _, _ -> }
 ) {
 
     // Váriaveis para guardar os valores de cada campo
     var email by remember { mutableStateOf("") }
-    var senha   by remember { mutableStateOf("") }
+    var senha by remember { mutableStateOf("") }
 
 
     // Cria a tela, que é ocupada inteiramente pela cor verde
@@ -108,7 +108,7 @@ fun LoginScreen(
                 // Botão de fazer login (por enquanto funciona independente de o usuário ter digitado algo)
                 Button(
                     onClick = { realizarLogin( email, senha)
-                                navController.navigate("telaPrincipal")},
+                                controleNavegacao.navigate("telaPrincipal")},
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(50.dp),
@@ -179,5 +179,5 @@ private fun LoginField(
 @Preview(showBackground = true) // Indica que a função é uma pré-visualização
 @Composable
 fun LoginScreenPreview() {
-    LoginScreen(navController = rememberNavController()) // Define a tela a ser visualizada
+    LoginScreen(controleNavegacao = rememberNavController()) // Define a tela a ser visualizada
 }

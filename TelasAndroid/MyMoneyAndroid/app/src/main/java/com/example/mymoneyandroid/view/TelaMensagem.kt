@@ -22,8 +22,8 @@ private val CorBotao = Color(0xFF1B823E)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MensagemScreen(navController: NavController) {
-    MenuScreen(tituloDaPagina = "", controleNagegacao = navController) { valoresPadding ->
+fun MensagemScreen(controleNavegacao: NavController) {
+    MenuScreen(tituloDaPagina = "", controleNagegacao = controleNavegacao) { valoresPadding ->
 
         // Variáveis que vão guardar os valores lidos
         var assunto by remember { mutableStateOf("") }

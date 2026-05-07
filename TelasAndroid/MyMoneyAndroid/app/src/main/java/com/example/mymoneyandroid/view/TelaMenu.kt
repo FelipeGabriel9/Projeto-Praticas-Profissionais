@@ -137,6 +137,18 @@ fun ConteudoMenu(
                     }
             )
 
+            // Metas
+            Text(
+                text = "Metas",
+                color = CorTexto,
+                modifier = Modifier
+                    .padding(vertical = 12.dp)
+                    .clickable {
+                        controleMenu.launch { estadoMenu.close() } // Fecha a aba
+                        controleNavegacao.navigate("TelaMetas") // Vai para a tela de metas
+                    }
+            )
+
             Spacer(modifier = Modifier.weight(1f)) // Joga o próximo texto para a parte de baixo da tela
 
             // Mensagem

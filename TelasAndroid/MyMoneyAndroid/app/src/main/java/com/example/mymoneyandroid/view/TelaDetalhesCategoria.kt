@@ -5,6 +5,11 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
@@ -17,49 +22,62 @@ private val ColorBackground = Color(0xFF2E7D32)   // Verde
 
 @Composable
 fun DetalheCategoriaScreen(navController: NavController, categoriaNome: String?) {
-    // Se o nome vier nulo, tratamos para não quebrar
-    val nome = categoriaNome ?: "Categoria"
+    // Estados para controlar o que acontece na tela
+    var valorDigitado by remember { mutableStateOf("") }
+    var totalAcumulado by remember { mutableStateOf(0.0) }
 
-    MenuScreen(tituloDaPagina = nome, controleNagegacao = navController) { paddingValues ->
+    MenuScreen(tituloDaPagina = categoriaNome ?: "Detalhes", controleNagegacao = navController) { padding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(ColorBackground) // O mesmo verde das outras telas
-                .padding(paddingValues)
-                .padding(20.dp)
+                .padding(padding)
+                .background(Color(0xFF0F0F0F))
+                .padding(24.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            // --- GRÁFICO DE GASTOS (Visual) ---
-            Text("Resumo de Gastos", color = Color.White, fontSize = 18.sp, fontWeight = FontWeight.Bold)
-            Spacer(modifier = Modifier.height(16.dp))
+            Text("Total gasto em $categoriaNome", color = Color.Gray)
 
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(Color(0xFF1C1C1E), RoundedCornerShape(16.dp))
-                    .padding(16.dp)
+            // Exibe o total acumulado formatado
+            Text(
+                text = "R$ ${String.format("%.2f", totalAcumulado)}",
+                color = Color.White,
+                fontSize = 36.sp,
+                fontWeight = FontWeight.ExtraBold
+            )
+
+            Spacer(modifier = Modifier.height(30.dp))
+
+            // Campo de texto para digitar o valor
+            OutlinedTextField(
+                value = valorDigitado,
+                onValueChange = { valorDigitado = it },
+                label = { Text("Valor da despesa") },
+                modifier = Modifier.fillMaxWidth(),
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedTextColor = Color.White,
+                    unfocusedTextColor = Color.White,
+                    focusedBorderColor = Color(0xFF2E7D32)
+                )
+            )
+
+            Spacer(modifier = Modifier.height(20.dp))
+
+            // BOTÃO QUE REALMENTE ADICIONA
+            Button(
+                onClick = {
+                    // Tenta transformar o texto em número, se der erro vira 0.0
+                    val valor = valorDigitado.replace(",", ".").toDoubleOrNull() ?: 0.0
+                    totalAcumulado += valor // SOMA AO TOTAL
+                    valorDigitado = "" // LIMPA O CAMPO
+                },
+                modifier = Modifier.fillMaxWidth().height(50.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2E7D32))
             ) {
-                Text("Gasto Atual: R$ 450,00", color = Color.White, fontSize = 14.sp)
-                Spacer(modifier = Modifier.height(8.dp))
-
-                // Barra de Progresso (Gráfico de Barra)
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(12.dp)
-                        .background(Color.Gray, RoundedCornerShape(6.dp))
-                ) {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth(0.45f) // 45% de gastos por exemplo
-                            .fillMaxHeight()
-                            .background(Color(0xFF81C784), RoundedCornerShape(6.dp))
-                    )
-                }
-                Spacer(modifier = Modifier.height(8.dp))
-                Text("Meta Mensal: R$ 1.000,00", color = Color.LightGray, fontSize = 12.sp)
+                Text("ADICIONAR DESPESA")
             }
-
-            Spacer(modifier = Modifier.height(32.dp))
+        }
+    }
+}
 
 //            // --- LISTA DE TRANSAÇÕES ---
 //            Text("Histórico", color = Color.White, fontSize = 18.sp, fontWeight = FontWeight.Bold)
@@ -81,6 +99,3 @@ fun DetalheCategoriaScreen(navController: NavController, categoriaNome: String?)
 //                    }
 //                }
 //            }
-        }
-    }
-}
