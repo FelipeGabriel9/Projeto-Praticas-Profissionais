@@ -6,9 +6,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -24,27 +22,27 @@ import androidx.navigation.NavController
 
 // Cores usadas na tela
 private val CorFundoVerde = Color(0xFF2E7D32)
+private val CorCardEscuro = Color(0xFF1C1C1E)
 private val CorBotaoCinza = Color(0xFF3A3A3C)
 private val CorTextoBranco = Color(0xFFFFFFFF)
+private val CorVerdeBotao = Color(0xFF34C759)
 private val verdeGradiente = Color(0xFF1A2E1A)
 
-// Lista de categorias fixas
-val listaCategorias = mutableStateListOf(
-    "Saúde", "Lazer", "Casa", "Alimentação", "Educação", "Presentes",
-    "Compras", "Família", "Exercícios", "Transporte", "Criar"
+// Lista de metas fixas
+val listaMetas = mutableStateListOf(
+    "Viagens", "Casamento", "Compras", "Criar"
 )
 
 // Criando a função principal da tela
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CategoriaScreen(controleNavegacao: NavController) {
+fun MetasScreen(controleNavegacao: NavController) {
 
     var mostrarDialogo by remember { mutableStateOf(false) }
-    var novoNome by remember { mutableStateOf("") }
+    var novoNomeMeta by remember { mutableStateOf("") }
 
     // Chama a função do menu para ser criado a barra superior
-    MenuScreen (tituloDaPagina = "", controleNagegacao = controleNavegacao) { padding ->
-
+    MenuScreen(tituloDaPagina = "Minhas Metas", controleNagegacao = controleNavegacao) { padding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -54,69 +52,75 @@ fun CategoriaScreen(controleNavegacao: NavController) {
                     )
                 )
                 .padding(padding)
-                .verticalScroll(rememberScrollState())
         ) {
-            // Grid de Categorias
+            // Grid de metas
             LazyVerticalGrid(
                 columns = GridCells.Fixed(3),
                 contentPadding = PaddingValues(24.dp),
                 horizontalArrangement = Arrangement.spacedBy(16.dp),
                 verticalArrangement = Arrangement.spacedBy(24.dp),
-                modifier = Modifier.height(400.dp)
+                modifier = Modifier.height(200.dp)
             ) {
-                items(listaCategorias) { categoria ->
-                    BotaoCategoria(nome = categoria) {
-                        if (categoria == "Criar") {
+                items(listaMetas) { meta ->
+                    BotaoMeta(nome = meta) {
+                        if (meta == "Criar") {
                             mostrarDialogo = true
                         } else {
-                            // Navega para a rota detalhecategoria/nomeCategoria
-                            controleNavegacao.navigate("detalhescategoria/$categoria")
+                            // Navega para a rota detalhemeta/nomeMeta
+                            controleNavegacao.navigate("detalhemeta/$meta")
                         }
                     }
                 }
             }
 
-            // Gráfico com os nomes das duas primeiras categorias da lista
-            CardGraficoCategorias(
-                nome1 = listaCategorias.getOrNull(0) ?: " ",
-                nome2 = listaCategorias.getOrNull(1) ?: " "
+            CardGraficoMetas(
+                nome1 = listaMetas.getOrNull(0) ?: " ",
+                nome2 = listaMetas.getOrNull(1) ?: " "
             )
         }
-    }
 
-    // Criando nova categoria
-    if (mostrarDialogo) {
-        AlertDialog(
-            onDismissRequest = { mostrarDialogo = false },
-            containerColor = Color(0xFF1C1C1E),
-            title = { Text("Nova Categoria", color = CorTextoBranco) },
-            text = {
-                OutlinedTextField(
-                    value = novoNome,
-                    onValueChange = { novoNome = it },
-                    label = { Text("Nome da Categoria") },
-                    colors = OutlinedTextFieldDefaults.colors(
-                        focusedTextColor = CorTextoBranco,
-                        unfocusedTextColor = CorTextoBranco,
-                        focusedBorderColor = CorFundoVerde
+        // Criando nova meta
+        if (mostrarDialogo) {
+            AlertDialog(
+                onDismissRequest = { mostrarDialogo = false },
+                containerColor = CorCardEscuro,
+                title = { Text("Nova Meta", color = CorTextoBranco) },
+                text = {
+                    OutlinedTextField(
+                        value = novoNomeMeta,
+                        onValueChange = { novoNomeMeta = it },
+                        label = { Text("Nome da Meta") },
+                        colors = OutlinedTextFieldDefaults.colors(
+                            focusedTextColor = CorTextoBranco,
+                            unfocusedTextColor = CorTextoBranco,
+                            focusedBorderColor = CorVerdeBotao,
+                            focusedLabelColor = CorVerdeBotao
+                        )
                     )
-                )
-            },
-            confirmButton = {
-                TextButton(onClick = {
-                    if (novoNome.isNotEmpty()) {
-                        listaCategorias.add(listaCategorias.size - 1, novoNome)
-                        novoNome = ""
-                        mostrarDialogo = false
+                },
+                confirmButton = {
+                    TextButton(onClick = {
+                        if (novoNomeMeta.isNotEmpty()) {
+                            listaMetas.add(listaMetas.size - 1, novoNomeMeta)
+                            novoNomeMeta = ""
+                            mostrarDialogo = false
+                        }
+                    }) {
+                        Text("CRIAR", color = CorVerdeBotao, fontWeight = FontWeight.Bold)
                     }
-                }) { Text("Criar", color = CorFundoVerde) }
-            }
-        )
+                },
+                dismissButton = {
+                    TextButton(onClick = { mostrarDialogo = false }) {
+                        Text("CANCELAR", color = Color.Gray)
+                    }
+                }
+            )
+        }
     }
 }
 
 @Composable
-private fun CardGraficoCategorias(nome1: String, nome2: String) {
+private fun CardGraficoMetas(nome1: String, nome2: String) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -131,7 +135,7 @@ private fun CardGraficoCategorias(nome1: String, nome2: String) {
                 .fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text("Distribuição de Gastos", fontWeight = FontWeight.Bold, color = Color.Black)
+            Text("Distribuição das metas", fontWeight = FontWeight.Bold, color = Color.Black)
 
             Spacer(modifier = Modifier.height(16.dp))
 
@@ -158,15 +162,21 @@ private fun CardGraficoCategorias(nome1: String, nome2: String) {
 }
 
 @Composable
-private fun BotaoCategoria(nome: String, onClick: () -> Unit) {
+private fun BotaoMeta(nome: String, onClick: () -> Unit) {
     Surface(
         onClick = onClick,
-        color = CorBotaoCinza,
+        color = CorBotaoCinza, // Usando a variável
         shape = RoundedCornerShape(12.dp),
-        modifier = Modifier.height(55.dp)
+        modifier = Modifier.height(60.dp).fillMaxWidth()
     ) {
         Box(contentAlignment = Alignment.Center) {
-            Text(text = nome, color = CorTextoBranco, fontSize = 13.sp, textAlign = TextAlign.Center)
+            Text(
+                text = nome,
+                color = CorTextoBranco, // Usando a variável
+                fontSize = 13.sp,
+                fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Center
+            )
         }
     }
 }

@@ -11,8 +11,10 @@ import com.example.mymoneyandroid.view.LoginScreen
 import com.example.mymoneyandroid.view.CategoriaScreen
 import com.example.mymoneyandroid.view.PrincipalScreen
 import com.example.mymoneyandroid.view.DetalheCategoriaScreen
+import com.example.mymoneyandroid.view.DetalheMetaScreen
 import com.example.mymoneyandroid.view.InicialScreen
 import com.example.mymoneyandroid.view.MensagemScreen
+import com.example.mymoneyandroid.view.MetasScreen
 
 
 @Composable
@@ -70,6 +72,13 @@ fun AppNavigation() {
             )
         }
 
+        // Rota Metas
+        composable("telaMetas") {
+            MetasScreen(
+                controleNavegacao = controleNavegacao
+            )
+        }
+
         // Rota para os detalhes de uma categoria
         composable(
             "detalhescategoria/{nomeCategoria}",
@@ -82,6 +91,19 @@ fun AppNavigation() {
                 controleNavegacao = controleNavegacao,
                 nomeCategoria = nome
             )
+        }
+
+        // Rota para os detalhes de uma meta
+        composable(
+            "detalhemeta/{nomeMeta}",
+            listOf(navArgument("nomeMeta") {
+                type = NavType.StringType
+            })
+        ) { tela ->
+            val nome = tela.arguments?.getString("nomeMeta")
+            DetalheMetaScreen(
+                controleNavegacao = controleNavegacao,
+                nomeMeta = nome)
         }
     }
 }
