@@ -12,7 +12,9 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush.Companion.linearGradient
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -28,6 +30,7 @@ private val fundoCampos = Color(0xFF2C2C2E)
 private val bordaCampos = Color(0xFF3A3A3C)
 private val corTexto = Color(0xFFFFFFFF)
 private val fundoBotao = Color(0xFF34C759)
+private val verdeGradiente = Color(0xFF1A2E1A)
 
 
 // Criando a função que permite um usuário se cadastrar no sistema
@@ -43,13 +46,15 @@ fun CadastroScreen(
     var email by remember { mutableStateOf("") }
     var senha by remember { mutableStateOf("") }
 
-    val arredondarPontas = androidx.compose.ui.layout.ContentScale.Crop
-
     // Criando a tela
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(verdePrincipal)
+            .background(
+                brush = linearGradient(
+                colors = listOf(verdePrincipal, verdeGradiente)
+                )
+            )
             .verticalScroll(rememberScrollState())
             .padding(bottom = 24.dp)
     ) {
@@ -64,7 +69,7 @@ fun CadastroScreen(
             // Imagem da logo
             Box(
                 modifier = Modifier
-                    .size(150.dp)
+                    .size(120.dp)
                     .clip(RoundedCornerShape(24.dp)),
                 contentAlignment = Alignment.Center
             ) {
@@ -73,7 +78,7 @@ fun CadastroScreen(
                     contentDescription = "Logo MyMoney",
                     modifier = Modifier
                         .fillMaxSize(),
-                    contentScale = arredondarPontas
+                    contentScale = ContentScale.Crop
                 )
             }
 
@@ -112,31 +117,31 @@ fun CadastroScreen(
                 // Chamando LoginField para criar os campos
 
                 LoginField(
-                    label = "Nome",
-                    value = nome,
-                    onValueChange = { nome = it },
-                    keyboardType = KeyboardType.Text
+                    textoLabel = "Nome",
+                    valor = nome,
+                    mudarValor = { nome = it },
+                    tipoTeclado = KeyboardType.Text
                 )
 
                 LoginField(
-                    label = "CPF",
-                    value = cpf,
-                    onValueChange = { cpf = it },
-                    keyboardType = KeyboardType.Number
+                    textoLabel = "CPF",
+                    valor = cpf,
+                    mudarValor = { cpf = it },
+                    tipoTeclado = KeyboardType.Number
                 )
 
                 LoginField(
-                    label = "Email",
-                    value = email,
-                    onValueChange = { email = it },
-                    keyboardType = KeyboardType.Email
+                    textoLabel = "Email",
+                    valor = email,
+                    mudarValor = { email = it },
+                    tipoTeclado = KeyboardType.Email
                 )
 
                 LoginField(
-                    label = "Senha",
-                    value = senha,
-                    onValueChange = { senha = it },
-                    keyboardType = KeyboardType.Password)
+                    textoLabel = "Senha",
+                    valor = senha,
+                    mudarValor = { senha = it },
+                    tipoTeclado = KeyboardType.Password)
 
 
                 Spacer(modifier = Modifier.height(8.dp))
@@ -166,13 +171,21 @@ fun CadastroScreen(
 
         // Rodapé (leva para a tela de login)
         Row(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 24.dp),
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(text = "Já tem uma conta? ", color = corTexto)
+            Text(
+                text = "Já tem uma conta? ",
+                color = corTexto
+            )
             TextButton(onClick = irParaLogin) {
-                Text(text = "Faça login", color = corTexto)
+                Text(
+                    text = "Faça login",
+                    color = corTexto
+                )
             }
         }
     }
@@ -182,17 +195,17 @@ fun CadastroScreen(
 // Função usada para criar um campo de login (input e label)
 @Composable
 private fun LoginField(
-    label: String,
-    value: String,
-    onValueChange: (String) -> Unit,
-    keyboardType: KeyboardType = KeyboardType.Text
+    textoLabel: String,
+    valor: String,
+    mudarValor: (String) -> Unit,
+    tipoTeclado: KeyboardType = KeyboardType.Text
 ) {
     // Organiza os campos na vertical
     Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
 
         // Texto com o nome do campo (label)
         Text(
-            text = label,
+            text = textoLabel,
             color = corTexto,
             fontSize = 13.sp,
             fontWeight = FontWeight.Medium
@@ -200,8 +213,8 @@ private fun LoginField(
 
         // Campo de entrada (input)
         OutlinedTextField(
-            value = value,
-            onValueChange = onValueChange,
+            value = valor,
+            onValueChange = mudarValor,
             placeholder = { Text(text = " ") },
             singleLine = true,
             modifier = Modifier.fillMaxWidth(),
@@ -219,7 +232,7 @@ private fun LoginField(
             ),
 
             // Define o tipo de teclado que vai abrir (text, email, etc)
-            keyboardOptions = KeyboardOptions(keyboardType = keyboardType)
+            keyboardOptions = KeyboardOptions(keyboardType = tipoTeclado)
         )
     }
 }

@@ -19,66 +19,69 @@ import com.example.mymoneyandroid.view.MensagemScreen
 // Função central que vai ligar todas as telas do app
 fun AppNavigation() {
 
-    // Cria o controlador que gerencia o histórico e a troca de telas
-    val navController = rememberNavController()
+    // Cria o controlador que gerencia a troca de telas
+    val controleNavegacao = rememberNavController()
 
     // Cria o mapa, entrega para o controlador para começar pela telaInicial
-    NavHost(navController = navController, startDestination = "telaInicial") {
+    NavHost(navController = controleNavegacao, startDestination = "telaInicial") {
 
+        // Rota da tela Inicial
         composable("telaInicial") {
-            InicialScreen(controleNavegacao = navController)
+            InicialScreen(
+                controleNavegacao = controleNavegacao
+            )
         }
 
-        // Rota de cadastro
+        // Rota de Cadastro
         composable("telaCadastro") {
-
-            // Chama os eventos da tela
             CadastroScreen(
-                controleNavegacao = navController,
+                controleNavegacao = controleNavegacao,
                 irParaLogin = {
-                    navController.navigate("telaLogin")
+                    controleNavegacao.navigate("telaLogin")
                 }
             )
         }
 
         // Rota de Login
         composable("telaLogin") {
-            // Chama os eventos da tela de login
             LoginScreen(
-                controleNavegacao = navController
+                controleNavegacao = controleNavegacao
             )
-
         }
-
 
         // Rota Mensagem
         composable("telaMensagem") {
-            MensagemScreen(controleNavegacao = navController) // Chama os eventos da tela mensagem
+            MensagemScreen(
+                controleNavegacao = controleNavegacao
+            )
         }
 
         // Rota de Categorias
         composable("telaCategoria") {
-            CategoriaScreen(controleNavegacao = navController) // Chama os eventos da tela de categoria
+            CategoriaScreen(
+                controleNavegacao = controleNavegacao
+            )
         }
 
         // Rota da tela Principal
         composable("telaPrincipal") {
-            PrincipalScreen(controleNavegacao = navController) // Chama os eventos da tela principal
+            PrincipalScreen(
+                controleNavegacao = controleNavegacao
+            )
         }
 
-        // TESTANDO GEMINI
-        // No seu NavHost (AppNavigation ou MainActivity)
-        composable("detalhe_categoria/{categoriaNome}") { backStackEntry ->
-            val nome = backStackEntry.arguments?.getString("categoriaNome")
-            DetalheCategoriaScreen(navController, nome)
-        }
-
+        // Rota para os detalhes de uma categoria
         composable(
-            route = "det_categoria/{categoriaNome}",
-            arguments = listOf(navArgument("categoriaNome") { type = NavType.StringType })
-        ) { backStackEntry ->
-            val nome = backStackEntry.arguments?.getString("categoriaNome")
-            DetalheCategoriaScreen(navController, nome)
+            "detalhescategoria/{nomeCategoria}",
+            listOf(navArgument("nomeCategoria") {
+                type = NavType.StringType
+            })
+        ) { tela ->
+            val nome = tela.arguments?.getString("nomeCategoria")
+            DetalheCategoriaScreen(
+                controleNavegacao = controleNavegacao,
+                nomeCategoria = nome
+            )
         }
     }
 }

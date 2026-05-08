@@ -9,9 +9,12 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush.Companion.linearGradient
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -26,6 +29,7 @@ private val fundoCampos = Color(0xFF2C2C2E)
 private val bordaCampos = Color(0xFF3A3A3C)
 private val corTexto = Color(0xFFFFFFFF)
 private val fundoBotao = Color(0xFF34C759)
+private val verdeGradiente = Color(0xFF1A2E1A)
 
 
 // Criando a função que realiza o login do usuário
@@ -40,11 +44,15 @@ fun LoginScreen(
     var senha by remember { mutableStateOf("") }
 
 
-    // Cria a tela, que é ocupada inteiramente pela cor verde
+    // Cria a tela, que é ocupada por um fundo gradiente
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(verdePrincipal)
+            .background(
+                brush = linearGradient(
+                colors = listOf(verdePrincipal, verdeGradiente)
+                )
+            )
             .verticalScroll(rememberScrollState())
             .padding(bottom = 24.dp)
     ) {
@@ -158,6 +166,11 @@ private fun LoginField(
             singleLine = true,
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(10.dp),
+            visualTransformation =
+                if (tipoTeclado == KeyboardType.Password)
+                    PasswordVisualTransformation()
+                else
+                    VisualTransformation.None,
 
             // Cores usadas em cada campo
             colors = OutlinedTextFieldDefaults.colors(

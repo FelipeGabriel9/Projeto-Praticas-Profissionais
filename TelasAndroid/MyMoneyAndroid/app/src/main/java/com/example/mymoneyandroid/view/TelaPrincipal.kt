@@ -39,7 +39,7 @@ fun PrincipalScreen(
     controleNavegacao: NavController
 ) {
     MenuScreen(
-        tituloDaPagina = " ",
+        tituloDaPagina = "",
         controleNagegacao = controleNavegacao
     ) { valoresPadding ->
 
@@ -52,8 +52,6 @@ fun PrincipalScreen(
                 .background(fundoTela)
                 .verticalScroll(rememberScrollState())
         ) {
-
-            Spacer(modifier = Modifier.height(24.dp))
 
             // Chama a função que configura o Header
             ConfiguracaoHeader()
@@ -193,30 +191,37 @@ private fun CardComGraficos() {
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 20.dp),
-        shape = RoundedCornerShape(16.dp),
+        shape = RoundedCornerShape(24.dp),
         colors = CardDefaults.cardColors(containerColor = corTexto),
-        elevation = CardDefaults.cardElevation(4.dp)
+        elevation = CardDefaults.cardElevation(8.dp)
     ) {
         Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
+                .padding(24.dp)
+                .fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            // Título do Gráfico
+            Text(
+                text = "Visão Geral",
+                color = Color.Black,
+                fontWeight = FontWeight.Bold,
+                fontSize = 18.sp
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
             // Chama a função GraficoPizza, e passa alguns valores hipotéticos
             GraficoPizza(
-                modifier = Modifier
-                    .size(180.dp)
-                    .padding(8.dp),
+                modifier = Modifier.size(200.dp),
                 camposDoGrafico = listOf(
-                    // Chama o data class, que recebe um angulo e uma cor
                     DividirGrafico(0.45f, valorEntrada),   // Entradas
                     DividirGrafico(0.35f, valorSaida),     // Saídas
                     DividirGrafico(0.20f, valorOutros)     // Outros
                 )
             )
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(24.dp))
 
             // Cria uma linha onde será inserido a legenda
             Row(

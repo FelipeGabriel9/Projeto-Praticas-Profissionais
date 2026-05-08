@@ -14,6 +14,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Brush.Companion.linearGradient
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -26,10 +27,11 @@ private val CorFundoVerde = Color(0xFF2E7D32)
 private val CorBotaoCinza = Color(0xFF3A3A3C)
 private val CorTextoBranco = Color(0xFFFFFFFF)
 private val CorCardGrafico = Color(0xFFFFFFFF)
+private val verdeGradiente = Color(0xFF1A2E1A)
 
 // LISTA GLOBAL: Definida fora da função para não resetar ao navegar
-val listaGlobalCategorias = mutableStateListOf(
-    "Saúde", "Lazer", "Casa", "Café", "Educação", "Presentes",
+val listaCategorias = mutableStateListOf(
+    "Saúde", "Lazer", "Casa", "Alimentação", "Educação", "Presentes",
     "Compras", "Família", "Exercícios", "Transporte", "Criar"
 )
 
@@ -40,12 +42,16 @@ fun CategoriaScreen(controleNavegacao: NavController) {
     var mostrarDialogo by remember { mutableStateOf(false) }
     var novoNome by remember { mutableStateOf("") }
 
-    MenuScreen (tituloDaPagina = "Categorias", controleNagegacao = controleNavegacao) { padding ->
+    MenuScreen (tituloDaPagina = "", controleNagegacao = controleNavegacao) { padding ->
 
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(CorFundoVerde)
+                .background(
+                    brush = linearGradient(
+                    colors = listOf(CorFundoVerde, verdeGradiente)
+                    )
+                )
                 .padding(padding)
                 .verticalScroll(rememberScrollState())
         ) {
@@ -53,31 +59,27 @@ fun CategoriaScreen(controleNavegacao: NavController) {
             LazyVerticalGrid(
                 columns = GridCells.Fixed(3),
                 contentPadding = PaddingValues(24.dp),
-                horizontalArrangement = Arrangement.spacedBy(12.dp),
-                verticalArrangement = Arrangement.spacedBy(30.dp),
-                modifier = Modifier.height(350.dp)
+                horizontalArrangement = Arrangement.spacedBy(16.dp),
+                verticalArrangement = Arrangement.spacedBy(24.dp),
+                modifier = Modifier.height(400.dp)
             ) {
-                items(listaGlobalCategorias) { categoria ->
+                items(listaCategorias) { categoria ->
                     BotaoCategoria(nome = categoria) {
                         if (categoria == "Criar") {
                             mostrarDialogo = true
                         } else {
-                            // Navega para a rota detalhe_categoria/NomeDaCategoria
-                            controleNavegacao.navigate("detalhe_categoria/$categoria")
+                            // Navega para a rota detalhecategoria/nomeCategoria
+                            controleNavegacao.navigate("detalhescategoria/$categoria")
                         }
                     }
                 }
             }
 
-            Spacer(modifier = Modifier.height(10.dp))
-
             // Gráfico com os nomes das duas primeiras categorias da lista
             CardGraficoCategorias(
-                nome1 = listaGlobalCategorias.getOrNull(0) ?: "Cat 1",
-                nome2 = listaGlobalCategorias.getOrNull(1) ?: "Cat 2"
+                nome1 = listaCategorias.getOrNull(0) ?: " ",
+                nome2 = listaCategorias.getOrNull(1) ?: " "
             )
-
-            Spacer(modifier = Modifier.height(30.dp))
         }
     }
 
@@ -103,11 +105,11 @@ fun CategoriaScreen(controleNavegacao: NavController) {
                 TextButton(onClick = {
                     if (novoNome.isNotEmpty()) {
                         // Adiciona antes do botão "Criar"
-                        listaGlobalCategorias.add(listaGlobalCategorias.size - 1, novoNome)
+                        listaCategorias.add(listaCategorias.size - 1, novoNome)
                         novoNome = ""
                         mostrarDialogo = false
                     }
-                }) { Text("CRIAR", color = CorFundoVerde) }
+                }) { Text("Criar", color = CorFundoVerde) }
             }
         )
     }
@@ -124,7 +126,9 @@ private fun CardGraficoCategorias(nome1: String, nome2: String) {
         elevation = CardDefaults.cardElevation(4.dp)
     ) {
         Column(
-            modifier = Modifier.padding(16.dp),
+            modifier = Modifier
+                .padding(16.dp)
+                .fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text("Distribuição de Gastos", fontWeight = FontWeight.Bold, color = Color.Black)

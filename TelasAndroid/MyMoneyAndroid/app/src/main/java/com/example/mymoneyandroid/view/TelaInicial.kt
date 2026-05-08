@@ -12,6 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Brush.Companion.linearGradient
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -23,10 +24,10 @@ import androidx.compose.ui.tooling.preview.Preview
 private val verdePrincipal = Color(0xFF22C55E)
 private val corTexto = Color(0xFFFFFFFF)
 private val corDeFundo = Color(0xFFF1F5F1)
-private val inicialEscuroBg = Color(0xFF1A1A1A)
-private val inicialEscuroBgVerde = Color(0xFF1A2E1A)
+private val escuroGradiente = Color(0xFF1A1A1A)
+private val verdeGradiente = Color(0xFF1A2E1A)
 
-data class FatiaGraficoInicial(val fracao: Float, val cor: Color)
+data class ParteGrafico(val fracao: Float, val cor: Color)
 
 // Criando a tela inicial
 @Composable
@@ -46,8 +47,8 @@ fun InicialScreen(controleNavegacao: NavController) {
             modifier = Modifier
                 .fillMaxWidth()
                 .background(
-                    brush = androidx.compose.ui.graphics.Brush.linearGradient(
-                        colors = listOf(inicialEscuroBg, inicialEscuroBgVerde)
+                    brush = linearGradient(
+                        colors = listOf(escuroGradiente, verdeGradiente)
                     )
                 )
                 .padding(horizontal = 24.dp, vertical = 32.dp),
@@ -89,7 +90,7 @@ fun InicialScreen(controleNavegacao: NavController) {
                     onClick = { controleNavegacao.navigate("telaLogin") },
                     colors = ButtonDefaults.buttonColors(
                         containerColor = verdePrincipal,
-                        contentColor = inicialEscuroBg
+                        contentColor = escuroGradiente
                     ),
                     shape = RoundedCornerShape(6.dp)
                 ) {
@@ -110,9 +111,9 @@ fun InicialScreen(controleNavegacao: NavController) {
             CardGraficoInicial(
                 titulo = "Total em conta",
                 fatias = listOf(
-                    FatiaGraficoInicial(0.45f, verdePrincipal),
-                    FatiaGraficoInicial(0.35f, Color(0xFFE07028)),
-                    FatiaGraficoInicial(0.20f, Color(0xFF9BABB8))
+                    ParteGrafico(0.45f, verdePrincipal),
+                    ParteGrafico(0.35f, Color(0xFFE07028)),
+                    ParteGrafico(0.20f, Color(0xFF9BABB8))
                 ),
                 legendas = listOf(
                     Pair(verdePrincipal, "Poupança"),
@@ -125,12 +126,12 @@ fun InicialScreen(controleNavegacao: NavController) {
 }
 
 @Composable
-private fun CardGraficoInicial(titulo: String, fatias: List<FatiaGraficoInicial>, legendas: List<Pair<Color, String>>) {
+private fun CardGraficoInicial(titulo: String, fatias: List<ParteGrafico>, legendas: List<Pair<Color, String>>) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White),
-        elevation = CardDefaults.cardElevation(2.dp)
+        elevation = CardDefaults.cardElevation(2.dp),
     ) {
         Column(
             modifier = Modifier.padding(16.dp),

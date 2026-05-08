@@ -108,8 +108,8 @@ fun ConteudoMenu(
                 modifier = Modifier
                     .padding(vertical = 12.dp)
                     .clickable {
-                        controleMenu.launch { estadoMenu.close() } // Fecha a aba
-                        controleNavegacao.navigate("TelaPerfil") // Vai para a tela de perfil
+                        controleMenu.launch { estadoMenu.close() }
+                        controleNavegacao.navigate("telaPerfil")
                     }
             )
 
@@ -121,7 +121,7 @@ fun ConteudoMenu(
                     .padding(vertical = 12.dp)
                     .clickable {
                         controleMenu.launch { estadoMenu.close() }
-                        controleNavegacao.navigate("TelaPrincipal")
+                        controleNavegacao.navigate("telaPrincipal")
                     }
             )
 
@@ -133,7 +133,7 @@ fun ConteudoMenu(
                     .padding(vertical = 12.dp)
                     .clickable {
                         controleMenu.launch { estadoMenu.close() }
-                        controleNavegacao.navigate("TelaCategoria")
+                        controleNavegacao.navigate("telaCategoria")
                     }
             )
 
@@ -144,8 +144,8 @@ fun ConteudoMenu(
                 modifier = Modifier
                     .padding(vertical = 12.dp)
                     .clickable {
-                        controleMenu.launch { estadoMenu.close() } // Fecha a aba
-                        controleNavegacao.navigate("TelaMetas") // Vai para a tela de metas
+                        controleMenu.launch { estadoMenu.close() }
+                        controleNavegacao.navigate("telaMetas")
                     }
             )
 
@@ -159,7 +159,7 @@ fun ConteudoMenu(
                     .padding(vertical = 12.dp)
                     .clickable {
                         controleMenu.launch { estadoMenu.close() }
-                        controleNavegacao.navigate("TelaMensagem")
+                        controleNavegacao.navigate("telaMensagem")
                     }
             )
         }
