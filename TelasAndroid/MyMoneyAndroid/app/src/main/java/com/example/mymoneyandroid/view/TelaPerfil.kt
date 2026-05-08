@@ -28,27 +28,27 @@ private val corTextoSec = Color(0xFF8E8E93)
 private val fundoBotao  = Color(0xFF34C759)
 private val corPerigo   = Color(0xFFFF453A)
 
-data class UsuarioPerfil(
+data class PerfilUsuario(
     val nome: String        = "",
     val cpf: String         = "",
     val email: String       = "",
-    val membroDesde: String = "",
+    val dataCriacao: String = "",
     val plano: String       = "Grátis"
 )
 
 @Composable
 fun PerfilScreen(
     controleNavegacao: NavController,
-    perfil: UsuarioPerfil? = null,
+    perfil: PerfilUsuario? = null,
     isLoading: Boolean     = false,
     erro: String?          = null
 ) {
-    val dadosMock = UsuarioPerfil(
+    val dadosMock = PerfilUsuario(
         nome        = "João Silva",
-        cpf         = "***.456.789-**",
+        cpf         = "123.456.789-10",
         email       = "joao@email.com",
-        membroDesde = "Maio 2025",
-        plano       = "Premium"
+        dataCriacao = "Maio 2025",
+        plano       = "Grátis"
     )
     val dados = perfil ?: dadosMock
 
@@ -125,7 +125,7 @@ fun PerfilScreen(
             Spacer(modifier = Modifier.height(16.dp))
 
             PerfilCard(titulo = "Conta") {
-                PerfilCampo("Membro desde", dados.membroDesde, isLoading)
+                PerfilCampo("Membro desde", dados.dataCriacao, isLoading)
                 Divider(color = bordaCampos, thickness = 0.5.dp)
                 PerfilCampo("Plano atual", dados.plano, isLoading)
             }

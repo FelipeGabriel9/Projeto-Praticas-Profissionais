@@ -15,6 +15,7 @@ import com.example.mymoneyandroid.view.DetalheMetaScreen
 import com.example.mymoneyandroid.view.InicialScreen
 import com.example.mymoneyandroid.view.MensagemScreen
 import com.example.mymoneyandroid.view.MetasScreen
+import com.example.mymoneyandroid.view.PerfilScreen
 
 
 @Composable
@@ -75,6 +76,13 @@ fun AppNavigation() {
         // Rota Metas
         composable("telaMetas") {
             MetasScreen(
+                controleNavegacao = controleNavegacao
+            )
+        }
+
+        // Rota Perfil
+        composable("telaPerfil") {
+            PerfilScreen(
                 controleNavegacao = controleNavegacao
             )
         }

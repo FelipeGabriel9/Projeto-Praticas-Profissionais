@@ -36,12 +36,14 @@ public static class UsuarioEndpoints
         {
             if (await db.Usuario.AnyAsync(u => u.email == request.Email))
                 return Results.BadRequest("Email já cadastrado!");
+            
+            if (await db.Usuario.AnyAsync(u => u.cpf == request.Cpf))
+                return Results.BadRequest("Cpf já cadastrado!");
 
             var novoUsuario = new Usuario {
                 nome = request.Nome,
                 email = request.Email,
-                moedaPadrao = request.MoedaPadrao,
-                idioma = request.Idioma,
+                cpf = request.Cpf,
                 dataCriacao = DateTime.UtcNow, // Pega a data atual automaticamente
                 senhaHash = BCrypt.Net.BCrypt.HashPassword(request.Senha)
             };
@@ -85,13 +87,11 @@ public static class UsuarioEndpoints
             // Atualiza o email
             usuario.email = usuarioAtualizado.email;
             // Atualiza a moeda padrão
-            usuario.moedaPadrao = usuarioAtualizado.moedaPadrao;
-            // Atualiza o idioma
-            usuario.idioma = usuarioAtualizado.idioma;
+            usuario.cpf = usuarioAtualizado.Cpf;
 
             if (!string.IsNullOrWhiteSpace(usuarioAtualizado.senhaHash))
             {
-                usuario.senhaHash = usuarioAtualizado .senhaHash; 
+                usuario.senhaHash = usuarioAtualizado.senhaHash; 
             }
             // Salva as alterações no banco
             await db.SaveChangesAsync();

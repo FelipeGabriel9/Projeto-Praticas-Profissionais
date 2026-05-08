@@ -52,8 +52,8 @@ public static class CategoriaEndpoints
 
             // Atualiza o nome da categoria
             categoria.NomeCategoria = categoriaAtualizada.NomeCategoria;
-            // Atualiza o tipo
-            categoria.Tipo = categoriaAtualizada.Tipo;
+            // Atualiza o valor
+            categoria.ValorDespesa = categoriaAtualizada.ValorDespesa;
             // Atualiza o idUsuario
             categoria.idUsuario = categoriaAtualizada.idUsuario;
             // Salva as alterações no banco
