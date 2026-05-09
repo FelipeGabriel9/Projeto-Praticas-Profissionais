@@ -4,7 +4,7 @@
     "C:\\Users\\ferna\\OneDrive\\Desktop\\Projeto-Praticas-Profissionais\\MyMoney\\MyMoney.csproj": {}
   },
   "projects": {
-    "C:\\Users\\ferna\\OneDrive\\Desktop\\Projeto-Praticas-Profissionais\\MyMoney\\MyMoney.csproj": {
+    "C:\\Users\\ferna\\OneDrive\\Desktop\\Projeto-Praticas-Profissionais\\MyMoney\\MyMoney.csproj": {},
       "version": "1.0.0",
       "restore": {
         "projectUniqueName": "C:\\Users\\ferna\\OneDrive\\Desktop\\Projeto-Praticas-Profissionais\\MyMoney\\MyMoney.csproj",
@@ -533,4 +533,5 @@
       }
     }
   }
-}
+  }
+  
