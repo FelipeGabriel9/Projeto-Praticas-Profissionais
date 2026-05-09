@@ -11,6 +11,10 @@ import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
+import com.example.mymoneyandroid.model.CadastroUsuario
+import com.example.mymoneyandroid.network.RetrofitClient
+import kotlinx.coroutines.launch
+
 class CadastroViewModel : ViewModel() {
 
     var carregando by mutableStateOf(false)
@@ -23,6 +27,10 @@ class CadastroViewModel : ViewModel() {
         .build()
 
     private val apiService = retrofit.create(UsuarioApiService::class.java)
+
+    // NÃO precisa criar o retrofit aqui de novo.
+    // Usamos a instância que já configuramos no RetrofitClient
+    private val apiService = RetrofitClient.instancia
 
     fun realizarCadastro(nome: String, cpf: String, email: String, senha: String, onSuccess: () -> Unit) {
         viewModelScope.launch {
@@ -49,6 +57,15 @@ class CadastroViewModel : ViewModel() {
 
             } catch (e: Exception) {
                 mensagemErro = "Erro ao conectar: ${e.message}"
+
+                // Use o nome da classe do seu model: CadastroUsuario
+                val request = CadastroUsuario(nome, email, cpf, senha)
+                apiService.cadastrarUsuario(request)
+                onSuccess()
+            } catch (e: Exception) {
+                // Melhora a mensagem de erro para o usuário
+                mensagemErro = "Erro ao cadastrar. Verifique sua conexão."
+                println("DEBUG_API: ${e.message}") // Log para você ver o erro real no Logcat
             } finally {
                 carregando = false
             }

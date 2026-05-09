@@ -1,5 +1,7 @@
 package com.example.mymoneyandroid.model
 
+import android.R
+
 data class CadastroUsuario(
     val Nome: String,
     val Email: String,
@@ -11,4 +13,9 @@ data class DadosUsuario(
     val idUsuario: Int,
     val nome: String,
     val email: String
+)
+
+data class LoginUsuario(
+    val email: String,
+    val senha: String
 )

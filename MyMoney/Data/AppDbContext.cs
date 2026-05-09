@@ -31,6 +31,8 @@ namespace MyMoney.Data
             // Configuração da tabela Categoria
             modelBuilder.Entity<Categoria>().HasKey(c => c.idCategoria);
             modelBuilder.Entity<Categoria>().Property(c => c.NomeCategoria).HasColumnType("varchar(30)");
+
+            modelBuilder.Entity<Categoria>().Property(c => c.NomeCategoria).IsRequired().HasColumnType("varchar(30)");
             modelBuilder.Entity<Categoria>().HasIndex(c => c.NomeCategoria).IsUnique();
             modelBuilder.Entity<Categoria>().Property(c => c.ValorDespesa).IsRequired().HasColumnType("money");
             modelBuilder.Entity<Categoria>().HasOne<Usuario>().WithMany().HasForeignKey(c => c.idUsuario);
@@ -49,6 +51,10 @@ namespace MyMoney.Data
             modelBuilder.Entity<Meta>().HasOne<Usuario>().WithMany().HasForeignKey(c => c.idUsuario);
             modelBuilder.Entity<Meta>().Property(c => c.NomeMeta).HasColumnType("varchar(30)");
             modelBuilder.Entity<Meta>().HasIndex(c => c.NomeMeta).IsUnique();            modelBuilder.Entity<Meta>().Property(c => c.ValorObjetivo).IsRequired().HasColumnType("money");
+
+            modelBuilder.Entity<Meta>().Property(c => c.NomeMeta).IsRequired().HasColumnType("varchar(30)");
+            modelBuilder.Entity<Meta>().HasIndex(c => c.NomeMeta).IsUnique();
+            modelBuilder.Entity<Meta>().Property(c => c.ValorObjetivo).IsRequired().HasColumnType("money");
             modelBuilder.Entity<Meta>().Property(c => c.ValorAtual).IsRequired().HasColumnType("money");
             modelBuilder.Entity<Meta>().Property(c => c.DataCriacao).IsRequired().HasColumnType("datetime");
 
