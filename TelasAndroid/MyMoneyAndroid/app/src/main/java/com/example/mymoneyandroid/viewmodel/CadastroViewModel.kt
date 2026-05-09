@@ -1,24 +1,35 @@
+package com.example.mymoneyandroid.viewmodel
+
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.mymoneyandroid.model.CadastroUsuario
+import com.example.mymoneyandroid.network.RetrofitClient
+import kotlinx.coroutines.launch
+
 class CadastroViewModel : ViewModel() {
     var carregando by mutableStateOf(false)
     var mensagemErro by mutableStateOf<String?>(null)
 
-    private val retrofit = Retrofit.Builder()
-        .baseUrl("http://10.0.2.2:5000/") // Use o IP do emulador e a porta da sua API
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
-
-    private val apiService = retrofit.create(UsuarioApiService::class.java)
+    // NÃO precisa criar o retrofit aqui de novo.
+    // Usamos a instância que já configuramos no RetrofitClient
+    private val apiService = RetrofitClient.instancia
 
     fun realizarCadastro(nome: String, cpf: String, email: String, senha: String, onSuccess: () -> Unit) {
         viewModelScope.launch {
             carregando = true
             mensagemErro = null
             try {
-                val request = RegistroRequest(nome, email, cpf, senha)
+                // Use o nome da classe do seu model: CadastroUsuario
+                val request = CadastroUsuario(nome, email, cpf, senha)
                 apiService.cadastrarUsuario(request)
-                onSuccess() // Se deu certo, navega pra outra tela
+                onSuccess()
             } catch (e: Exception) {
-                mensagemErro = "Erro ao cadastrar: ${e.message}"
+                // Melhora a mensagem de erro para o usuário
+                mensagemErro = "Erro ao cadastrar. Verifique sua conexão."
+                println("DEBUG_API: ${e.message}") // Log para você ver o erro real no Logcat
             } finally {
                 carregando = false
             }

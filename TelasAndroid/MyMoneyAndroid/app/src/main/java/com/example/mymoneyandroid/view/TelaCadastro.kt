@@ -18,10 +18,13 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.mymoneyandroid.R
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.mymoneyandroid.viewmodel.CadastroViewModel
 
 // Cores usadas na tela
 private val verdePrincipal = Color(0xFF2E7D32)
@@ -37,7 +40,7 @@ private val verdeGradiente = Color(0xFF1A2E1A)
 @Composable
 fun CadastroScreen(
     controleNavegacao: NavHostController,
-    realizarCadastro: (name: String, cpf: String, email: String, senha: String) -> Unit = { _, _, _, _ -> },
+    viewModel: CadastroViewModel = viewModel(),
     irParaLogin: () -> Unit = {}
 ) {
     // Variáveis para guardar os valores de cada campo
@@ -148,19 +151,45 @@ fun CadastroScreen(
 
                 // Botão de criar conta
                 Button(
-                    onClick = { realizarCadastro(nome, cpf, email, senha)
-                            controleNavegacao.navigate("telaPrincipal")},
+                    onClick = {
+                        viewModel.realizarCadastro(nome, cpf, email, senha) {
+                            controleNavegacao.navigate("telaPrincipal")
+                        }
+                    },
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(50.dp),
                     shape = RoundedCornerShape(15.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = fundoBotao)
+                    colors = ButtonDefaults.buttonColors(containerColor = fundoBotao),
+                    enabled = !viewModel.carregando
                 ) {
+                    // Se estiver carregando, mostra uma bolinha girando. Se não, mostra o texto.
+                    if (viewModel.carregando) {
+                        CircularProgressIndicator(
+                            color = Color.White,
+                            modifier = Modifier.size(24.dp),
+                            strokeWidth = 2.dp
+                        )
+                    } else {
+                        Text(
+                            text = "Criar conta",
+                            color = corTexto,
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 16.sp
+                        )
+                    }
+                }
+
+                // Se houver uma mensagem de erro, ela aparece em vermelho
+                viewModel.mensagemErro?.let { erro ->
+                    Spacer(modifier = Modifier.height(8.dp))
                     Text(
-                        text = "Criar conta",
-                        color = corTexto,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 16.sp
+                        text = erro,
+                        color = Color(0xFFFF453A), // Cor de perigo (vermelho)
+                        fontSize = 13.sp,
+                        fontWeight = FontWeight.Medium,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.fillMaxWidth()
                     )
                 }
             }
