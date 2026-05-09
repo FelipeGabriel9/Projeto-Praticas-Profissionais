@@ -3,15 +3,15 @@ package com.example.mymoneyandroid.network
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
+// Tem que ser "object" e não "class"
 object RetrofitClient {
-    // Se estiver usando emulador, o localhost do seu PC é 10.0.2.2
-    private const val BASE_URL = "http://10.0.2.2:5000/"
+    private const val BASE_URL = "http://10.0.2.2:5194/"
 
-    val instancia: UsuarioApiService by lazy {
+    val api: CategoriaApi by lazy {
         Retrofit.Builder()
             .baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create()) // Faz o JSON virar Classe
+            .addConverterFactory(GsonConverterFactory.create())
             .build()
-            .create(UsuarioApiService::class.java)
+            .create(CategoriaApi::class.java)
     }
 }

@@ -5,7 +5,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -21,6 +20,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.mymoneyandroid.viewmodel.CategoriaViewModel
 
 // Cores usadas na tela
 private val CorFundoVerde = Color(0xFF2E7D32)
@@ -28,19 +29,17 @@ private val CorBotaoCinza = Color(0xFF3A3A3C)
 private val CorTextoBranco = Color(0xFFFFFFFF)
 private val verdeGradiente = Color(0xFF1A2E1A)
 
-// Lista de categorias fixas
-val listaCategorias = mutableStateListOf(
-    "Saúde", "Lazer", "Casa", "Alimentação", "Educação", "Presentes",
-    "Compras", "Família", "Exercícios", "Transporte", "Criar"
-)
-
-// Criando a função principal da tela
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CategoriaScreen(controleNavegacao: NavController) {
-
+fun CategoriaScreen(
+    controleNavegacao: NavController,
+    viewModel: CategoriaViewModel = viewModel() // Conecta o ViewModel à tela
+) {
     var mostrarDialogo by remember { mutableStateOf(false) }
     var novoNome by remember { mutableStateOf("") }
+
+    // "Ouvindo" a lista que vem da API
+    val listaCategorias by viewModel.categorias.collectAsState()
 
     // Chama a função do menu para ser criado a barra superior
     MenuScreen (tituloDaPagina = "", controleNagegacao = controleNavegacao) { padding ->
@@ -50,7 +49,7 @@ fun CategoriaScreen(controleNavegacao: NavController) {
                 .fillMaxSize()
                 .background(
                     brush = linearGradient(
-                    colors = listOf(CorFundoVerde, verdeGradiente)
+                        colors = listOf(CorFundoVerde, verdeGradiente)
                     )
                 )
                 .padding(padding)
@@ -64,27 +63,32 @@ fun CategoriaScreen(controleNavegacao: NavController) {
                 verticalArrangement = Arrangement.spacedBy(24.dp),
                 modifier = Modifier.height(400.dp)
             ) {
-                items(listaCategorias) { categoria ->
-                    BotaoCategoria(nome = categoria) {
-                        if (categoria == "Criar") {
+                // Criamos itens baseados no tamanho da lista + 1 (para o botão Criar)
+                items(listaCategorias.size + 1) { index ->
+                    if (index == listaCategorias.size) {
+                        // Último botão sempre será o "Criar"
+                        BotaoCategoria(nome = "Criar") {
                             mostrarDialogo = true
-                        } else {
-                            // Navega para a rota detalhecategoria/nomeCategoria
-                            controleNavegacao.navigate("detalhescategoria/$categoria")
+                        }
+                    } else {
+                        // Pega a categoria da API
+                        val categoria = listaCategorias[index]
+                        BotaoCategoria(nome = categoria.NomeCategoria) {
+                            controleNavegacao.navigate("detalhescategoria/${categoria.NomeCategoria}")
                         }
                     }
                 }
             }
 
-            // Gráfico com os nomes das duas primeiras categorias da lista
+            // Gráfico com os nomes reais da API
             CardGraficoCategorias(
-                nome1 = listaCategorias.getOrNull(0) ?: " ",
-                nome2 = listaCategorias.getOrNull(1) ?: " "
+                nome1 = listaCategorias.getOrNull(0)?.NomeCategoria ?: "Categoria 1",
+                nome2 = listaCategorias.getOrNull(1)?.NomeCategoria ?: "Categoria 2"
             )
         }
     }
 
-    // Criando nova categoria
+    // Criando nova categoria via API
     if (mostrarDialogo) {
         AlertDialog(
             onDismissRequest = { mostrarDialogo = false },
@@ -105,7 +109,7 @@ fun CategoriaScreen(controleNavegacao: NavController) {
             confirmButton = {
                 TextButton(onClick = {
                     if (novoNome.isNotEmpty()) {
-                        listaCategorias.add(listaCategorias.size - 1, novoNome)
+                        viewModel.criarCategoria(novoNome) // Envia para o C#
                         novoNome = ""
                         mostrarDialogo = false
                     }
@@ -171,7 +175,6 @@ private fun BotaoCategoria(nome: String, onClick: () -> Unit) {
     }
 }
 
-// Criando a função que mostra a legenda
 @Composable
 private fun LegendaItem(cor: Color, texto: String) {
     Row(verticalAlignment = Alignment.CenterVertically) {
@@ -184,8 +187,6 @@ private fun LegendaItem(cor: Color, texto: String) {
     }
 }
 
-
-// Função que cria a lógica do Gráfico de Pizza
 @Composable
 private fun GraficoPizza(modifier: Modifier = Modifier, camposDoGrafico: List<DividirGrafico>) {
     Canvas(modifier = modifier) {
@@ -203,3 +204,6 @@ private fun GraficoPizza(modifier: Modifier = Modifier, camposDoGrafico: List<Di
         }
     }
 }
+
+// Estrutura de dados para o gráfico de pizza funcionar
+data class DividirGrafico(val angulo: Float, val cor: Color)
