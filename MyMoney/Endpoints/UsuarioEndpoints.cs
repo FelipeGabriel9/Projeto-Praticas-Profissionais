@@ -32,7 +32,7 @@ public static class UsuarioEndpoints
 
 
         //POST
-        grupo.MapPost("/", async (RegistroRequest request, AppDbContext db) =>
+        grupo.MapPost("/", async (CadastroUsuario request, AppDbContext db) =>
         {
             if (await db.Usuario.AnyAsync(u => u.email == request.Email))
                 return Results.BadRequest("Email já cadastrado!");
@@ -55,7 +55,7 @@ public static class UsuarioEndpoints
         });
 
         //LOGIN
-        grupo.MapPost("/login", async (LoginRequest login, AppDbContext db) =>
+        grupo.MapPost("/login", async (LoginUsuario login, AppDbContext db) =>
 {
             // Busca o usuário pelo email
             var usuario = await db.Usuario.FirstOrDefaultAsync(u => u.email == login.Email);
@@ -70,7 +70,7 @@ public static class UsuarioEndpoints
                 return Results.Unauthorized(); // Senha errada
 
             // Se deu certo, retorna os dados do usuário
-            return Results.Ok(new UsuarioResponse(usuario.idUsuario, usuario.nome, usuario.email));
+            return Results.Ok(new DadosUsuario(usuario.idUsuario, usuario.nome, usuario.email));
         });
 
 
@@ -86,8 +86,6 @@ public static class UsuarioEndpoints
             usuario.nome = usuarioAtualizado.nome;
             // Atualiza o email
             usuario.email = usuarioAtualizado.email;
-            // Atualiza a moeda padrão
-            usuario.cpf = usuarioAtualizado.Cpf;
 
             if (!string.IsNullOrWhiteSpace(usuarioAtualizado.senhaHash))
             {

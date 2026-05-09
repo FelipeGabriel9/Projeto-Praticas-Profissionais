@@ -21,9 +21,11 @@ namespace MyMoney.Data
             // Configuração da tabela Usuario
             modelBuilder.Entity<Usuario>().HasKey(c => c.idUsuario);
             modelBuilder.Entity<Usuario>().Property(c => c.nome).IsRequired().HasColumnType("varchar(70)");
-            modelBuilder.Entity<Usuario>().Property(c => c.email).IsUnique().HasColumnType("varchar(70)");
+            modelBuilder.Entity<Usuario>().Property(c => c.email).IsRequired().HasColumnType("varchar(70)");
+            modelBuilder.Entity<Usuario>().HasIndex(c => c.email).IsUnique();
             modelBuilder.Entity<Usuario>().Property(c => c.senhaHash).IsRequired().HasColumnType("varchar(400)");
-            modelBuilder.Entity<Usuario>().Property(c => c.cpf).IsUnique().HasColumnType("char(11)");
+            modelBuilder.Entity<Usuario>().Property(c => c.cpf).IsRequired().HasColumnType("char(11)");
+            modelBuilder.Entity<Usuario>().HasIndex(c => c.cpf).IsUnique();
             modelBuilder.Entity<Usuario>().Property(c => c.dataCriacao).IsRequired().HasColumnType("datetime");
 
             // Configuração da tabela Categoria

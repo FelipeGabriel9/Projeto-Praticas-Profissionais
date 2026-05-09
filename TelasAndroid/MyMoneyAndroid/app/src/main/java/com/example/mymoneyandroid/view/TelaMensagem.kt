@@ -82,7 +82,7 @@ fun MensagemScreen(controleNavegacao: NavController) {
                     colors = CheckboxDefaults.colors(checkedColor = CorBotao)
                 )
                 Text(
-                    text = "Enviar do meu e-mail cadastrado",
+                    text = "Enviar do e-mail cadastrado",
                     color = CorTexto,
                     fontSize = 14.sp,
                     modifier = Modifier.padding(start = 8.dp)
