@@ -8,7 +8,7 @@ import retrofit2.http.Body
 import retrofit2.http.POST
 
 interface UsuarioApi {
-    @POST("usuarios/")
+    @POST("/usuarios/")
     suspend fun cadastrarUsuario(@Body requisicao: RegistroRequest): Response<UsuarioResponse>
 
     @POST("usuarios/login")
