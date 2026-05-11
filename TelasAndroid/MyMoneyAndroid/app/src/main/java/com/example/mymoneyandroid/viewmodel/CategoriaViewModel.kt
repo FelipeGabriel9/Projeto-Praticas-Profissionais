@@ -24,7 +24,7 @@ class CategoriaViewModel : ViewModel() {
     private fun buscarCategorias() {
         viewModelScope.launch {
             try {
-                val response = RetrofitClient.api.listarCategorias()
+                val response = RetrofitClient.apiCategoria.listarCategorias()
                 if (response.isSuccessful) {
                     response.body()?.let { lista ->
                         _categorias.value = lista
@@ -45,7 +45,7 @@ class CategoriaViewModel : ViewModel() {
                 // Coloquei ValorDespesa = 0.0 pois a API exige esse campo.
                 val novaCategoria = Categoria(NomeCategoria = nome, ValorDespesa = 0.0)
 
-                val response = RetrofitClient.api.criarCategoria(novaCategoria)
+                val response = RetrofitClient.apiCategoria.criarCategoria(novaCategoria)
                 if (response.isSuccessful) {
                     // Se deu certo criar, busca a lista atualizada do banco!
                     buscarCategorias()

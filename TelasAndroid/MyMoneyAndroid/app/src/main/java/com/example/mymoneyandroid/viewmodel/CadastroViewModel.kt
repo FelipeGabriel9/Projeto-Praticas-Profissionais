@@ -6,31 +6,17 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.mymoneyandroid.model.RegistroRequest
-import com.example.mymoneyandroid.network.UsuarioApiService
-import kotlinx.coroutines.launch
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-
-import com.example.mymoneyandroid.model.CadastroUsuario
 import com.example.mymoneyandroid.network.RetrofitClient
 import kotlinx.coroutines.launch
+
 
 class CadastroViewModel : ViewModel() {
 
     var carregando by mutableStateOf(false)
     var mensagemErro by mutableStateOf<String?>(null)
 
-    // Ajustei a porta para 5194 para bater com a sua API C#
-    private val retrofit = Retrofit.Builder()
-        .baseUrl("http://10.0.2.2:5194/")
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
-
-    private val apiService = retrofit.create(UsuarioApiService::class.java)
-
-    // NÃO precisa criar o retrofit aqui de novo.
-    // Usamos a instância que já configuramos no RetrofitClient
-    private val apiService = RetrofitClient.instancia
+    // Usamos apenas uma instância, vinda do seu RetrofitClient configurado
+    private val apiService = RetrofitClient.apiUsuario
 
     fun realizarCadastro(nome: String, cpf: String, email: String, senha: String, onSuccess: () -> Unit) {
         viewModelScope.launch {
@@ -38,7 +24,7 @@ class CadastroViewModel : ViewModel() {
             mensagemErro = null
 
             try {
-                // Preenchendo o molde com os dados da tela (garantindo que cada um vá pro lugar certo)
+                // Preenchendo o molde com os dados da tela
                 val request = RegistroRequest(
                     nome = nome,
                     email = email,
@@ -50,22 +36,16 @@ class CadastroViewModel : ViewModel() {
                 val response = apiService.cadastrarUsuario(request)
 
                 if (response.isSuccessful) {
-                    onSuccess() // Se deu certo, a tela vai navegar para frente
+                    onSuccess()
                 } else {
-                    mensagemErro = "Erro da API: ${response.code()}"
+                    // Pega a mensagem de erro que vem da API se possível
+                    mensagemErro = "Erro: ${response.code()} - Verifique os dados"
                 }
 
             } catch (e: Exception) {
-                mensagemErro = "Erro ao conectar: ${e.message}"
-
-                // Use o nome da classe do seu model: CadastroUsuario
-                val request = CadastroUsuario(nome, email, cpf, senha)
-                apiService.cadastrarUsuario(request)
-                onSuccess()
-            } catch (e: Exception) {
-                // Melhora a mensagem de erro para o usuário
-                mensagemErro = "Erro ao cadastrar. Verifique sua conexão."
-                println("DEBUG_API: ${e.message}") // Log para você ver o erro real no Logcat
+                // Aqui tratamos qualquer erro de conexão ou falha na chamada
+                mensagemErro = "Falha na conexão: Verifique se o servidor está rodando."
+                println("DEBUG_API_ERROR: ${e.message}")
             } finally {
                 carregando = false
             }

@@ -48,7 +48,7 @@ fun MetasScreen(controleNavegacao: NavController) {
                 .fillMaxSize()
                 .background(
                     brush = linearGradient(
-                    colors = listOf(CorFundoVerde, verdeGradiente)
+                        colors = listOf(CorFundoVerde, verdeGradiente)
                     )
                 )
                 .padding(padding)
@@ -143,9 +143,9 @@ private fun CardGraficoMetas(nome1: String, nome2: String) {
             GraficoPizza(
                 modifier = Modifier.size(160.dp),
                 camposDoGrafico = listOf(
-                    DividirGrafico(0.45f, Color(0xFFE8693A)), // Laranja
-                    DividirGrafico(0.35f, Color(0xFF4A90D9)), // Azul
-                    DividirGrafico(0.20f, Color(0xFF8E8E93))  // Cinza
+                    0.45f to Color(0xFFE8693A), // Laranja
+                    0.35f to Color(0xFF4A90D9), // Azul
+                    0.20f to Color(0xFF8E8E93)  // Cinza
                 )
             )
 
@@ -197,13 +197,13 @@ private fun LegendaItem(cor: Color, texto: String) {
 
 // Função que cria a lógica do Gráfico de Pizza
 @Composable
-private fun GraficoPizza(modifier: Modifier = Modifier, camposDoGrafico: List<DividirGrafico>) {
+private fun GraficoPizza(modifier: Modifier = Modifier, camposDoGrafico: List<Pair<Float, Color>>) {
     Canvas(modifier = modifier) {
         var anguloInicial = -90f
         camposDoGrafico.forEach { campo ->
-            val anguloOcupado = campo.angulo * 360f
+            val anguloOcupado = campo.first * 360f
             drawArc(
-                color = campo.cor,
+                color = campo.second,
                 startAngle = anguloInicial,
                 sweepAngle = anguloOcupado,
                 useCenter = true,

@@ -154,12 +154,12 @@ private fun FiltrarPeriodo(
                     modifier = Modifier
                         .weight(1f)
                         .background(
-                            color = 
+                            color =
                                 if (estaSelecionado) // Se um período está selecionado
                                     corPeriodoSelecionado // A 'cor de fundo' dele fica verde
-                                else 
+                                else
                                     Color.Transparent, // Senão, mantém a cor de fundo padrão
-                            
+
                             shape = RoundedCornerShape(8.dp)
                         )
                         .clickable { selecionar(periodo) }
@@ -170,10 +170,10 @@ private fun FiltrarPeriodo(
                         text = periodo,
                         color = corTexto,
                         fontSize = 14.sp,
-                        fontWeight = 
-                            if (estaSelecionado) 
-                                FontWeight.Bold 
-                            else 
+                        fontWeight =
+                            if (estaSelecionado)
+                                FontWeight.Bold
+                            else
                                 FontWeight.Normal
                     )
                 }
@@ -192,7 +192,7 @@ private fun CardComGraficos() {
             .fillMaxWidth()
             .padding(horizontal = 20.dp),
         shape = RoundedCornerShape(24.dp),
-        colors = CardDefaults.cardColors(containerColor = corTexto),
+        colors = CardDefaults.cardColors(containerColor = Color.White),
         elevation = CardDefaults.cardElevation(8.dp)
     ) {
         Column(
@@ -215,9 +215,9 @@ private fun CardComGraficos() {
             GraficoPizza(
                 modifier = Modifier.size(200.dp),
                 camposDoGrafico = listOf(
-                    DividirGrafico(0.45f, valorEntrada),   // Entradas
-                    DividirGrafico(0.35f, valorSaida),     // Saídas
-                    DividirGrafico(0.20f, valorOutros)     // Outros
+                    0.45f to valorEntrada,   // Entradas
+                    0.35f to valorSaida,     // Saídas
+                    0.20f to valorOutros     // Outros
                 )
             )
 
@@ -240,15 +240,15 @@ private fun CardComGraficos() {
 @Composable
 private fun GraficoPizza(
     modifier: Modifier = Modifier,
-    camposDoGrafico: List<DividirGrafico>
+    camposDoGrafico: List<Pair<Float, Color>>
 ) {
     // Chama a classe Canvas, que com algumas informações, vai criar os gráficos
     Canvas(modifier = modifier) {
         var anguloInicial = -90f
         camposDoGrafico.forEach { campo ->
-            val anguloOcupado = campo.angulo * 360f
+            val anguloOcupado = campo.first * 360f
             drawArc(
-                color = campo.cor,
+                color = campo.second,
                 startAngle = anguloInicial,
                 sweepAngle = anguloOcupado,
                 useCenter = true,
@@ -276,5 +276,3 @@ private fun Legenda(cor: Color, textoLegenda: String) {
         Text(text = textoLegenda, fontSize = 11.sp, color = Color(0xFF555555))
     }
 }
-
-
