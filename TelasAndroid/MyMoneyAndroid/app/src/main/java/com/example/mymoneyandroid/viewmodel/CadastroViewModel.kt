@@ -26,10 +26,10 @@ class CadastroViewModel : ViewModel() {
             try {
                 // Preenchendo o molde com os dados da tela
                 val request = RegistroRequest(
-                    nome = nome,
-                    email = email,
-                    senhaHash = senha,
-                    cpf = cpf
+                    Nome = nome,
+                    Cpf = cpf,
+                    Email = email,
+                    Senha = senha
                 )
 
                 // Envia para a API C#

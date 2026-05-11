@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.mymoneyandroid.model.Categoria
-import com.example.mymoneyandroid.network.RetrofitClient
+import com.example.mymoneyandroid.network.Retrofit
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -24,7 +24,7 @@ class CategoriaViewModel : ViewModel() {
     private fun buscarCategorias() {
         viewModelScope.launch {
             try {
-                val response = RetrofitClient.apiCategoria.listarCategorias()
+                val response = Retrofit.apiCategoria.listarCategorias()
                 if (response.isSuccessful) {
                     response.body()?.let { lista ->
                         _categorias.value = lista
@@ -45,7 +45,7 @@ class CategoriaViewModel : ViewModel() {
                 // Coloquei ValorDespesa = 0.0 pois a API exige esse campo.
                 val novaCategoria = Categoria(NomeCategoria = nome, ValorDespesa = 0.0)
 
-                val response = RetrofitClient.apiCategoria.criarCategoria(novaCategoria)
+                val response = Retrofit.apiCategoria.criarCategoria(novaCategoria)
                 if (response.isSuccessful) {
                     // Se deu certo criar, busca a lista atualizada do banco!
                     buscarCategorias()

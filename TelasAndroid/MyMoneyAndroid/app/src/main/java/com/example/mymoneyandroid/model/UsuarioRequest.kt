@@ -2,10 +2,11 @@ package com.example.mymoneyandroid.model
 
 // Molde dos dados que o Android vai ENVIAR na hora de cadastrar
 data class RegistroRequest(
-    val nome: String,
-    val email: String,
-    val senhaHash: String, // Se no seu C# a variável se chamar apenas 'senha', mude aqui!
-    val cpf: String
+    val Nome: String,
+    val Cpf: String,
+    val Email: String,
+    val Senha: String // Se no seu C# a variável se chamar apenas 'senha', mude aqui!
+
 )
 
 // Molde dos dados que o Android vai ENVIAR na hora do login
