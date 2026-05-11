@@ -13,12 +13,12 @@ object Retrofit {
             .create(CategoriaApi::class.java)
     }
 
-    val apiUsuario: CategoriaApi by lazy {
+    val apiUsuario: UsuarioApi by lazy {
         Retrofit.Builder()
             .baseUrl(urlBase)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-            .create(CategoriaApi::class.java)
+            .create(UsuarioApi::class.java)
     }
 
 }

@@ -6,7 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.mymoneyandroid.model.RegistroRequest
-import com.example.mymoneyandroid.network.RetrofitClient
+import com.example.mymoneyandroid.network.Retrofit
 import kotlinx.coroutines.launch
 
 
@@ -16,7 +16,7 @@ class CadastroViewModel : ViewModel() {
     var mensagemErro by mutableStateOf<String?>(null)
 
     // Usamos apenas uma instância, vinda do seu RetrofitClient configurado
-    private val apiService = RetrofitClient.apiUsuario
+    private val apiService = Retrofit.apiUsuario
 
     fun realizarCadastro(nome: String, cpf: String, email: String, senha: String, onSuccess: () -> Unit) {
         viewModelScope.launch {

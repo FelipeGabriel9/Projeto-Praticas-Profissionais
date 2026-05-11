@@ -480,6 +480,4 @@ C:\Users\ferna\OneDrive\Desktop\Projeto-Praticas-Profissionais\MyMoney\obj\Debug
 C:\Users\ferna\OneDrive\Desktop\Projeto-Praticas-Profissionais\MyMoney\obj\Debug\net10.0\MyMoney.pdb
 C:\Users\ferna\OneDrive\Desktop\Projeto-Praticas-Profissionais\MyMoney\obj\Debug\net10.0\MyMoney.genruntimeconfig.cache
 C:\Users\ferna\OneDrive\Desktop\Projeto-Praticas-Profissionais\MyMoney\obj\Debug\net10.0\ref\MyMoney.dll
-
 C:\Users\Pichau\Documents\GitHub\Projeto-Praticas-Profissionais\MyMoney\bin\Debug\net10.0\BCrypt.Net-Next.dll
-

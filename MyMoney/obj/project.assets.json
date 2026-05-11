@@ -517,10 +517,11 @@
           }
         }
       },
-      "Microsoft.EntityFrameworkCore/10.0.0-preview.1.25081.1": {
+      "Microsoft.EntityFrameworkCore/10.0.7": {
         "type": "package",
         "dependencies": {
-          "Microsoft.EntityFrameworkCore.Abstractions": "10.0.0-preview.1.25081.1"
+          "Microsoft.EntityFrameworkCore.Abstractions": "10.0.7",
+          "Microsoft.EntityFrameworkCore.Analyzers": "10.0.7"
         },
         "compile": {
           "lib/net10.0/Microsoft.EntityFrameworkCore.dll": {
@@ -536,7 +537,7 @@
           "buildTransitive/net10.0/Microsoft.EntityFrameworkCore.props": {}
         }
       },
-      "Microsoft.EntityFrameworkCore.Abstractions/10.0.0-preview.1.25081.1": {
+      "Microsoft.EntityFrameworkCore.Abstractions/10.0.7": {
         "type": "package",
         "compile": {
           "lib/net10.0/Microsoft.EntityFrameworkCore.Abstractions.dll": {
@@ -548,6 +549,9 @@
             "related": ".xml"
           }
         }
+      },
+      "Microsoft.EntityFrameworkCore.Analyzers/10.0.7": {
+        "type": "package"
       },
       "Microsoft.EntityFrameworkCore.Design/10.0.0-preview.1.25081.1": {
         "type": "package",
@@ -2289,10 +2293,10 @@
         "runtimes/win-x86/native/Microsoft.Data.SqlClient.SNI.dll"
       ]
     },
-    "Microsoft.EntityFrameworkCore/10.0.0-preview.1.25081.1": {
-      "sha512": "RtRpmCVfnP9OtU0AqZSBHE9f3FQfdn7IhlTzAR2DfMgFNCNj595AGjS3rLUlN7di2TYALZWn4Mo5h3PVn8Ui+w==",
+    "Microsoft.EntityFrameworkCore/10.0.7": {
+      "sha512": "G6yclVO5/csPzzsymV0SemY2NDqE31CP5M3jprF5IuO9wJsh4aUOfYD8HCLuDmM1D1CfReegVic48O2r79d46Q==",
       "type": "package",
-      "path": "microsoft.entityframeworkcore/10.0.0-preview.1.25081.1",
+      "path": "microsoft.entityframeworkcore/10.0.7",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -2301,14 +2305,14 @@
         "buildTransitive/net10.0/Microsoft.EntityFrameworkCore.props",
         "lib/net10.0/Microsoft.EntityFrameworkCore.dll",
         "lib/net10.0/Microsoft.EntityFrameworkCore.xml",
-        "microsoft.entityframeworkcore.10.0.0-preview.1.25081.1.nupkg.sha512",
+        "microsoft.entityframeworkcore.10.0.7.nupkg.sha512",
         "microsoft.entityframeworkcore.nuspec"
       ]
     },
-    "Microsoft.EntityFrameworkCore.Abstractions/10.0.0-preview.1.25081.1": {
-      "sha512": "dl3xsKnuNvLPyFh/hSST0AIzuWj+my1vmOHS35lH/EQCcGxgpnQszhEZVyEkVLO0MgWEDo5l0meavi43XMSzwg==",
+    "Microsoft.EntityFrameworkCore.Abstractions/10.0.7": {
+      "sha512": "TuxExnfIS/bSq3z2CbH0LwZH1oyj9iHhSGneU4fpxl3ikjZGZdSae9gcfnImV1rufH8f/ab1NnHwyL2BLyeZOg==",
       "type": "package",
-      "path": "microsoft.entityframeworkcore.abstractions/10.0.0-preview.1.25081.1",
+      "path": "microsoft.entityframeworkcore.abstractions/10.0.7",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -2316,8 +2320,22 @@
         "PACKAGE.md",
         "lib/net10.0/Microsoft.EntityFrameworkCore.Abstractions.dll",
         "lib/net10.0/Microsoft.EntityFrameworkCore.Abstractions.xml",
-        "microsoft.entityframeworkcore.abstractions.10.0.0-preview.1.25081.1.nupkg.sha512",
+        "microsoft.entityframeworkcore.abstractions.10.0.7.nupkg.sha512",
         "microsoft.entityframeworkcore.abstractions.nuspec"
+      ]
+    },
+    "Microsoft.EntityFrameworkCore.Analyzers/10.0.7": {
+      "sha512": "eZnMyiJzo249Ejg5CaFScvJS0u7neQfS9DXknAHTO6FHVMM99gO0byNXHGZmA/BOkZ13ngeVziQLHTMOtgescg==",
+      "type": "package",
+      "path": "microsoft.entityframeworkcore.analyzers/10.0.7",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "analyzers/dotnet/cs/Microsoft.EntityFrameworkCore.Analyzers.dll",
+        "docs/PACKAGE.md",
+        "microsoft.entityframeworkcore.analyzers.10.0.7.nupkg.sha512",
+        "microsoft.entityframeworkcore.analyzers.nuspec"
       ]
     },
     "Microsoft.EntityFrameworkCore.Design/10.0.0-preview.1.25081.1": {
@@ -3324,7 +3342,7 @@
   "projectFileDependencyGroups": {
     "net10.0": [
       "BCrypt.Net-Next >= 4.1.0",
-      "Microsoft.EntityFrameworkCore >= 10.0.0-preview.1.25081.1",
+      "Microsoft.EntityFrameworkCore >= 10.0.7",
       "Microsoft.EntityFrameworkCore.Design >= 10.0.0-preview.1.25081.1",
       "Microsoft.EntityFrameworkCore.SqlServer >= 10.0.0-preview.1.25081.1",
       "Microsoft.EntityFrameworkCore.Tools >= 10.0.0-preview.1.25081.1",
@@ -3332,23 +3350,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\ferna\\.nuget\\packages\\": {},
+    "C:\\Users\\u25130\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\ferna\\OneDrive\\Desktop\\Projeto-Praticas-Profissionais\\MyMoney\\MyMoney.csproj",
+      "projectUniqueName": "C:\\Users\\u25130\\Documents\\GitHub\\Projeto-Praticas-Profissionais\\MyMoney\\MyMoney.csproj",
       "projectName": "MyMoney",
-      "projectPath": "C:\\Users\\ferna\\OneDrive\\Desktop\\Projeto-Praticas-Profissionais\\MyMoney\\MyMoney.csproj",
-      "packagesPath": "C:\\Users\\ferna\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\ferna\\OneDrive\\Desktop\\Projeto-Praticas-Profissionais\\MyMoney\\obj\\",
+      "projectPath": "C:\\Users\\u25130\\Documents\\GitHub\\Projeto-Praticas-Profissionais\\MyMoney\\MyMoney.csproj",
+      "packagesPath": "C:\\Users\\u25130\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\u25130\\Documents\\GitHub\\Projeto-Praticas-Profissionais\\MyMoney\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\ferna\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\u25130\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -3375,7 +3393,7 @@
         "auditLevel": "low",
         "auditMode": "all"
       },
-      "SdkAnalysisLevel": "10.0.200"
+      "SdkAnalysisLevel": "10.0.100"
     },
     "frameworks": {
       "net10.0": {
@@ -3387,7 +3405,7 @@
           },
           "Microsoft.EntityFrameworkCore": {
             "target": "Package",
-            "version": "[10.0.0-preview.1.25081.1, )"
+            "version": "[10.0.7, )"
           },
           "Microsoft.EntityFrameworkCore.Design": {
             "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
@@ -3429,7 +3447,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.203/PortableRuntimeIdentifierGraph.json",
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.102/PortableRuntimeIdentifierGraph.json",
         "packagesToPrune": {
           "Microsoft.AspNetCore": "(,10.0.32767]",
           "Microsoft.AspNetCore.Antiforgery": "(,10.0.32767]",
@@ -3846,13 +3864,5 @@
         }
       }
     }
-  },
-  "logs": [
-    {
-      "code": "Undefined",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "Problema ao ler o arquivo de cache C:\\Users\\ferna\\OneDrive\\Desktop\\Projeto-Praticas-Profissionais\\MyMoney\\obj\\project.nuget.cache: The JSON value could not be converted to System.Collections.Generic.IList`1[System.String]. Path: $.expectedPackageFiles | LineNumber: 6 | BytePositionInLine: 92."
-    }
-  ]
+  }
 }
