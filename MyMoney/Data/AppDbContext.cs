@@ -9,7 +9,7 @@ namespace MyMoney.Data
 
         public DbSet<Usuario> Usuario { get; set; } = null!;
         public DbSet<Categoria> Categoria { get; set; } = null!;
-        public DbSet<Transacoes> Transacoes { get; set; } = null!;
+        //public DbSet<Transacoes> Transacoes { get; set; } = null!;
         public DbSet<Meta> Meta { get; set; } = null!;
         public DbSet<Mensagem> Mensagem { get; set; } = null!;
 

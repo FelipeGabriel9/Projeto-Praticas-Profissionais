@@ -20,6 +20,6 @@ app.MapUsuarioEndpoints();
 app.MapCategoriaEndpoints();
 app.MapMensagemEndpoints();
 app.MapMetaEndpoints();
-app.MapTransacoesEndpoints();
+//app.MapTransacoesEndpoints();
 
 app.Run();

@@ -1,16 +1,16 @@
-using System.Configuration.Assemblies;
+// using System.Configuration.Assemblies;
 
-namespace MyMoney.Models;
+// namespace MyMoney.Models;
 
-public class Transacoes
-{
-    // Propriedades
-    public int idTransacoes {get; set;}
-    public int? idCategoria {get; set;} 
-    public required int idUsuario  {get; set;}
-    public required string Tipo {get; set;}
-    public required decimal Valor {get; set;}
-    public required string Descricao {get; set;}
-    public DateTime? DataTransacao {get; set;}
+// public class Transacoes
+// {
+//     // Propriedades
+//     public int idTransacoes {get; set;}
+//     public int? idCategoria {get; set;} 
+//     public required int idUsuario  {get; set;}
+//     public required string Tipo {get; set;}
+//     public required decimal Valor {get; set;}
+//     public required string Descricao {get; set;}
+//     public DateTime? DataTransacao {get; set;}
     
-}
+// }
