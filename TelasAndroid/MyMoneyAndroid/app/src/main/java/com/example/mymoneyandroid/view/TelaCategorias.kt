@@ -30,7 +30,7 @@ private val verdeGradiente = Color(0xFF1A2E1A)
 
 // Lista de categorias fixas
 val listaCategorias = mutableStateListOf(
-    "Lazer", "Aluguel", "Comida", "Criar"
+    "Saúde", "Lazer", "Aluguel", "Alimentação", "Presentes", "Transporte", "Família", "Academia", "Criar"
 )
 
 // Criando a função principal da tela
@@ -46,6 +46,7 @@ fun CategoriaScreen(controleNavegacao: NavController) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
+
                 .background(
                     brush = linearGradient(
                         colors = listOf(CorFundoVerde, verdeGradiente)
@@ -59,7 +60,7 @@ fun CategoriaScreen(controleNavegacao: NavController) {
                 contentPadding = PaddingValues(24.dp),
                 horizontalArrangement = Arrangement.spacedBy(16.dp),
                 verticalArrangement = Arrangement.spacedBy(24.dp),
-                modifier = Modifier.height(200.dp)
+                modifier =  Modifier.wrapContentHeight()
             ) {
                 items(listaCategorias) { categoria ->
                     BotaoCategoria(nome = categoria) {
