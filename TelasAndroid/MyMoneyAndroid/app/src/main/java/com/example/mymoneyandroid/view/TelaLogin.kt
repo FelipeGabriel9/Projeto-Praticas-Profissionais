@@ -19,8 +19,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.example.mymoneyandroid.viewmodel.LoginViewModel
 
 // Cores usadas na tela
 private val verdePrincipal = Color(0xFF2E7D32)
@@ -36,7 +38,7 @@ private val verdeGradiente = Color(0xFF1A2E1A)
 @Composable
 fun LoginScreen(
     controleNavegacao: NavHostController,
-    realizarLogin: (email: String, senha: String) -> Unit = { _, _ -> }
+    viewModel: LoginViewModel = viewModel()
 ) {
 
     // Váriaveis para guardar os valores de cada campo
@@ -97,14 +99,14 @@ fun LoginScreen(
 
                 // Chamando a função LoginField para criar os campos
 
-                LoginField(
+                LogingField(
                     nomeCampo = "Email",
                     valorCampo = email,
                     onValueChange = { email = it },
                     tipoTeclado = KeyboardType.Email
                 )
 
-                LoginField(
+                LogingField(
                     nomeCampo = "Senha",
                     valorCampo = senha,
                     onValueChange = { senha = it },
@@ -113,21 +115,44 @@ fun LoginScreen(
 
                 Spacer(modifier = Modifier.height(4.dp))
 
-                // Botão de fazer login (por enquanto funciona independente de o usuário ter digitado algo)
+                // Botão de fazer login
                 Button(
-                    onClick = { realizarLogin( email, senha)
-                                controleNavegacao.navigate("telaPrincipal")},
+                    onClick = { viewModel.realizarLogin(email, senha){
+                                controleNavegacao.navigate("telaPrincipal")}
+                              },
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(50.dp),
                     shape = RoundedCornerShape(15.dp),
                     colors = ButtonDefaults.buttonColors(containerColor = fundoBotao)
                 ) {
+                    // Se estiver carregando, mostra uma bolinha girando. Se não, mostra o texto.
+                    if (viewModel.carregando) {
+                        CircularProgressIndicator(
+                            color = Color.White,
+                            modifier = Modifier.size(24.dp),
+                            strokeWidth = 2.dp
+                        )
+                    } else {
+                        Text(
+                            text = "Realizar login",
+                            color = corTexto,
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 16.sp
+                        )
+                    }
+                }
+
+                // Se houver uma mensagem de erro, ela aparece em vermelho
+                viewModel.mensagemErro?.let { erro ->
+                    Spacer(modifier = Modifier.height(8.dp))
                     Text(
-                        text = "Realizar login",
-                        color = corTexto,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 16.sp
+                        text = erro,
+                        color = Color(0xFFFF453A), // Cor de perigo (vermelho)
+                        fontSize = 13.sp,
+                        fontWeight = FontWeight.Medium,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.fillMaxWidth()
                     )
                 }
             }
@@ -138,7 +163,7 @@ fun LoginScreen(
 
 // Função usada para criar os campos de login (input e label)
 @Composable
-private fun LoginField(
+private fun LogingField(
     nomeCampo: String,
     valorCampo: String,
     onValueChange: (String) -> Unit,

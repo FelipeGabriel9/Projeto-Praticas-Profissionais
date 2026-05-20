@@ -2,15 +2,16 @@ package com.example.mymoneyandroid.model
 
 data class CadastroUsuario(
     val Nome: String,
-    val Email: String,
     val Cpf: String,
+    val Email: String,
     val Senha: String
 )
 
 data class DadosUsuario(
     val idUsuario: Int,
     val nome: String,
-    val email: String
+    val email: String,
+    val cpf: String
 )
 
 data class LoginUsuario(

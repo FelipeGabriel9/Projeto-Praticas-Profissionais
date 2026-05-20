@@ -26,7 +26,7 @@ fun AppNavigation() {
     val controleNavegacao = rememberNavController()
 
     // Cria o mapa, entrega para o controlador para começar pela telaInicial
-    NavHost(navController = controleNavegacao, startDestination = "telaCategoria") {
+    NavHost(navController = controleNavegacao, startDestination = "telaCadastro") {
 
         // Rota da tela Inicial
         composable("telaInicial") {
