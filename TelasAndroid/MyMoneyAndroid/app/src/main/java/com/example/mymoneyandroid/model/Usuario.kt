@@ -8,7 +8,6 @@ data class CadastroUsuario(
 )
 
 data class DadosUsuario(
-    val idUsuario: Int,
     val nome: String,
     val email: String,
     val cpf: String
