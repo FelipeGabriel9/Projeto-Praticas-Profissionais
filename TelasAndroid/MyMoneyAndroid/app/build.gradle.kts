@@ -62,4 +62,7 @@ dependencies {
     // Ligação com API
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+
+    // Salva o idUsuario
+    implementation("androidx.datastore:datastore-preferences:1.1.1")
 }

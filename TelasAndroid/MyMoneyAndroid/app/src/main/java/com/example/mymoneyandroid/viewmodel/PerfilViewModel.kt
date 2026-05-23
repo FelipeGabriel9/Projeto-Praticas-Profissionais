@@ -15,10 +15,7 @@ import kotlinx.coroutines.launch
 class PerfilViewModel : ViewModel() {
 
     // Mutable privado
-    private val _perfil = MutableStateFlow<DadosUsuario?>(null)
-
-    // StateFlow público
-    val perfil: StateFlow<DadosUsuario?> = _perfil
+    val perfil = MutableStateFlow<DadosUsuario?>(null)
 
     var carregando by mutableStateOf(false)
     var mensagemErro by mutableStateOf<String?>(null)
@@ -37,7 +34,7 @@ class PerfilViewModel : ViewModel() {
                 val resposta = apiPerfil.dadosPerfil(idUsuario)
 
                 if (resposta.isSuccessful) {
-                    _perfil.value = resposta.body()
+                    perfil.value = resposta.body()
                 }
                 else{
                     mensagemErro =

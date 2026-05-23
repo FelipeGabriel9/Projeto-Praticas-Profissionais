@@ -26,7 +26,7 @@ fun AppNavigation() {
     val controleNavegacao = rememberNavController()
 
     // Cria o mapa, entrega para o controlador para começar pela telaInicial
-    NavHost(navController = controleNavegacao, startDestination = "telaMensagem") {
+    NavHost(navController = controleNavegacao, startDestination = "telaPrincipal") {
 
         // Rota da tela Inicial
         composable("telaInicial") {
@@ -81,9 +81,16 @@ fun AppNavigation() {
         }
 
         // Rota Perfil
-        composable("telaPerfil") {
+        composable(
+            route = "telaPerfil/{idUsuario}",
+            arguments = listOf(navArgument("idUsuario"){
+                type = NavType.IntType
+            })
+            ) { tela ->
+            val idUsuario = tela.arguments?.getInt("idUsuario") ?: 0
             PerfilScreen(
-                controleNavegacao = controleNavegacao
+                controleNavegacao = controleNavegacao,
+                idUsuario = idUsuario
             )
         }
 
