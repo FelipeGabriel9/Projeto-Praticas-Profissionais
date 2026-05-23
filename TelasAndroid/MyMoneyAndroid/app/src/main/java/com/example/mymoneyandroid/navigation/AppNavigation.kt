@@ -67,9 +67,16 @@ fun AppNavigation() {
         }
 
         // Rota da tela Principal
-        composable("telaPrincipal") {
+        composable(
+            route ="telaPrincipal",
+            arguments = listOf(navArgument("idUsuario"){
+                type = NavType.IntType
+            })
+        ) { tela ->
+            val idUsuario = tela.arguments?.getInt("idUsuario") ?: 0
             PrincipalScreen(
-                controleNavegacao = controleNavegacao
+                controleNavegacao = controleNavegacao,
+                idUsuario = idUsuario
             )
         }
 

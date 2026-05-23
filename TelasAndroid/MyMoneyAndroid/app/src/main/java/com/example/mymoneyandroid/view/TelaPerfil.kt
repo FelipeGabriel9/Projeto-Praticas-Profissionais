@@ -61,8 +61,9 @@ fun PerfilScreen(
     val nomeExibicao = dados?.nome ?: ""
     val cpfExibicao = dados?.cpf ?: ""
     val emailExibicao = dados?.email ?: ""
+    val dataCriacao = "Maio de 2025"
 
-    MenuScreen(tituloDaPagina = "", controleNagegacao = controleNavegacao) { padding ->
+    MenuScreen(tituloDaPagina = "", controleNagegacao = controleNavegacao, idUsuario = idUsuario) { padding ->
 
         Column(
             modifier = Modifier
@@ -162,6 +163,12 @@ fun PerfilScreen(
 
             Spacer(modifier = Modifier.height(20.dp))
 
+            PerfilCard(titulo = "Conta") {
+                PerfilCampo("Membro desde", dataCriacao, carregando)
+            }
+
+            Spacer(modifier = Modifier.height(20.dp))
+
             // Bloco de Configurações
             PerfilCard(titulo = "Segurança e Ajustes") {
 
@@ -172,15 +179,7 @@ fun PerfilScreen(
                     color = bordaCampos,
                     thickness = 0.5.dp
                 )
-
-                PerfilAcao("Privacidade e dados") { }
-
-                HorizontalDivider(
-                    modifier = Modifier.padding(horizontal = 20.dp),
-                    color = bordaCampos,
-                    thickness = 0.5.dp
-                )
-
+                
                 PerfilAcao("Excluir minha conta", corLabel = corExcluirConta) { }
             }
 
