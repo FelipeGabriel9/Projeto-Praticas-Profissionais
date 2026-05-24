@@ -16,12 +16,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.mymoneyandroid.data.SessaoManager
 import com.example.mymoneyandroid.viewmodel.PerfilViewModel
+import kotlinx.coroutines.launch
 
 // Cores usadas na tela
 private val fundoTela = Color(0xFF0F0F0F)
@@ -52,12 +55,15 @@ fun PerfilScreen(
         viewModel.carregarPerfilDoUsuario(idUsuario)
     }
 
-    // 4. Conectamos nossa UI diretamente com as variáveis do seu ViewModel
+    // Conectamos a interface com as variáveis do ViewModel
     val carregando = viewModel.carregando
     val erro = viewModel.mensagemErro
     val dados by viewModel.perfil.collectAsState()
+    val contexto = LocalContext.current
+    val sessaoManager = remember { SessaoManager(contexto) }
+    val escopo = rememberCoroutineScope()
 
-    // 5. Tratamento amigável: se os dados ainda não chegaram da internet, deixamos strings vazias
+    // Se os ainda não foi recebido dados, deixamos strings vazias
     val nomeExibicao = dados?.nome ?: ""
     val cpfExibicao = dados?.cpf ?: ""
     val emailExibicao = dados?.email ?: ""
@@ -180,7 +186,19 @@ fun PerfilScreen(
                     thickness = 0.5.dp
                 )
                 
-                PerfilAcao("Excluir minha conta", corLabel = corExcluirConta) { }
+                PerfilAcao("Excluir minha conta", corLabel = corExcluirConta) {
+                    // Chama a função do ViewModel para deletar do banco de dados
+                    viewModel.excluirConta(idUsuario) {
+                        // Se deletou do banco:
+                        escopo.launch {
+                            // Limpa o ID do usuário
+                            sessaoManager.sairPrograma()
+
+                            // Navega para a tela inicial limpando todo o histórico de telas
+                            controleNavegacao.navigate("telaInicial")
+                        }
+                    }
+                }
             }
 
             if (erro != null) {

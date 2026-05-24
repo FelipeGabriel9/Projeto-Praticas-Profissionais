@@ -114,24 +114,3 @@ fun DetalheCategoriaScreen(
         }
     }
 }
-
-//            // --- LISTA DE TRANSAÇÕES ---
-//            Text("Histórico", color = Color.White, fontSize = 18.sp, fontWeight = FontWeight.Bold)
-//            Spacer(modifier = Modifier.height(16.dp))
-//
-//            val transacoes = listOf("Mercado", "Farmácia", "Uber", "Lanche")
-//
-//            LazyColumn(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-//                items(transacoes) { item ->
-//                    Row(
-//                        modifier = Modifier
-//                            .fillMaxWidth()
-//                            .background(Color(0xFF3A3A3C), RoundedCornerShape(12.dp))
-//                            .padding(16.dp),
-//                        horizontalArrangement = Arrangement.SpaceBetween
-//                    ) {
-//                        Text(item, color = Color.White)
-//                        Text("- R$ 45,00", color = Color(0xFFF44336)) // Vermelho para gastos
-//                    }
-//                }
-//            }

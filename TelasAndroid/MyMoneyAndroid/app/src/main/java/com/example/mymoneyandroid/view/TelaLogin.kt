@@ -11,6 +11,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush.Companion.linearGradient
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -22,7 +23,9 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.example.mymoneyandroid.data.SessaoManager
 import com.example.mymoneyandroid.viewmodel.LoginViewModel
+import kotlinx.coroutines.launch
 
 // Cores usadas na tela
 private val verdePrincipal = Color(0xFF2E7D32)
@@ -45,6 +48,10 @@ fun LoginScreen(
     var email by remember { mutableStateOf("") }
     var senha by remember { mutableStateOf("") }
 
+
+    val contexto = LocalContext.current
+    val sessaoManager = remember { SessaoManager(contexto) }
+    val escopo = rememberCoroutineScope()
 
     // Cria a tela, que é ocupada por um fundo gradiente
     Column(
@@ -117,8 +124,18 @@ fun LoginScreen(
 
                 // Botão de fazer login
                 Button(
-                    onClick = { viewModel.realizarLogin(email, senha){
-                                controleNavegacao.navigate("telaPrincipal")}
+                    onClick = {
+                        viewModel.realizarLogin(email, senha) { idRecebido ->
+                            escopo.launch {
+                                sessaoManager.salvarIdUsuario(idRecebido)
+
+                                // 3. NAVEGAÇÃO DINÂMICA: Passa o ID real para a tela principal
+                                controleNavegacao.navigate("telaPrincipal/$idRecebido") {
+                                    // Limpa a tela de login da pilha para o usuário não voltar pra ela ao apertar "voltar"
+                                    popUpTo("telaLogin") { inclusive = true }
+                                }
+                            }
+                        }
                               },
                     modifier = Modifier
                         .fillMaxWidth()

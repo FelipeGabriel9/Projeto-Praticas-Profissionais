@@ -6,14 +6,16 @@ import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Path
 
 interface CategoriaApi {
     // Lista todas as categorias
     @GET("/categorias/")
-    suspend fun listarCategorias(): Response<List<Categoria>>
+    suspend fun listarCategorias(@Path("idUsuario") idUsuario: Int): Response<List<Categoria>>
 
     // Cria uma nova categoria
     @POST("/categorias/")
     suspend fun criarCategoria(@Body novaCategoria: Categoria): Response<Categoria>
+
 
 }

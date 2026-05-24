@@ -18,9 +18,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.mymoneyandroid.model.Categoria
+import com.example.mymoneyandroid.viewmodel.CategoriaViewModel
 
-// Cores usadas na tela
 private val CorFundoVerde = Color(0xFF2E7D32)
 private val CorCardEscuro = Color(0xFF1C1C1E)
 private val CorBotaoCinza = Color(0xFF3A3A3C)
@@ -28,59 +30,61 @@ private val CorTextoBranco = Color(0xFFFFFFFF)
 private val CorVerdeBotao = Color(0xFF34C759)
 private val verdeGradiente = Color(0xFF1A2E1A)
 
-// Lista de categorias fixas
-val listaCategorias = mutableStateListOf(
-    "Saúde", "Lazer", "Aluguel", "Alimentação", "Presentes", "Transporte", "Família", "Academia", "Criar"
-)
-
-// Criando a função principal da tela
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CategoriaScreen(
     controleNavegacao: NavController,
-    idUsuario: Int
+    idUsuario: Int,
+    viewModel: CategoriaViewModel = viewModel() // Adicionado o ViewModel aqui
 ) {
-
     var mostrarDialogo by remember { mutableStateOf(false) }
     var novoNomeCategoria by remember { mutableStateOf("") }
 
-    // Chama a função do menu para ser criado a barra superior
+    // Dispara a busca das categorias assim que a tela abre passando o idUsuario
+    LaunchedEffect(idUsuario) {
+        viewModel.buscarCategorias(idUsuario)
+    }
+
+    val listaCategoriasApi by viewModel.categorias.collectAsState()
+
     MenuScreen(tituloDaPagina = "Categorias", controleNagegacao = controleNavegacao, idUsuario = idUsuario) { padding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
-
-                .background(
-                    brush = linearGradient(
-                        colors = listOf(CorFundoVerde, verdeGradiente)
-                    )
-                )
+                .background(brush = linearGradient(colors = listOf(CorFundoVerde, verdeGradiente)))
                 .padding(padding)
         ) {
+
             // Grid de categorias
             LazyVerticalGrid(
                 columns = GridCells.Fixed(3),
                 contentPadding = PaddingValues(24.dp),
                 horizontalArrangement = Arrangement.spacedBy(16.dp),
                 verticalArrangement = Arrangement.spacedBy(24.dp),
-                modifier =  Modifier.wrapContentHeight()
+                modifier = Modifier.weight(1f) // Permite que a Grid se ajuste deixando espaço pro card de baixo
             ) {
-                items(listaCategorias) { categoria ->
-                    BotaoCategoria(nome = categoria) {
-                        if (categoria == "Criar") {
-                            mostrarDialogo = true
-                        }
+                // Renderiza todas as categorias do banco/fixas
+                items(listaCategoriasApi) { categoria ->
+                    BotaoCategoria(nome = categoria.NomeCategoria) {
+                        // Navega para a tela de detalhes enviando o nome da categoria selecionada
+                        controleNavegacao.navigate("detalheCategoria/${categoria.NomeCategoria}/$idUsuario")
+                    }
+                }
+
+                item {
+                    BotaoCategoria(nome = "Criar ") {
+                        mostrarDialogo = true
                     }
                 }
             }
 
-            CardGraficoCategorias(
-                nome1 = listaCategorias.getOrNull(0) ?: " ",
-                nome2 = listaCategorias.getOrNull(1) ?: " "
-            )
+            // Enviamos a lista completa para o card do gráfico calcular os valores
+            CardGraficoCategorias(categorias = listaCategoriasApi)
+
+            Spacer(modifier = Modifier.height(16.dp))
         }
 
-        // Criando nova categoria
+        // Cria nova Categoria
         if (mostrarDialogo) {
             AlertDialog(
                 onDismissRequest = { mostrarDialogo = false },
@@ -101,8 +105,9 @@ fun CategoriaScreen(
                 },
                 confirmButton = {
                     TextButton(onClick = {
-                        if (novoNomeCategoria.isNotEmpty()) {
-                            listaCategorias.add(listaCategorias.size - 1, novoNomeCategoria)
+                        if (novoNomeCategoria.isNotBlank()) {
+                            // Chama o ViewModel para salvar no banco vinculando ao id do usuário
+                            viewModel.criarCategoria(novoNomeCategoria, idUsuario)
                             novoNomeCategoria = ""
                             mostrarDialogo = false
                         }
@@ -121,7 +126,21 @@ fun CategoriaScreen(
 }
 
 @Composable
-private fun CardGraficoCategorias(nome1: String, nome2: String) {
+private fun CardGraficoCategorias(categorias: List<Categoria>) {
+    // Soma o total gasto de todas as categorias juntas
+    val gastoTotal = categorias.sumOf { it.ValorDespesa }
+
+    // Ordena as categorias por maior gasto para destacar no gráfico
+    val categoriasOrdenadas = categorias.sortedByDescending { it.ValorDespesa }
+
+    val maiorGasto1 = categoriasOrdenadas.getOrNull(0)
+    val maiorGasto2 = categoriasOrdenadas.getOrNull(1)
+
+    // Calcula os percentuais reais (se não tiver nenhum gasto, divide igualmente)
+    val percentual1 = if (gastoTotal > 0 && maiorGasto1 != null) (maiorGasto1.ValorDespesa / gastoTotal).toFloat() else 0.33f
+    val percentual2 = if (gastoTotal > 0 && maiorGasto2 != null) (maiorGasto2.ValorDespesa / gastoTotal).toFloat() else 0.33f
+    val percentualOutros = if (gastoTotal > 0) 1.0f - percentual1 - percentual2 else 0.34f
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -136,26 +155,26 @@ private fun CardGraficoCategorias(nome1: String, nome2: String) {
                 .fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text("Distribuição de gastos", fontWeight = FontWeight.Bold, color = Color.Black)
+            Text("Distribuição de gastos reais", fontWeight = FontWeight.Bold, color = Color.Black)
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Gráfico Circular corrigido para Pair<Float, Color>
+            // Gráfico atualizado com os valores calculados dinamicamente
             GraficoPizza(
-                modifier = Modifier.size(160.dp),
+                modifier = Modifier.size(140.dp),
                 camposDoGrafico = listOf(
-                    0.45f to Color(0xFFE8693A), // Laranja
-                    0.35f to Color(0xFF4A90D9), // Azul
-                    0.20f to Color(0xFF8E8E93)  // Cinza
+                    percentual1 to Color(0xFFE8693A), // Maior gasto (Laranja)
+                    percentual2 to Color(0xFF4A90D9), // Segundo maior gasto (Azul)
+                    percentualOutros to Color(0xFF8E8E93) // O resto (Cinza)
                 )
             )
 
-            Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
-            // Legendas com nomes reais das categorias
+            // Legendas mostrando os nomes das categorias que mais gastaram
             Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                LegendaItem(Color(0xFFE8693A), nome1)
-                LegendaItem(Color(0xFF4A90D9), nome2)
+                LegendaItem(Color(0xFFE8693A), maiorGasto1?.NomeCategoria ?: "Nenhum")
+                LegendaItem(Color(0xFF4A90D9), maiorGasto2?.NomeCategoria ?: "Nenhum")
                 LegendaItem(Color(0xFF8E8E93), "Outras")
             }
         }
@@ -171,13 +190,7 @@ private fun BotaoCategoria(nome: String, onClick: () -> Unit) {
         modifier = Modifier.height(60.dp).fillMaxWidth()
     ) {
         Box(contentAlignment = Alignment.Center) {
-            Text(
-                text = nome,
-                color = CorTextoBranco,
-                fontSize = 13.sp,
-                fontWeight = FontWeight.Bold,
-                textAlign = TextAlign.Center
-            )
+            Text(text = nome, color = CorTextoBranco, fontSize = 13.sp, fontWeight = FontWeight.Bold, textAlign = TextAlign.Center)
         }
     }
 }
@@ -185,9 +198,7 @@ private fun BotaoCategoria(nome: String, onClick: () -> Unit) {
 @Composable
 private fun LegendaItem(cor: Color, texto: String) {
     Row(verticalAlignment = Alignment.CenterVertically) {
-        Canvas(modifier = Modifier.size(8.dp)) {
-            drawCircle(color = cor)
-        }
+        Canvas(modifier = Modifier.size(8.dp)) { drawCircle(color = cor) }
         Text(text = " $texto", fontSize = 11.sp, color = Color.DarkGray)
     }
 }

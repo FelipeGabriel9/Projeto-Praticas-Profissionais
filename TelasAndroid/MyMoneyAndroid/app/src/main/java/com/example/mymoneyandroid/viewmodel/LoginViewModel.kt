@@ -17,7 +17,7 @@ class LoginViewModel : ViewModel() {
     private val apiLogin = Retrofit.apiUsuario
     private val validador = ValidarLogin()
 
-    fun realizarLogin(email: String, senha: String, irParaTelaPrincipal: () -> Unit) {
+    fun realizarLogin(email: String, senha: String, irParaTelaPrincipal: (Int) -> Unit) {
         viewModelScope.launch {
             carregando = true
             mensagemErro = null
@@ -28,6 +28,7 @@ class LoginViewModel : ViewModel() {
             if (erroValidacao != null) {
                 mensagemErro = erroValidacao
                 println("Erro: ${mensagemErro.toString()}")
+                carregando = false
             }
             else {
                 try {
@@ -40,7 +41,9 @@ class LoginViewModel : ViewModel() {
                     val enviarDados = apiLogin.loginUsuario(dados)
 
                     if (enviarDados.isSuccessful) {
-                        irParaTelaPrincipal()
+                        val usuarioLogado = enviarDados.body()
+                        val idUsuario = usuarioLogado?.idUsuario ?: 0
+                        irParaTelaPrincipal(idUsuario)
                     } else {
                         mensagemErro = "Erro: ${enviarDados.code()} - Verifique os dados"
                     }
