@@ -27,9 +27,10 @@ private val CorBotao = Color(0xFF1B823E)
 @Composable
 fun MensagemScreen(
     controleNavegacao: NavController,
-    viewModel: MensagemViewModel = viewModel()
+    viewModel: MensagemViewModel = viewModel(),
+    idUsuario: Int
 ) {
-    MenuScreen(tituloDaPagina = "", controleNagegacao = controleNavegacao) { valoresPadding ->
+    MenuScreen(tituloDaPagina = "", controleNagegacao = controleNavegacao, idUsuario = idUsuario) { valoresPadding ->
 
         // Variáveis que vão guardar os valores lidos
         var assunto by remember { mutableStateOf("") }

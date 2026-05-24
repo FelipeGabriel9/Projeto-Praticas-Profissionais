@@ -26,7 +26,7 @@ fun AppNavigation() {
     val controleNavegacao = rememberNavController()
 
     // Cria o mapa, entrega para o controlador para começar pela telaInicial
-    NavHost(navController = controleNavegacao, startDestination = "telaPrincipal") {
+    NavHost(navController = controleNavegacao, startDestination = "telaInicial") {
 
         // Rota da tela Inicial
         composable("telaInicial") {
@@ -53,22 +53,36 @@ fun AppNavigation() {
         }
 
         // Rota Mensagem
-        composable("telaMensagem") {
+        composable(
+            route ="telaMensagem/{idUsuario}",
+            arguments = listOf(navArgument("idUsuario"){
+                type = NavType.IntType
+            })
+        ) { tela ->
+            val idUsuario = tela.arguments?.getInt("idUsuario") ?: 0
             MensagemScreen(
-                controleNavegacao = controleNavegacao
+                controleNavegacao = controleNavegacao,
+                idUsuario = idUsuario
             )
         }
 
         // Rota de Categorias
-        composable("telaCategoria") {
+        composable(
+            route ="telaCategoria/{idUsuario}",
+            arguments = listOf(navArgument("idUsuario"){
+                type = NavType.IntType
+            })
+        ) { tela ->
+            val idUsuario = tela.arguments?.getInt("idUsuario") ?: 0
             CategoriaScreen(
-                controleNavegacao = controleNavegacao
+                controleNavegacao = controleNavegacao,
+                idUsuario = idUsuario
             )
         }
 
         // Rota da tela Principal
         composable(
-            route ="telaPrincipal",
+            route ="telaPrincipal/{idUsuario}",
             arguments = listOf(navArgument("idUsuario"){
                 type = NavType.IntType
             })
@@ -81,9 +95,16 @@ fun AppNavigation() {
         }
 
         // Rota Metas
-        composable("telaMetas") {
+        composable(
+            route ="telaMetas/{idUsuario}",
+            arguments = listOf(navArgument("idUsuario"){
+                type = NavType.IntType
+            })
+        ) { tela ->
+            val idUsuario = tela.arguments?.getInt("idUsuario") ?: 0
             MetasScreen(
-                controleNavegacao = controleNavegacao
+                controleNavegacao = controleNavegacao,
+                idUsuario = idUsuario
             )
         }
 
@@ -103,29 +124,34 @@ fun AppNavigation() {
 
         // Rota para os detalhes de uma categoria
         composable(
-            "detalhescategoria/{nomeCategoria}",
-            listOf(navArgument("nomeCategoria") {
-                type = NavType.StringType
-            })
+            route = "detalhescategoria/{nomeCategoria}/{idUsuario}",
+            arguments = listOf(
+                navArgument("nomeCategoria") { type = NavType.StringType },
+                navArgument("idUsuario") { type = NavType.IntType }
+            )
         ) { tela ->
             val nome = tela.arguments?.getString("nomeCategoria")
+            val idUsuario = tela.arguments?.getInt("idUsuario") ?: 0
             DetalheCategoriaScreen(
                 controleNavegacao = controleNavegacao,
-                nomeCategoria = nome
-            )
+                nomeCategoria = nome,
+                idUsuario = idUsuario)
         }
 
         // Rota para os detalhes de uma meta
         composable(
-            "detalhemeta/{nomeMeta}",
-            listOf(navArgument("nomeMeta") {
-                type = NavType.StringType
-            })
+            route = "detalhemeta/{nomeMeta}/{idUsuario}",
+            arguments = listOf(
+                navArgument("nomeMeta") { type = NavType.StringType },
+                navArgument("idUsuario") { type = NavType.IntType }
+            )
         ) { tela ->
             val nome = tela.arguments?.getString("nomeMeta")
+            val idUsuario = tela.arguments?.getInt("idUsuario") ?: 0
             DetalheMetaScreen(
                 controleNavegacao = controleNavegacao,
-                nomeMeta = nome)
+                nomeMeta = nome,
+                idUsuario = idUsuario)
         }
     }
 }

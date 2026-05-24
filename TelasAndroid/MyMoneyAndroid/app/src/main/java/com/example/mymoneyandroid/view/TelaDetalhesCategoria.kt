@@ -24,12 +24,16 @@ private val corFundo = Color(0xFF2E7D32)   // Verde
 private val branco = Color(0XFFFFFFFF)
 
 @Composable
-fun DetalheCategoriaScreen(controleNavegacao: NavController, nomeCategoria: String?) {
+fun DetalheCategoriaScreen(
+    controleNavegacao: NavController,
+    nomeCategoria: String?,
+    idUsuario: Int
+) {
     // Estados para controlar o que acontece na tela
     var valorDigitado by remember { mutableStateOf("") }
     var totalAcumulado by remember { mutableStateOf(0.0) }
 
-    MenuScreen(tituloDaPagina = nomeCategoria ?: "Detalhes", controleNagegacao = controleNavegacao) { padding ->
+    MenuScreen(tituloDaPagina = nomeCategoria ?: "Detalhes", controleNagegacao = controleNavegacao, idUsuario = idUsuario) { padding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()

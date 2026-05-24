@@ -36,13 +36,16 @@ val listaMetas = mutableStateListOf(
 // Criando a função principal da tela
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MetasScreen(controleNavegacao: NavController) {
+fun MetasScreen(
+    controleNavegacao: NavController,
+    idUsuario: Int
+) {
 
     var mostrarDialogo by remember { mutableStateOf(false) }
     var novoNomeMeta by remember { mutableStateOf("") }
 
     // Chama a função do menu para ser criado a barra superior
-    MenuScreen(tituloDaPagina = "Minhas Metas", controleNagegacao = controleNavegacao) { padding ->
+    MenuScreen(tituloDaPagina = "Minhas Metas", controleNagegacao = controleNavegacao, idUsuario = idUsuario) { padding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()

@@ -9,7 +9,6 @@ namespace MyMoney.Data
 
         public DbSet<Usuario> Usuario { get; set; } = null!;
         public DbSet<Categoria> Categoria { get; set; } = null!;
-        //public DbSet<Transacoes> Transacoes { get; set; } = null!;
         public DbSet<Meta> Meta { get; set; } = null!;
         public DbSet<Mensagem> Mensagem { get; set; } = null!;
 
@@ -19,51 +18,38 @@ namespace MyMoney.Data
             modelBuilder.HasDefaultSchema("MyMoney"); // Define o schema das tabelas
 
             // Configuração da tabela Usuario
-            modelBuilder.Entity<Usuario>().HasKey(c => c.idUsuario);
-            modelBuilder.Entity<Usuario>().Property(c => c.nome).IsRequired().HasColumnType("varchar(70)");
-            modelBuilder.Entity<Usuario>().Property(c => c.email).IsRequired().HasColumnType("varchar(70)");
-            modelBuilder.Entity<Usuario>().HasIndex(c => c.email).IsUnique();
-            modelBuilder.Entity<Usuario>().Property(c => c.senhaHash).IsRequired().HasColumnType("varchar(400)");
-            modelBuilder.Entity<Usuario>().Property(c => c.cpf).IsRequired().HasColumnType("char(11)");
-            modelBuilder.Entity<Usuario>().HasIndex(c => c.cpf).IsUnique();
-            modelBuilder.Entity<Usuario>().Property(c => c.dataCriacao).IsRequired().HasColumnType("datetime");
+            modelBuilder.Entity<Usuario>().HasKey(u => u.idUsuario);
+            modelBuilder.Entity<Usuario>().Property(u => u.nome).IsRequired().HasColumnType("varchar(70)");
+            modelBuilder.Entity<Usuario>().Property(u => u.email).IsRequired().HasColumnType("varchar(70)");
+            modelBuilder.Entity<Usuario>().HasIndex(u => u.email).IsUnique();
+            modelBuilder.Entity<Usuario>().Property(u => u.senhaHash).IsRequired().HasColumnType("varchar(400)");
+            modelBuilder.Entity<Usuario>().Property(u => u.cpf).IsRequired().HasColumnType("char(11)");
+            modelBuilder.Entity<Usuario>().HasIndex(u => u.cpf).IsUnique();
+            modelBuilder.Entity<Usuario>().Property(u => u.dataCriacao).IsRequired().HasColumnType("datetime");
 
             // Configuração da tabela Categoria
             modelBuilder.Entity<Categoria>().HasKey(c => c.idCategoria);
             modelBuilder.Entity<Categoria>().Property(c => c.NomeCategoria).HasColumnType("varchar(30)");
-
             modelBuilder.Entity<Categoria>().Property(c => c.NomeCategoria).IsRequired().HasColumnType("varchar(30)");
             modelBuilder.Entity<Categoria>().HasIndex(c => c.NomeCategoria).IsUnique();
             modelBuilder.Entity<Categoria>().Property(c => c.ValorDespesa).IsRequired().HasColumnType("money");
             modelBuilder.Entity<Categoria>().HasOne<Usuario>().WithMany().HasForeignKey(c => c.idUsuario);
 
-            // Configuração da tabela Transações
-            //modelBuilder.Entity<Transacoes>().HasKey(c => c.idTransacoes);
-            //modelBuilder.Entity<Transacoes>().HasOne<Categoria>().WithMany().HasForeignKey(c => c.idCategoria).IsRequired(false);
-            //modelBuilder.Entity<Transacoes>().HasOne<Usuario>().WithMany().HasForeignKey(c => c.idUsuario).IsRequired(true);
-            //modelBuilder.Entity<Transacoes>().Property(c => c.Tipo).IsRequired().HasColumnType("varchar(10)");
-            //modelBuilder.Entity<Transacoes>().Property(c => c.Valor).IsRequired().HasColumnType("money");
-            //modelBuilder.Entity<Transacoes>().Property(c => c.Descricao).IsRequired().HasColumnType("varchar(30)");
-            //modelBuilder.Entity<Transacoes>().Property(c => c.DataTransacao).IsRequired().HasColumnType("datetime");
-        
             // Configuração da tabela Meta
-            modelBuilder.Entity<Meta>().HasKey(c => c.idMeta);
+            modelBuilder.Entity<Meta>().HasKey(m => m.idMeta);
             modelBuilder.Entity<Meta>().HasOne<Usuario>().WithMany().HasForeignKey(c => c.idUsuario);
-            modelBuilder.Entity<Meta>().Property(c => c.NomeMeta).HasColumnType("varchar(30)");
-            modelBuilder.Entity<Meta>().HasIndex(c => c.NomeMeta).IsUnique();            modelBuilder.Entity<Meta>().Property(c => c.ValorObjetivo).IsRequired().HasColumnType("money");
-
-            modelBuilder.Entity<Meta>().Property(c => c.NomeMeta).IsRequired().HasColumnType("varchar(30)");
-            modelBuilder.Entity<Meta>().HasIndex(c => c.NomeMeta).IsUnique();
-            modelBuilder.Entity<Meta>().Property(c => c.ValorObjetivo).IsRequired().HasColumnType("money");
-            modelBuilder.Entity<Meta>().Property(c => c.ValorAtual).IsRequired().HasColumnType("money");
-            modelBuilder.Entity<Meta>().Property(c => c.DataCriacao).IsRequired().HasColumnType("datetime");
+            modelBuilder.Entity<Meta>().Property(m => m.NomeMeta).HasColumnType("varchar(30)");
+            modelBuilder.Entity<Meta>().HasIndex(m => m.NomeMeta).IsUnique();          
+            modelBuilder.Entity<Meta>().Property(m => m.ValorObjetivo).IsRequired().HasColumnType("money");
+            modelBuilder.Entity<Meta>().Property(m => m.ValorAtual).IsRequired().HasColumnType("money");
+            modelBuilder.Entity<Meta>().Property(m => m.DataCriacao).IsRequired().HasColumnType("datetime");
 
             // Configuração da tabela Mensagem
-            modelBuilder.Entity<Mensagem>().HasKey(c => c.idMensagem);
+            modelBuilder.Entity<Mensagem>().HasKey(m => m.idMensagem);
             modelBuilder.Entity<Mensagem>().HasOne<Usuario>().WithMany().HasForeignKey(c => c.idUsuario);
-            modelBuilder.Entity<Mensagem>().Property(c => c.Assunto).IsRequired().HasColumnType("varchar(40)");
-            modelBuilder.Entity<Mensagem>().Property(c => c.mensagem).IsRequired().HasColumnType("varchar(150)");
-            modelBuilder.Entity<Mensagem>().Property(c => c.DataEnvio).IsRequired().HasColumnType("datetime"); 
+            modelBuilder.Entity<Mensagem>().Property(m => m.Assunto).IsRequired().HasColumnType("varchar(40)");
+            modelBuilder.Entity<Mensagem>().Property(m => m.mensagem).IsRequired().HasColumnType("varchar(150)");
+            modelBuilder.Entity<Mensagem>().Property(m => m.DataEnvio).IsRequired().HasColumnType("datetime"); 
         }
     }
 }

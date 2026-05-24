@@ -36,13 +36,16 @@ val listaCategorias = mutableStateListOf(
 // Criando a função principal da tela
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CategoriaScreen(controleNavegacao: NavController) {
+fun CategoriaScreen(
+    controleNavegacao: NavController,
+    idUsuario: Int
+) {
 
     var mostrarDialogo by remember { mutableStateOf(false) }
     var novoNomeCategoria by remember { mutableStateOf("") }
 
     // Chama a função do menu para ser criado a barra superior
-    MenuScreen(tituloDaPagina = "Categorias", controleNagegacao = controleNavegacao) { padding ->
+    MenuScreen(tituloDaPagina = "Categorias", controleNagegacao = controleNavegacao, idUsuario = idUsuario) { padding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
