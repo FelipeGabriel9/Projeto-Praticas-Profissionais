@@ -124,7 +124,7 @@ fun MetasScreen(
 
 @Composable
 private fun CardGraficoMetas(metas: List<Meta>) {
-    // Descobre a proporção de cada objetivo
+    //  Descobre a proporção de cada objetivo
     val objetivoTotal = metas.sumOf { it.valorObjetivo }
     val metasOrdenadas = metas.sortedByDescending { it.valorObjetivo }
 
