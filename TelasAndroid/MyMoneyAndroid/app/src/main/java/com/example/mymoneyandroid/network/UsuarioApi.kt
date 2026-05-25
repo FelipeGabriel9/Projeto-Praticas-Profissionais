@@ -21,11 +21,11 @@ interface UsuarioApi {
     suspend fun cadastrarUsuario(@Body requisicao: CadastroUsuario): Response<DadosUsuario>
 
     // Rota para realizar login
-    @POST("usuarios/login")
+    @POST("/usuarios/login")
     suspend fun loginUsuario(@Body login: LoginUsuario): Response<DadosUsuario>
 
     // Rota para deletar uma conta
-    @DELETE("usuarios/{id}")
+    @DELETE("/usuarios/{id}")
     suspend fun excluirUsuario(@Path("id") id: Int): Response<Unit>
 
 }

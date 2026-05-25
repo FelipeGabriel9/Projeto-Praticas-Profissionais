@@ -51,7 +51,7 @@ public static class UsuarioEndpoints
             db.Usuario.Add(novoUsuario);
             await db.SaveChangesAsync();
 
-            return Results.Ok(novoUsuario);
+            return Results.NoContent();
         });
 
         //LOGIN

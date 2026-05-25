@@ -22,7 +22,6 @@ class LoginViewModel : ViewModel() {
             carregando = true
             mensagemErro = null
 
-            // Dentro do CadastroViewModel:
             val erroValidacao = validador.validarLogin(email, senha)
 
             if (erroValidacao != null) {

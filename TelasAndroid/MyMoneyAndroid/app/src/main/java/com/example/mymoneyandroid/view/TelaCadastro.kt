@@ -155,7 +155,7 @@ fun CadastroScreen(
                 Button(
                     onClick = {
                         viewModel.realizarCadastro(nome, cpf, email, senha) {
-                            controleNavegacao.navigate("telaPrincipal")
+                           controleNavegacao.navigate("telaPrincipal/2")
                         }
                     },
                     modifier = Modifier
