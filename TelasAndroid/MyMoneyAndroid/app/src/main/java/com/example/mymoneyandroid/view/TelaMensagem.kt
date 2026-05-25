@@ -99,7 +99,15 @@ fun MensagemScreen(
             // Botão de enviar mensagem
             Button(
                 onClick = {
-                    viewModel.realizarEnvioMensagem(assunto, mensagem)
+                    if(assunto.isNotBlank() && mensagem.isNotBlank()) {
+                        viewModel.realizarEnvioMensagem(assunto, mensagem, idUsuario) {
+                            assunto = ""
+                            mensagem = ""
+                        }
+                    }
+                    else{
+                        viewModel.mensagemErro = "Preencha todos os campos"
+                    }
                 },
                 modifier = Modifier
                     .fillMaxWidth()

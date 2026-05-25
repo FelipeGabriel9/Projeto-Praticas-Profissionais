@@ -1,6 +1,5 @@
 package com.example.mymoneyandroid.viewmodel
 
-import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.mymoneyandroid.model.Categoria
@@ -21,14 +20,17 @@ class CategoriaViewModel : ViewModel() {
             try {
                 // Mapeia a lista de nomes fixos para objetos do tipo Categoria
                 val listaFixasComoObjetos = categoriasFixas.map { nome ->
-                    Categoria(NomeCategoria = nome, ValorDespesa = 0.0, idUsuario = idUsuario)
+                    Categoria(
+                        NomeCategoria = nome,
+                        ValorDespesa = 0.0,
+                        idUsuario = idUsuario)
                 }
 
                 // Busca o que o usuário já adicionou
-                val response = Retrofit.apiCategoria.listarCategorias(idUsuario)
+                val resposta = Retrofit.apiCategoria.listarCategorias(idUsuario)
 
-                if (response.isSuccessful) {
-                    val listaDoBanco = response.body() ?: emptyList()
+                if (resposta.isSuccessful) {
+                    val listaDoBanco = resposta.body() ?: emptyList()
 
                     categorias.value = listaFixasComoObjetos + listaDoBanco
                 } else {

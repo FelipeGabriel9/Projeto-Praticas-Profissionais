@@ -10,7 +10,7 @@ import retrofit2.http.Path
 
 interface CategoriaApi {
     // Lista todas as categorias
-    @GET("/categorias/")
+    @GET("/categorias/{idUsuario}")
     suspend fun listarCategorias(@Path("idUsuario") idUsuario: Int): Response<List<Categoria>>
 
     // Cria uma nova categoria

@@ -30,4 +30,12 @@ object Retrofit {
             .create(MensagemApi::class.java)
     }
 
+    val apiMeta: MetaApi by lazy {
+        Retrofit.Builder()
+            .baseUrl(urlBase)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(MetaApi::class.java)
+    }
+
 }
