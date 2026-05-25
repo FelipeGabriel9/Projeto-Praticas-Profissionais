@@ -32,19 +32,20 @@ public static class UsuarioEndpoints
 
 
         //POST
-        grupo.MapPost("/", async (CadastroUsuario request, AppDbContext db) =>
+        grupo.MapPost("/", async (CadastroUsuario dados, AppDbContext db) =>
         {
-            if (await db.Usuario.AnyAsync(u => u.email == request.Email))
+            if (await db.Usuario.AnyAsync(u => u.Email == dados.Email))
                 return Results.BadRequest("Email já cadastrado!");
             
-            if (await db.Usuario.AnyAsync(u => u.cpf == request.Cpf))
+            if (await db.Usuario.AnyAsync(u => u.CPF == dados.Cpf))
                 return Results.BadRequest("Cpf já cadastrado!");
 
             var novoUsuario = new Usuario {
-                nome = request.Nome,
-                email = request.Email,
-                cpf = request.Cpf,
-                senhaHash = BCrypt.Net.BCrypt.HashPassword(request.Senha)
+                Nome = dados.Nome,
+                Email = dados.Email,
+                SenhaHash = BCrypt.Net.BCrypt.HashPassword(dados.Senha),
+                CPF = dados.Cpf,
+                DataCriacao = DateTime.Now, // Pega a data atual automaticamente
             };
 
             db.Usuario.Add(novoUsuario);
@@ -57,19 +58,19 @@ public static class UsuarioEndpoints
         grupo.MapPost("/login", async (LoginUsuario login, AppDbContext db) =>
 {
             // Busca o usuário pelo email
-            var usuario = await db.Usuario.FirstOrDefaultAsync(u => u.email == login.Email);
+            var usuario = await db.Usuario.FirstOrDefaultAsync(u => u.Email == login.Email);
 
             if (usuario is null) 
                 return Results.Unauthorized(); // Email não existe
 
             // Verifica se a senha digitada é igual ao Hash do banco
-            bool senhaValida = BCrypt.Net.BCrypt.Verify(login.Senha, usuario.senhaHash);
+            bool senhaValida = BCrypt.Net.BCrypt.Verify(login.Senha, usuario.SenhaHash);
 
             if (!senhaValida) 
                 return Results.Unauthorized(); // Senha errada
 
             // Se deu certo, retorna os dados do usuário
-            return Results.Ok(new DadosUsuario(usuario.idUsuario, usuario.nome, usuario.email));
+            return Results.Ok(new DadosUsuario(usuario.idUsuario, usuario.Nome, usuario.Email));
         });
 
 
@@ -82,13 +83,13 @@ public static class UsuarioEndpoints
             if (usuario is null) return Results.NotFound();
 
             // Atualiza o nome
-            usuario.nome = usuarioAtualizado.nome;
+            usuario.Nome = usuarioAtualizado.Nome;
             // Atualiza o email
-            usuario.email = usuarioAtualizado.email;
+            usuario.Email = usuarioAtualizado.Email;
 
-            if (!string.IsNullOrWhiteSpace(usuarioAtualizado.senhaHash))
+            if (!string.IsNullOrWhiteSpace(usuarioAtualizado.SenhaHash))
             {
-                usuario.senhaHash = usuarioAtualizado.senhaHash; 
+                usuario.SenhaHash = usuarioAtualizado.SenhaHash; 
             }
             // Salva as alterações no banco
             await db.SaveChangesAsync();
