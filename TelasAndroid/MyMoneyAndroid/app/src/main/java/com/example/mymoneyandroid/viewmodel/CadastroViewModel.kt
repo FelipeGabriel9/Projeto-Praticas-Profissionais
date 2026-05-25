@@ -52,7 +52,7 @@ class CadastroViewModel : ViewModel() {
                 } catch (e: Exception) {
                     // Aqui tratamos qualquer erro de conexão ou falha na chamada
                     mensagemErro = "Falha na conexão: Verifique se o servidor está rodando."
-                    println("Erro: ${e.message}")
+                    println(e.stackTraceToString())
                 } finally {
                     carregando = false
                 }
