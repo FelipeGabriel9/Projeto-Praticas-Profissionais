@@ -1,57 +1,70 @@
-package com.example.mymoneyandroid.viewmodel // Ajuste o pacote se precisar
+package com.example.mymoneyandroid.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.mymoneyandroid.model.Categoria
 import com.example.mymoneyandroid.network.Retrofit
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-
 class CategoriaViewModel : ViewModel() {
+    val categorias = MutableStateFlow<List<Categoria>>(emptyList())
 
-    // Guarda a lista de categorias. A tela vai "ficar olhando" para essa variável.
-    private val _categorias = MutableStateFlow<List<Categoria>>(emptyList())
-    val categorias: StateFlow<List<Categoria>> = _categorias
+    // Categorias fixas para todos os usuários
+    private val categoriasFixas = listOf(
+        "Saúde", "Lazer", "Aluguel", "Alimentação", "Presentes", "Transporte", "Família", "Academia"
+    )
 
-    init {
-        // Assim que a tela abrir, ele já puxa os dados da API
-        buscarCategorias()
-    }
-
-    private fun buscarCategorias() {
+    fun buscarCategorias(idUsuario: Int) {
         viewModelScope.launch {
             try {
-                val response = Retrofit.apiCategoria.listarCategorias()
-                if (response.isSuccessful) {
-                    response.body()?.let { lista ->
-                        _categorias.value = lista
-                    }
+                // Mapeia a lista de nomes fixos para objetos do tipo Categoria
+                val listaFixasComoObjetos = categoriasFixas.map { nome ->
+                    Categoria(
+                        NomeCategoria = nome,
+                        ValorDespesa = 0.0,
+                        idUsuario = idUsuario)
+                }
+
+                // Busca o que o usuário já adicionou
+                val resposta = Retrofit.apiCategoria.listarCategorias(idUsuario)
+
+                if (resposta.isSuccessful) {
+                    val listaDoBanco = resposta.body() ?: emptyList()
+
+                    categorias.value = listaFixasComoObjetos + listaDoBanco
                 } else {
-                    Log.e("API", "Erro ao buscar: ${response.code()}")
+                    // Se a API falhar por algum motivo, mostra apenas categorias fixas na tela
+                    categorias.value = listaFixasComoObjetos
                 }
             } catch (e: Exception) {
-                Log.e("API", "Falha de conexão: ${e.message}")
+                // Se der erro de servidor desligado, garante que as fixas apareçam
+                val listaFixasComoObjetos = categoriasFixas.map { nome ->
+                    Categoria(NomeCategoria = nome, ValorDespesa = 0.0, idUsuario = idUsuario)
+                }
+                categorias.value = listaFixasComoObjetos
             }
         }
     }
 
-    fun criarCategoria(nome: String) {
+    fun criarCategoria(nome: String, idUsuario: Int) {
         viewModelScope.launch {
             try {
-                // Monta o objeto para enviar para a API C#.
-                // Coloquei ValorDespesa = 0.0 pois a API exige esse campo.
-                val novaCategoria = Categoria(NomeCategoria = nome, ValorDespesa = 0.0)
+                // Monta a categoria nova atribuindo ao ID do usuário logado
+                val novaCategoria = Categoria(
+                    NomeCategoria = nome,
+                    ValorDespesa = 0.0,
+                    idUsuario = idUsuario
+                )
 
                 val response = Retrofit.apiCategoria.criarCategoria(novaCategoria)
+
                 if (response.isSuccessful) {
-                    // Se deu certo criar, busca a lista atualizada do banco!
-                    buscarCategorias()
+                    // Atualiza a tela chamando a busca novamente
+                    buscarCategorias(idUsuario)
                 }
             } catch (e: Exception) {
-                Log.e("API", "Falha ao criar: ${e.message}")
+                // Trata o erro silenciosamente ou mantém o fluxo básico
             }
         }
     }

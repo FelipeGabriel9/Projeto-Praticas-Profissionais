@@ -24,12 +24,16 @@ private val corFundo = Color(0xFF2E7D32)   // Verde
 private val branco = Color(0XFFFFFFFF)
 
 @Composable
-fun DetalheCategoriaScreen(controleNavegacao: NavController, nomeCategoria: String?) {
+fun DetalheCategoriaScreen(
+    controleNavegacao: NavController,
+    nomeCategoria: String?,
+    idUsuario: Int
+) {
     // Estados para controlar o que acontece na tela
     var valorDigitado by remember { mutableStateOf("") }
     var totalAcumulado by remember { mutableStateOf(0.0) }
 
-    MenuScreen(tituloDaPagina = nomeCategoria ?: "Detalhes", controleNagegacao = controleNavegacao) { padding ->
+    MenuScreen(tituloDaPagina = nomeCategoria ?: "Detalhes", controleNagegacao = controleNavegacao, idUsuario = idUsuario) { padding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -110,24 +114,3 @@ fun DetalheCategoriaScreen(controleNavegacao: NavController, nomeCategoria: Stri
         }
     }
 }
-
-//            // --- LISTA DE TRANSAÇÕES ---
-//            Text("Histórico", color = Color.White, fontSize = 18.sp, fontWeight = FontWeight.Bold)
-//            Spacer(modifier = Modifier.height(16.dp))
-//
-//            val transacoes = listOf("Mercado", "Farmácia", "Uber", "Lanche")
-//
-//            LazyColumn(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-//                items(transacoes) { item ->
-//                    Row(
-//                        modifier = Modifier
-//                            .fillMaxWidth()
-//                            .background(Color(0xFF3A3A3C), RoundedCornerShape(12.dp))
-//                            .padding(16.dp),
-//                        horizontalArrangement = Arrangement.SpaceBetween
-//                    ) {
-//                        Text(item, color = Color.White)
-//                        Text("- R$ 45,00", color = Color(0xFFF44336)) // Vermelho para gastos
-//                    }
-//                }
-//            }

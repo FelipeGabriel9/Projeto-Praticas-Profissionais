@@ -44,7 +44,6 @@ public static class UsuarioEndpoints
                 nome = request.Nome,
                 email = request.Email,
                 cpf = request.Cpf,
-                dataCriacao = DateTime.UtcNow, // Pega a data atual automaticamente
                 senhaHash = BCrypt.Net.BCrypt.HashPassword(request.Senha)
             };
 

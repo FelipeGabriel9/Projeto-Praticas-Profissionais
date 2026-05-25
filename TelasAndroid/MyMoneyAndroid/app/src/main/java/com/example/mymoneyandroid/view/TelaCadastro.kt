@@ -18,6 +18,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -119,28 +121,28 @@ fun CadastroScreen(
             ) {
                 // Chamando LoginField para criar os campos
 
-                LoginField(
+                CadastroField(
                     textoLabel = "Nome",
                     valor = nome,
                     mudarValor = { nome = it },
                     tipoTeclado = KeyboardType.Text
                 )
 
-                LoginField(
+                CadastroField(
                     textoLabel = "CPF",
                     valor = cpf,
                     mudarValor = { cpf = it },
                     tipoTeclado = KeyboardType.Number
                 )
 
-                LoginField(
+                CadastroField(
                     textoLabel = "Email",
                     valor = email,
                     mudarValor = { email = it },
                     tipoTeclado = KeyboardType.Email
                 )
 
-                LoginField(
+                CadastroField(
                     textoLabel = "Senha",
                     valor = senha,
                     mudarValor = { senha = it },
@@ -180,7 +182,7 @@ fun CadastroScreen(
                     }
                 }
 
-                // Se houver uma mensagem de erro, ela aparece em vermelho
+                // Se houver uma mensagem de erro, ela aparece em vermelho (TIRAR DEPOIS DOS TESTES)
                 viewModel.mensagemErro?.let { erro ->
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
@@ -221,9 +223,9 @@ fun CadastroScreen(
 }
 
 
-// Função usada para criar um campo de login (input e label)
+// Função usada para criar um campo de cadastro (input e label)
 @Composable
-private fun LoginField(
+private fun CadastroField(
     textoLabel: String,
     valor: String,
     mudarValor: (String) -> Unit,
@@ -248,6 +250,11 @@ private fun LoginField(
             singleLine = true,
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(10.dp),
+            visualTransformation =
+                if (tipoTeclado == KeyboardType.Password)
+                    PasswordVisualTransformation()
+                else
+                    VisualTransformation.None,
 
             // Cores usadas em cada campo
             colors = OutlinedTextFieldDefaults.colors(

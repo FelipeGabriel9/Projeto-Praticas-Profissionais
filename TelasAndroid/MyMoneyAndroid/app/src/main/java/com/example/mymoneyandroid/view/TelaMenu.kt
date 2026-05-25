@@ -29,6 +29,7 @@ private val CorFundoMenu = Color(0xFF1C1C1E)
 fun MenuScreen(
     tituloDaPagina: String,
     controleNagegacao: NavController,
+    idUsuario: Int,
     conteudoPagina: @Composable (PaddingValues) -> Unit)
 {
     val estadoMenu = rememberDrawerState(initialValue = DrawerValue.Closed) // Controla se o menu está aberto ou fechado. Nesse caso, começa fechado
@@ -38,7 +39,7 @@ fun MenuScreen(
     ModalNavigationDrawer(
         drawerState = estadoMenu,
         drawerContent = {
-            ConteudoMenu(controleNagegacao, estadoMenu, controleMenu)
+            ConteudoMenu(controleNagegacao, estadoMenu, controleMenu, idUsuario)
         }
     ) {
 
@@ -81,7 +82,8 @@ fun MenuScreen(
 fun ConteudoMenu(
     controleNavegacao: NavController,
     estadoMenu: DrawerState,
-    controleMenu: CoroutineScope
+    controleMenu: CoroutineScope,
+    idUsuario: Int
 ) {
     ModalDrawerSheet(
         drawerContainerColor = CorFundoMenu,
@@ -109,7 +111,7 @@ fun ConteudoMenu(
                     .padding(vertical = 12.dp)
                     .clickable {
                         controleMenu.launch { estadoMenu.close() }
-                        controleNavegacao.navigate("telaPerfil")
+                        controleNavegacao.navigate("telaPerfil/$idUsuario")
                     }
             )
 
@@ -121,7 +123,7 @@ fun ConteudoMenu(
                     .padding(vertical = 12.dp)
                     .clickable {
                         controleMenu.launch { estadoMenu.close() }
-                        controleNavegacao.navigate("telaPrincipal")
+                        controleNavegacao.navigate("telaPrincipal/$idUsuario")
                     }
             )
 

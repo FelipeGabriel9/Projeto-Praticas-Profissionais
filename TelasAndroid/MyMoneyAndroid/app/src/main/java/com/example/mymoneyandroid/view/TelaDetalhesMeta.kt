@@ -26,7 +26,11 @@ private val CorFundoBarra = Color(0xFF2C2C2E)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DetalheMetaScreen(controleNavegacao: NavController, nomeMeta: String?) {
+fun DetalheMetaScreen(
+    controleNavegacao: NavController,
+    nomeMeta: String?,
+    idUsuario: Int
+) {
     // Estados para os valores
     var valorObjetivo by remember { mutableStateOf("") }
     var valorGuardadoAgora by remember { mutableStateOf("") }
@@ -36,7 +40,7 @@ fun DetalheMetaScreen(controleNavegacao: NavController, nomeMeta: String?) {
     val objetivoTotal = valorObjetivo.replace(",", ".").toDoubleOrNull() ?: 1.0
     val progresso = (totalAcumulado / objetivoTotal).coerceIn(0.0, 1.0).toFloat()
 
-    MenuScreen(tituloDaPagina = nomeMeta ?: "Meta", controleNagegacao = controleNavegacao) { padding ->
+    MenuScreen(tituloDaPagina = nomeMeta ?: "Meta", controleNagegacao = controleNavegacao, idUsuario= idUsuario) { padding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
