@@ -71,21 +71,6 @@ fun CadastroScreen(
             modifier = Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            // Imagem da logo
-            Box(
-                modifier = Modifier
-                    .size(120.dp)
-                    .clip(RoundedCornerShape(24.dp)),
-                contentAlignment = Alignment.Center
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.logo_my_money),
-                    contentDescription = "Logo MyMoney",
-                    modifier = Modifier
-                        .fillMaxSize(),
-                    contentScale = ContentScale.Crop
-                )
-            }
 
             Spacer(modifier = Modifier.height(16.dp))
 
@@ -154,8 +139,8 @@ fun CadastroScreen(
                 // Botão de criar conta
                 Button(
                     onClick = {
-                        viewModel.realizarCadastro(nome, cpf, email, senha) {
-                           controleNavegacao.navigate("telaPrincipal/2")
+                        viewModel.realizarCadastro(nome, cpf, email, senha) { idUsuario ->
+                           controleNavegacao.navigate("telaPrincipal/$idUsuario")
                         }
                     },
                     modifier = Modifier

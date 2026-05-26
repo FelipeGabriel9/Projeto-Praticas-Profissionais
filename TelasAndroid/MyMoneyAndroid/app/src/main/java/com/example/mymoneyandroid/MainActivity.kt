@@ -3,26 +3,11 @@ package com.example.mymoneyandroid
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.example.mymoneyandroid.ui.theme.MyMoneyAndroidTheme
-
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.navigation.NavType
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
 import com.example.mymoneyandroid.navigation.AppNavigation
-import com.example.mymoneyandroid.view.CategoriaScreen
-import com.example.mymoneyandroid.view.DetalheCategoriaScreen
 
 // Cria a classe principal (a primeira que o Android procura para abrir o app)
 class MainActivity : ComponentActivity() {
@@ -35,22 +20,17 @@ class MainActivity : ComponentActivity() {
 
         // Inicia o ambiente Jetpack Compose (tudo aqui dentro é interface visual)
         setContent {
+            // Cria um contêiner base
+            Surface(
+                // O contêiner passa a ocupar a tela toda
+                modifier = Modifier.fillMaxSize(),
+                // Cor de fundo padrão
+                color = MaterialTheme.colorScheme.background
+            ) {
 
-            // Aplica o tema visual do projeto
-            MyMoneyAndroidTheme() {
+                // Chama o appNavigation, onde temos as interações entre telas
+                AppNavigation()
 
-                // Cria um contêiner base
-                Surface(
-                    // O contêiner passa a ocupar a tela toda
-                    modifier = Modifier.fillMaxSize(),
-                    // Cor de fundo padrão
-                    color = MaterialTheme.colorScheme.background
-                ) {
-
-                    // Chama o appNavigation, onde temos as interações entre telas
-                    AppNavigation()
-
-                }
             }
         }
     }

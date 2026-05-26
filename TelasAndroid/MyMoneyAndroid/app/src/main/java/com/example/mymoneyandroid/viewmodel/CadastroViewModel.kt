@@ -18,7 +18,7 @@ class CadastroViewModel : ViewModel() {
     private val apiCadastro = Retrofit.apiUsuario
     private val validador = ValidarCadastro()
 
-    fun realizarCadastro(nome: String, cpf: String, email: String, senha: String, irParaTelaPrincipal: () -> Unit) {
+    fun realizarCadastro(nome: String, cpf: String, email: String, senha: String, irParaTelaPrincipal: (Int) -> Unit) {
         viewModelScope.launch {
             carregando = true
             mensagemErro = null
@@ -43,7 +43,13 @@ class CadastroViewModel : ViewModel() {
                     val enviarDados = apiCadastro.cadastrarUsuario(dados)
 
                     if (enviarDados.isSuccessful) {
-                        irParaTelaPrincipal()
+                        val usuarioCriado = enviarDados.body()
+                        val idUsuario = usuarioCriado?.idUsuario
+
+                        if(idUsuario != null){
+                            irParaTelaPrincipal(idUsuario)
+                        }
+
                     }else{
                         // Pega a mensagem de erro que vem da API se possível
                         mensagemErro = "Erro: ${enviarDados.code()} - Verifique os dados"

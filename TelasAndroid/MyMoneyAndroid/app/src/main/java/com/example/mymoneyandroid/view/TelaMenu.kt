@@ -135,7 +135,7 @@ fun ConteudoMenu(
                     .padding(vertical = 12.dp)
                     .clickable {
                         controleMenu.launch { estadoMenu.close() }
-                        controleNavegacao.navigate("telaCategoria")
+                        controleNavegacao.navigate("telaCategoria/$idUsuario")
                     }
             )
 
@@ -147,7 +147,7 @@ fun ConteudoMenu(
                     .padding(vertical = 12.dp)
                     .clickable {
                         controleMenu.launch { estadoMenu.close() }
-                        controleNavegacao.navigate("telaMetas")
+                        controleNavegacao.navigate("telaMetas/$idUsuario")
                     }
             )
 
@@ -161,7 +161,7 @@ fun ConteudoMenu(
                     .padding(vertical = 12.dp)
                     .clickable {
                         controleMenu.launch { estadoMenu.close() }
-                        controleNavegacao.navigate("telaMensagem")
+                        controleNavegacao.navigate("telaMensagem/$idUsuario")
                     }
             )
         }
