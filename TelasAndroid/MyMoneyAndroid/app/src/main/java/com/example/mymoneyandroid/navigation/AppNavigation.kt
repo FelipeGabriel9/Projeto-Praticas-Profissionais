@@ -132,10 +132,12 @@ fun AppNavigation() {
         ) { tela ->
             val nome = tela.arguments?.getString("nomeCategoria")
             val idUsuario = tela.arguments?.getInt("idUsuario") ?: 0
+
             DetalheCategoriaScreen(
                 controleNavegacao = controleNavegacao,
                 nomeCategoria = nome,
-                idUsuario = idUsuario)
+                idUsuario = idUsuario
+            )
         }
 
         // Rota para os detalhes de uma meta

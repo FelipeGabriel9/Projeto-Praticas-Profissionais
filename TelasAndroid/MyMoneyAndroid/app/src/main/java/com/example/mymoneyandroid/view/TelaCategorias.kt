@@ -1,5 +1,6 @@
 package com.example.mymoneyandroid.view
 
+import android.net.Uri
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -64,10 +65,13 @@ fun CategoriaScreen(
                 modifier = Modifier.weight(1f) // Permite que a Grid se ajuste deixando espaço pro card de baixo
             ) {
                 // Renderiza todas as categorias do banco/fixas
-                items(listaCategoriasApi) { categoria ->
+                items(
+                    listaCategoriasApi,
+                    {categoria -> categoria.NomeCategoria}
+                    ) { categoria ->
                     BotaoCategoria(nome = categoria.NomeCategoria) {
                         // Navega para a tela de detalhes enviando o nome da categoria selecionada
-                        controleNavegacao.navigate("detalheCategoria/${categoria.NomeCategoria}/$idUsuario")
+                        controleNavegacao.navigate("detalheCategoria/${Uri.encode(categoria.NomeCategoria)}/$idUsuario")
                     }
                 }
 
@@ -105,9 +109,12 @@ fun CategoriaScreen(
                 },
                 confirmButton = {
                     TextButton(onClick = {
-                        if (novoNomeCategoria.isNotBlank()) {
-                            // Chama o ViewModel para salvar no banco vinculando ao id do usuário
-                            viewModel.criarCategoria(novoNomeCategoria, idUsuario)
+                        if (novoNomeCategoria.trim().isNotEmpty()) {
+
+                            viewModel.criarCategoria(
+                                novoNomeCategoria.trim(),
+                                idUsuario
+                            )
                             novoNomeCategoria = ""
                             mostrarDialogo = false
                         }

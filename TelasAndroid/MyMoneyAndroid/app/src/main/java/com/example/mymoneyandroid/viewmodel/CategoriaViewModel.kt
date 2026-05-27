@@ -5,10 +5,14 @@ import androidx.lifecycle.viewModelScope
 import com.example.mymoneyandroid.model.Categoria
 import com.example.mymoneyandroid.network.Retrofit
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class CategoriaViewModel : ViewModel() {
-    val categorias = MutableStateFlow<List<Categoria>>(emptyList())
+
+    private val _categorias = MutableStateFlow<List<Categoria>>(emptyList())
+
+    val categorias = _categorias.asStateFlow()
 
     // Categorias fixas para todos os usuários
     private val categoriasFixas = listOf(
@@ -20,10 +24,7 @@ class CategoriaViewModel : ViewModel() {
             try {
                 // Mapeia a lista de nomes fixos para objetos do tipo Categoria
                 val listaFixasComoObjetos = categoriasFixas.map { nome ->
-                    Categoria(
-                        NomeCategoria = nome,
-                        ValorDespesa = 0.0,
-                        idUsuario = idUsuario)
+                    Categoria(NomeCategoria = nome, ValorDespesa = 0.0, idUsuario = idUsuario)
                 }
 
                 // Busca o que o usuário já adicionou
@@ -31,40 +32,50 @@ class CategoriaViewModel : ViewModel() {
 
                 if (resposta.isSuccessful) {
                     val listaDoBanco = resposta.body() ?: emptyList()
+                    println(listaDoBanco)
 
-                    categorias.value = listaFixasComoObjetos + listaDoBanco
+                    val listaCompleta = (listaFixasComoObjetos + listaDoBanco).distinctBy { it.NomeCategoria }
+                    _categorias.value = listaCompleta
                 } else {
                     // Se a API falhar por algum motivo, mostra apenas categorias fixas na tela
-                    categorias.value = listaFixasComoObjetos
+                    _categorias.value = listaFixasComoObjetos
                 }
             } catch (e: Exception) {
+                e.printStackTrace()
+
                 // Se der erro de servidor desligado, garante que as fixas apareçam
                 val listaFixasComoObjetos = categoriasFixas.map { nome ->
                     Categoria(NomeCategoria = nome, ValorDespesa = 0.0, idUsuario = idUsuario)
                 }
-                categorias.value = listaFixasComoObjetos
+                _categorias.value = listaFixasComoObjetos
             }
         }
     }
 
     fun criarCategoria(nome: String, idUsuario: Int) {
+
         viewModelScope.launch {
+
             try {
-                // Monta a categoria nova atribuindo ao ID do usuário logado
+
                 val novaCategoria = Categoria(
                     NomeCategoria = nome,
                     ValorDespesa = 0.0,
                     idUsuario = idUsuario
                 )
 
-                val response = Retrofit.apiCategoria.criarCategoria(novaCategoria)
+                val resposta =
+                    Retrofit.apiCategoria.criarCategoria(novaCategoria)
 
-                if (response.isSuccessful) {
-                    // Atualiza a tela chamando a busca novamente
+                if (resposta.isSuccessful) {
+
+                    // BUSCA TUDO DE NOVO
                     buscarCategorias(idUsuario)
                 }
+
             } catch (e: Exception) {
-                // Trata o erro silenciosamente ou mantém o fluxo básico
+
+                e.printStackTrace()
             }
         }
     }
