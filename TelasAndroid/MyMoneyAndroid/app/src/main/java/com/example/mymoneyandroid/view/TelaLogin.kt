@@ -48,7 +48,6 @@ fun LoginScreen(
     var email by remember { mutableStateOf("") }
     var senha by remember { mutableStateOf("") }
 
-
     val contexto = LocalContext.current
     val sessaoManager = remember { SessaoManager(contexto) }
     val escopo = rememberCoroutineScope()
@@ -129,7 +128,6 @@ fun LoginScreen(
                             escopo.launch {
                                 sessaoManager.salvarIdUsuario(idRecebido)
 
-                                // 3. NAVEGAÇÃO DINÂMICA: Passa o ID real para a tela principal
                                 controleNavegacao.navigate("telaPrincipal/$idRecebido")
 
                             }

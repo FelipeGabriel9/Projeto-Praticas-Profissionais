@@ -63,6 +63,9 @@ fun PerfilScreen(
     val sessaoManager = remember { SessaoManager(contexto) }
     val escopo = rememberCoroutineScope()
 
+    var mostrarDialogoSenha by remember { mutableStateOf(false) }
+    var novaSenha by remember { mutableStateOf("") }
+
     // Se os ainda não foi recebido dados, deixamos strings vazias
     val nomeExibicao = dados?.nome ?: ""
     val cpfExibicao = dados?.cpf ?: ""
@@ -178,7 +181,9 @@ fun PerfilScreen(
             // Bloco de Configurações
             PerfilCard(titulo = "Segurança e Ajustes") {
 
-                PerfilAcao("Alterar senha") { }
+                PerfilAcao("Alterar senha") {
+                    mostrarDialogoSenha = true
+                }
 
                 HorizontalDivider(
                     modifier = Modifier.padding(horizontal = 20.dp),
@@ -211,6 +216,102 @@ fun PerfilScreen(
                     fontSize = 13.sp,
                     modifier = Modifier.padding(horizontal = 30.dp),
                     fontWeight = FontWeight.Medium
+                )
+            }
+
+            if (mostrarDialogoSenha) {
+
+                AlertDialog(
+
+                    onDismissRequest = {
+                        mostrarDialogoSenha = false
+                    },
+
+                    containerColor = fundoCard,
+
+                    title = {
+
+                        Text(
+                            text = "Alterar senha",
+                            color = corTexto
+                        )
+                    },
+
+                    text = {
+
+                        Column {
+
+                            OutlinedTextField(
+
+                                value = novaSenha,
+
+                                onValueChange = {
+                                    novaSenha = it
+                                },
+
+                                label = {
+                                    Text("Nova senha")
+                                },
+
+                                visualTransformation =
+                                    androidx.compose.ui.text.input.PasswordVisualTransformation(),
+
+                                colors = OutlinedTextFieldDefaults.colors(
+                                    focusedBorderColor = fundoBotao,
+                                    unfocusedBorderColor = bordaCampos,
+                                    focusedTextColor = corTexto,
+                                    unfocusedTextColor = corTexto,
+                                    focusedLabelColor = fundoBotao,
+                                    cursorColor = fundoBotao
+                                )
+                            )
+                        }
+                    },
+
+                    confirmButton = {
+
+                        Button(
+
+                            onClick = {
+
+                                if (novaSenha.isNotBlank()) {
+
+                                    viewModel.alterarSenha(
+                                        idUsuario,
+                                        novaSenha
+                                    ) {
+
+                                        novaSenha = ""
+                                        mostrarDialogoSenha = false
+                                    }
+                                }
+                            },
+
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = fundoBotao
+                            )
+                        ) {
+
+                            Text("Salvar")
+                        }
+                    },
+
+                    dismissButton = {
+
+                        TextButton(
+
+                            onClick = {
+
+                                mostrarDialogoSenha = false
+                            }
+                        ) {
+
+                            Text(
+                                "Cancelar",
+                                color = corTextoCard
+                            )
+                        }
+                    }
                 )
             }
         }

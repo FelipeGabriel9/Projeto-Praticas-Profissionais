@@ -35,7 +35,7 @@ public static class MensagemEndpoints
         grupo.MapPost("/", async (Mensagem dados, AppDbContext db) => // OK
         { 
             var novaMensagem = new Mensagem {
-                idUsuario = dados.idUsuario,     // <--- ADICIONE ESSA LINHA (liga a mensagem ao usuário certo)
+                idUsuario = dados.idUsuario,     
                 Assunto = dados.Assunto,
                 mensagem = dados.mensagem,
                 DataEnvio = DateTime.Now

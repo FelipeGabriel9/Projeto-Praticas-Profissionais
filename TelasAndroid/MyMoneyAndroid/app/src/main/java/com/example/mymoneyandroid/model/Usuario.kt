@@ -27,3 +27,7 @@ data class LoginResposta(
     val nome: String,
     val email: String
 )
+
+data class AtualizarSenha(
+    val novaSenha: String
+)

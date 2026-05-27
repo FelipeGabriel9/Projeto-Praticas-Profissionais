@@ -89,7 +89,7 @@ public static class UsuarioEndpoints
 
             if (!string.IsNullOrWhiteSpace(usuarioAtualizado.SenhaHash))
             {
-                usuario.SenhaHash = usuarioAtualizado.SenhaHash; 
+                usuario.SenhaHash = usuario.SenhaHash = BCrypt.Net.BCrypt.HashPassword(usuarioAtualizado.SenhaHash); 
             }
             // Salva as alterações no banco
             await db.SaveChangesAsync();
@@ -101,17 +101,45 @@ public static class UsuarioEndpoints
         //DELETE
         grupo.MapDelete("/{id}", async (int id, AppDbContext db) =>
         {
-            // Busca o usuário pelo ID
+            // Busca o usuário
             var usuario = await db.Usuario.FindAsync(id);
-            // Se não achar, retorna 404
-            if (usuario is null) return Results.NotFound();
 
-            // Remove o usuário da memória do contexto
+            if (usuario is null)
+                return Results.NotFound();
+
+            // Remove mensagens do usuário
+            var mensagens = db.Mensagem.Where(m => m.idUsuario == id);
+            db.Mensagem.RemoveRange(mensagens);
+
+            // Remove categorias do usuário
+            var categorias = db.Categoria.Where(c => c.idUsuario == id);
+            db.Categoria.RemoveRange(categorias);
+
+            // Agora remove o usuário
             db.Usuario.Remove(usuario);
-            // Efetiva a exclusão no banco de dados
+
             await db.SaveChangesAsync();
-            // Retorna NoContent (sucesso 204)
+
             return Results.NoContent();
+        });
+
+        // ALTERAR SENHA
+        grupo.MapPut("/{id}/senha", async (
+            int id,
+            AtualizarSenha dados,
+            AppDbContext db) =>
+        {
+            var usuario = await db.Usuario.FindAsync(id);
+
+            if (usuario is null)
+                return Results.NotFound();
+
+            usuario.SenhaHash =
+                BCrypt.Net.BCrypt.HashPassword(dados.NovaSenha);
+
+            await db.SaveChangesAsync();
+
+            return Results.Ok();
         });
     } 
 }

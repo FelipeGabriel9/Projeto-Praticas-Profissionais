@@ -251,59 +251,46 @@ CardGraficoInicial(
 }
 
 
-
 @Composable
-
 private fun CardGraficoInicial(titulo: String, fatias: List<ParteGrafico>, legendas: List<Pair<Color, String>>) {
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(16.dp),
+        colors = CardDefaults.cardColors(containerColor = Color.White),
+        elevation = CardDefaults.cardElevation(2.dp),
+    ) {
+        Column(
+            modifier = Modifier.padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally // Centraliza o título e o gráfico
+        ) {
+            Text(titulo, fontWeight = FontWeight.Bold, fontSize = 16.sp, color = Color.Black)
 
-Card(
+            Spacer(modifier = Modifier.height(12.dp))
 
-modifier = Modifier.fillMaxWidth(),
+            GraficoPizza(
+                modifier = Modifier.size(150.dp),
+                camposDoGrafico = fatias.map { DividirGrafico(it.fracao, it.cor) }
+            )
 
-shape = RoundedCornerShape(16.dp),
+            Spacer(modifier = Modifier.height(12.dp))
 
-colors = CardDefaults.cardColors(containerColor = Color.White),
-
-elevation = CardDefaults.cardElevation(2.dp),
-
-) {
-
-Column(
-
-modifier = Modifier.padding(16.dp),
-
-horizontalAlignment = Alignment.CenterHorizontally
-
-) {
-
-Text(titulo, fontWeight = FontWeight.Bold, fontSize = 16.sp, color = Color.Black)
-
-Spacer(modifier = Modifier.height(12.dp))
-
-GraficoPizza(
-
-    modifier = Modifier.size(150.dp),
-
-    camposDoGrafico = fatias.map { DividirGrafico(it.fracao, it.cor) }
-
-)
-
-Spacer(modifier = Modifier.height(12.dp))
-
-Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-
-    legendas.forEach { Legenda(it.first, it.second) }
-
+            // CORREÇÃO AQUI: Força a linha a ocupar a tela inteira e centraliza as legendas
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                // Adiciona um pequeno espaço entre cada legenda dinamicamente
+                legendas.forEachIndexed { index, legenda ->
+                    Legenda(legenda.first, legenda.second)
+                    if (index < legendas.lastIndex) {
+                        Spacer(modifier = Modifier.width(12.dp)) // Espaçamento entre as bolinhas
+                    }
+                }
+            }
+        }
+    }
 }
-
-}
-
-}
-
-}
-
-
-
 @Composable
 
 private fun CardComGraficos() {

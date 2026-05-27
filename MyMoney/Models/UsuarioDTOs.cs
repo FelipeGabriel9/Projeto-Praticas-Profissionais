@@ -5,3 +5,5 @@ public record CadastroUsuario(string Nome, string Email, string Senha, string Cp
 public record LoginUsuario(int idUsuario, string Email, string Senha);
 
 public record DadosUsuario(int idUsuario, string Nome, string Email, string CPF);
+
+public record AtualizarSenha(string NovaSenha);

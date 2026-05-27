@@ -1,5 +1,6 @@
 package com.example.mymoneyandroid.network
 
+import com.example.mymoneyandroid.model.AtualizarSenha
 import com.example.mymoneyandroid.model.LoginUsuario
 import com.example.mymoneyandroid.model.DadosUsuario
 import com.example.mymoneyandroid.model.CadastroUsuario
@@ -9,6 +10,7 @@ import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Path
 
 interface UsuarioApi {
@@ -29,4 +31,6 @@ interface UsuarioApi {
     @DELETE("/usuarios/{id}")
     suspend fun excluirUsuario(@Path("id") id: Int): Response<Unit>
 
+    @PUT("/usuarios/{id}/senha")
+    suspend fun alterarSenha(@Path("id") id: Int, @Body dados: AtualizarSenha): Response<Unit>
 }

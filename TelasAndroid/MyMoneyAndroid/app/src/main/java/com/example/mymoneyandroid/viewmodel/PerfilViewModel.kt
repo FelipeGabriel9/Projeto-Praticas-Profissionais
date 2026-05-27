@@ -5,8 +5,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.mymoneyandroid.model.AtualizarSenha
 import com.example.mymoneyandroid.model.DadosUsuario
 import com.example.mymoneyandroid.network.Retrofit
+import com.example.mymoneyandroid.network.Retrofit.apiUsuario
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
@@ -63,6 +65,49 @@ class PerfilViewModel : ViewModel() {
                 mensagemErro = "Falha na conexão com o servidor."
                 e.printStackTrace()
             } finally {
+                carregando = false
+            }
+        }
+    }
+
+    fun alterarSenha(
+    idUsuario: Int,
+    novaSenha: String,
+    senhaAlterada: () -> Unit
+    ) {
+
+        viewModelScope.launch {
+
+            try {
+
+                carregando = true
+
+                val dados = AtualizarSenha(
+                    novaSenha = novaSenha
+                )
+
+                val resposta =
+                    apiUsuario.alterarSenha(
+                        idUsuario,
+                        dados
+                    )
+
+                if (resposta.isSuccessful) {
+
+                    senhaAlterada()
+
+                } else {
+
+                    mensagemErro =
+                        "Erro ao alterar senha"
+                }
+
+            } catch (e: Exception) {
+
+                mensagemErro = "Erro de conexão"
+
+            } finally {
+
                 carregando = false
             }
         }
