@@ -14,44 +14,74 @@ class LoginViewModel : ViewModel() {
 
     var carregando by mutableStateOf(false)
     var mensagemErro by mutableStateOf<String?>(null)
+
     private val apiLogin = Retrofit.apiUsuario
     private val validador = ValidarLogin()
 
-    fun realizarLogin(email: String, senha: String, irParaTelaPrincipal: (Int) -> Unit) {
+    fun realizarLogin(
+        email: String,
+        senha: String,
+        irParaTelaPrincipal: (Int) -> Unit
+    ) {
+
         viewModelScope.launch {
-            carregando = true
-            mensagemErro = null
 
-            val erroValidacao = validador.validarLogin(email, senha)
+            try {
 
-            if (erroValidacao != null) {
-                mensagemErro = erroValidacao
-                println("Erro: ${mensagemErro.toString()}")
-                carregando = false
-            }
-            else {
-                try {
+                carregando = true
+                mensagemErro = null
 
-                    val dados = LoginUsuario(
-                        email = email,
-                        senha = senha
-                    )
+                val erroValidacao =
+                    validador.validarLogin(email, senha)
 
-                    val enviarDados = apiLogin.loginUsuario(dados)
+                if (erroValidacao != null) {
 
-                    if (enviarDados.isSuccessful) {
-                        val usuarioLogado = enviarDados.body()
-                        val idUsuario = usuarioLogado?.idUsuario ?: 0
-                        irParaTelaPrincipal(idUsuario)
-                    } else {
-                        mensagemErro = "Erro: ${enviarDados.code()} - Verifique os dados"
-                    }
-                } catch (e: Exception) {
-                    mensagemErro = "Falha na conexão: Verifique se o servidor está rodando."
-                    println("Erro: ${e.message}")
-                } finally {
-                    carregando = false
+                    mensagemErro = erroValidacao
+                    println("Erro: $mensagemErro")
+                    return@launch
                 }
+
+                val dados = LoginUsuario(
+                    email = email,
+                    senha = senha
+                )
+
+                val enviarDados =
+                    apiLogin.loginUsuario(dados)
+
+                if (enviarDados.isSuccessful) {
+
+                    val usuarioLogado =
+                        enviarDados.body()
+
+                    if (usuarioLogado != null) {
+
+                        irParaTelaPrincipal(
+                            usuarioLogado.idUsuario
+                        )
+
+                    } else {
+
+                        mensagemErro =
+                            "Erro ao obter ID do usuário"
+                    }
+
+                } else {
+
+                    mensagemErro =
+                        "Erro: ${enviarDados.code()} - Verifique os dados"
+                }
+
+            } catch (e: Exception) {
+
+                mensagemErro =
+                    "Falha na conexão: Verifique se o servidor está rodando."
+
+                println("Erro: ${e.message}")
+
+            } finally {
+
+                carregando = false
             }
         }
     }

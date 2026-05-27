@@ -130,10 +130,8 @@ fun LoginScreen(
                                 sessaoManager.salvarIdUsuario(idRecebido)
 
                                 // 3. NAVEGAÇÃO DINÂMICA: Passa o ID real para a tela principal
-                                controleNavegacao.navigate("telaPrincipal/$idRecebido") {
-                                    // Limpa a tela de login da pilha para o usuário não voltar pra ela ao apertar "voltar"
-                                    popUpTo("telaLogin") { inclusive = true }
-                                }
+                                controleNavegacao.navigate("telaPrincipal/$idRecebido")
+
                             }
                         }
                               },

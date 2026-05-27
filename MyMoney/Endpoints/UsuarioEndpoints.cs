@@ -51,7 +51,7 @@ public static class UsuarioEndpoints
             db.Usuario.Add(novoUsuario);
             await db.SaveChangesAsync();
 
-            return Results.NoContent();
+            return Results.Json(novoUsuario);
         });
 
         //LOGIN
@@ -70,7 +70,7 @@ public static class UsuarioEndpoints
                 return Results.Unauthorized(); // Senha errada
 
             // Se deu certo, retorna os dados do usuário
-            return Results.Ok(new DadosUsuario(usuario.idUsuario, usuario.Nome, usuario.Email));
+            return Results.Ok(new LoginUsuario(usuario.idUsuario, usuario.Nome, usuario.Email));
         });
 
 

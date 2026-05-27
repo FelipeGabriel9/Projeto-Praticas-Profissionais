@@ -20,48 +20,50 @@ class CadastroViewModel : ViewModel() {
 
     fun realizarCadastro(nome: String, cpf: String, email: String, senha: String, irParaTelaPrincipal: (Int) -> Unit) {
         viewModelScope.launch {
-            carregando = true
-            mensagemErro = null
+            try {
+                carregando = true
+                mensagemErro = null
 
-            val erroValidacao = validador.validarCadastro(cpf, email, senha)
+                val erroValidacao = validador.validarCadastro(cpf, email, senha)
 
-            if (erroValidacao != null) {
-                mensagemErro = erroValidacao
-                println("Erro: ${mensagemErro.toString()}")
-            }
-            else{
-                try {
-                    // Preenchendo o molde com os dados da tela
-                    val dados = CadastroUsuario(
-                        Nome = nome,
-                        Cpf = cpf,
-                        Email = email,
-                        Senha = senha
-                    )
+                if (erroValidacao != null) {
+                    mensagemErro = erroValidacao
+                    println("Erro: ${mensagemErro.toString()}")
+                }
 
-                    // Envia para a API C#
-                    val enviarDados = apiCadastro.cadastrarUsuario(dados)
+                // Preenchendo o molde com os dados da tela
+                val dados = CadastroUsuario(
+                    Nome = nome,
+                    Cpf = cpf,
+                    Email = email,
+                    Senha = senha
+                )
 
-                    if (enviarDados.isSuccessful) {
-                        val usuarioCriado = enviarDados.body()
-                        val idUsuario = usuarioCriado?.idUsuario
+                // Envia para a API C#
+                val enviarDados = apiCadastro.cadastrarUsuario(dados)
 
-                        if(idUsuario != null){
-                            irParaTelaPrincipal(idUsuario)
-                        }
 
-                    }else{
-                        // Pega a mensagem de erro que vem da API se possível
-                        mensagemErro = "Erro: ${enviarDados.code()} - Verifique os dados"
+                if (enviarDados.isSuccessful) {
+                    val idUsuario: Int? = enviarDados.body()?.idUsuario
+
+                    if (idUsuario != null) {
+                        irParaTelaPrincipal(idUsuario)
+                    } else {
+                        irParaTelaPrincipal(1) // Caso de erro ao buscar o id do usuário, forçamos a usar um padrão
                     }
 
-                } catch (e: Exception) {
+                } else {
+                    // Pega a mensagem de erro que vem da API se possível
+                    mensagemErro = "Erro: ${enviarDados.code()} - Verifique os dados"
+                }
+
+            }catch (e: Exception) {
                     // Aqui tratamos qualquer erro de conexão ou falha na chamada
                     mensagemErro = "Falha na conexão: Verifique se o servidor está rodando."
                     println(e.stackTraceToString())
-                } finally {
-                    carregando = false
-                }
+            } finally {
+                carregando = false
+
             }
         }
     }

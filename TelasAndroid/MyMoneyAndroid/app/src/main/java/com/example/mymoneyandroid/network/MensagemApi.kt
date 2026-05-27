@@ -6,6 +6,6 @@ import retrofit2.http.Body
 import retrofit2.http.POST
 
 interface MensagemApi {
-    @POST("/mensagem/")
+    @POST("/mensagens/")
     suspend fun criarMensagem(@Body novaMensagem: Mensagem): Response<Mensagem>
 }

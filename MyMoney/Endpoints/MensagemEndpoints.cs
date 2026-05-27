@@ -32,10 +32,17 @@ public static class MensagemEndpoints
 
 
         //POST
-        grupo.MapPost("/", async (Mensagem novaMensagem, AppDbContext db) => // OK
+        grupo.MapPost("/", async (Mensagem dados, AppDbContext db) => // OK
         { 
+            var novaMensagem = new Mensagem {
+                idUsuario = dados.idUsuario,     // <--- ADICIONE ESSA LINHA (liga a mensagem ao usuário certo)
+                Assunto = dados.Assunto,
+                mensagem = dados.mensagem,
+                DataEnvio = DateTime.Now
+            };
             db.Mensagem.Add(novaMensagem); // Adiciona a nova mensagem
             await db.SaveChangesAsync(); // Salva as altera��es no banco de dados
+
 
             return Results.Ok(novaMensagem);
 

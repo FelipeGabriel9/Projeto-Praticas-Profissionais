@@ -3,6 +3,7 @@ package com.example.mymoneyandroid.network
 import com.example.mymoneyandroid.model.LoginUsuario
 import com.example.mymoneyandroid.model.DadosUsuario
 import com.example.mymoneyandroid.model.CadastroUsuario
+import com.example.mymoneyandroid.model.LoginResposta
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -22,7 +23,7 @@ interface UsuarioApi {
 
     // Rota para realizar login
     @POST("/usuarios/login")
-    suspend fun loginUsuario(@Body login: LoginUsuario): Response<DadosUsuario>
+    suspend fun loginUsuario(@Body login: LoginUsuario): Response<LoginResposta>
 
     // Rota para deletar uma conta
     @DELETE("/usuarios/{id}")

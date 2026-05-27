@@ -24,7 +24,7 @@ class MensagemViewModel : ViewModel() {
                 // Preenchendo o molde com os dados da tela
                 val dados = Mensagem(
                     idUsuario = idUsuario,
-                    assunto = assunto,
+                    Assunto = assunto,
                     mensagem = mensagem
                 )
 
