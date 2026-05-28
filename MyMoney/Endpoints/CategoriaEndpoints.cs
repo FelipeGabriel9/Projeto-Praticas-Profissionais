@@ -19,17 +19,16 @@ public static class CategoriaEndpoints
         });
 
 
-        //GET BY ID
-        grupo.MapGet("/{id}", async (int id, AppDbContext db) => // OK
+        // GET CATEGORIAS DO USUÁRIO
+        grupo.MapGet("/{idUsuario}", async (int idUsuario, AppDbContext db) =>
         {
-           var categoria = await db.Categoria.FindAsync(id);
-           // busca uma categoria com um determinado id no BD
+            // busca uma categoria com um determinado idUsuario no BD
+            var categorias = await db.Categoria
+                .Where(c => c.idUsuario == idUsuario)
+                .ToListAsync();
 
-           return categoria is null ? Results.NotFound() : Results.Ok(categoria);
-           // se não houver uma categoria com o id (variável categoria é null),
-           // retorna um erro (404). Caso contrário, retorna a categoria 
+            return Results.Ok(categorias);
         });
-
 
         //POST
         grupo.MapPost("/", async (Categoria novaCategoria, AppDbContext db) => // OK
@@ -42,22 +41,20 @@ public static class CategoriaEndpoints
 
 
         //PUT
-        grupo.MapPut("/{id}", async (int id, Categoria categoriaAtualizada, AppDbContext db) => // OK
+        grupo.MapPut("/{idCategoria}", async (int idCategoria, Categoria categoriaAtualizada, AppDbContext db) => // OK
         {
             // Busca a categoria original no banco
-            var categoria = await db.Categoria.FindAsync(id);
+            var categoria = await db.Categoria.FindAsync(idCategoria);
             // Se não achar, retorna 404
             if (categoria is null) 
                 return Results.NotFound();
 
-            // Atualiza o nome da categoria
-            categoria.NomeCategoria = categoriaAtualizada.NomeCategoria;
             // Atualiza o valor
             categoria.ValorDespesa = categoriaAtualizada.ValorDespesa;
-            // Atualiza o idUsuario
-            categoria.idUsuario = categoriaAtualizada.idUsuario;
+
             // Salva as alterações no banco
             await db.SaveChangesAsync();
+            
             // Retorna NoContent (sucesso 204, feito sem retornar dados novos)
             return Results.NoContent();
         });

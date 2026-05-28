@@ -10,66 +10,151 @@ import kotlinx.coroutines.launch
 
 class CategoriaViewModel : ViewModel() {
 
-    private val _categorias = MutableStateFlow<List<Categoria>>(emptyList())
+    private val _categorias =
+        MutableStateFlow<List<Categoria>>(emptyList())
 
-    val categorias = _categorias.asStateFlow()
+    val categorias =
+        _categorias.asStateFlow()
 
     // Categorias fixas para todos os usuários
     private val categoriasFixas = listOf(
-        "Saúde", "Lazer", "Aluguel", "Alimentação", "Presentes", "Transporte", "Família", "Academia"
+        "Saúde",
+        "Lazer",
+        "Aluguel",
+        "Alimentação",
+        "Presentes",
+        "Transporte",
+        "Família",
+        "Academia"
     )
 
     fun buscarCategorias(idUsuario: Int) {
+
         viewModelScope.launch {
+
             try {
+
                 // Mapeia a lista de nomes fixos para objetos do tipo Categoria
-                val listaFixasComoObjetos = categoriasFixas.map { nome ->
-                    Categoria(NomeCategoria = nome, ValorDespesa = 0.0, idUsuario = idUsuario)
-                }
+                val listaFixasComoObjetos =
+                    categoriasFixas.map { nome ->
+
+                        Categoria(
+                            nomeCategoria = nome,
+                            valorDespesa = 0.0,
+                            idUsuario = idUsuario
+                        )
+                    }
 
                 // Busca o que o usuário já adicionou
-                val resposta = Retrofit.apiCategoria.listarCategorias(idUsuario)
+                val resposta =
+                    Retrofit
+                        .apiCategoria
+                        .listarCategorias(idUsuario)
 
                 if (resposta.isSuccessful) {
-                    val listaDoBanco = resposta.body() ?: emptyList()
+
+                    val listaDoBanco =
+                        resposta.body() ?: emptyList()
+
                     println(listaDoBanco)
 
-                    val listaCompleta = (listaFixasComoObjetos + listaDoBanco).distinctBy { it.NomeCategoria }
-                    _categorias.value = listaCompleta
+                    val listaCompleta =
+                        (
+                                listaFixasComoObjetos +
+                                        listaDoBanco
+                                ).distinctBy {
+                                it.nomeCategoria
+                            }
+
+                    _categorias.value =
+                        listaCompleta
+
                 } else {
+
                     // Se a API falhar por algum motivo, mostra apenas categorias fixas na tela
-                    _categorias.value = listaFixasComoObjetos
+                    _categorias.value =
+                        listaFixasComoObjetos
                 }
+
             } catch (e: Exception) {
+
                 e.printStackTrace()
 
                 // Se der erro de servidor desligado, garante que as fixas apareçam
-                val listaFixasComoObjetos = categoriasFixas.map { nome ->
-                    Categoria(NomeCategoria = nome, ValorDespesa = 0.0, idUsuario = idUsuario)
-                }
-                _categorias.value = listaFixasComoObjetos
+                val listaFixasComoObjetos =
+                    categoriasFixas.map { nome ->
+
+                        Categoria(
+                            nomeCategoria = nome,
+                            valorDespesa = 0.0,
+                            idUsuario = idUsuario
+                        )
+                    }
+
+                _categorias.value =
+                    listaFixasComoObjetos
             }
         }
     }
 
-    fun criarCategoria(nome: String, idUsuario: Int) {
+    fun criarCategoria(
+        nome: String,
+        idUsuario: Int
+    ) {
 
         viewModelScope.launch {
 
             try {
 
-                val novaCategoria = Categoria(
-                    NomeCategoria = nome,
-                    ValorDespesa = 0.0,
-                    idUsuario = idUsuario
-                )
+                val novaCategoria =
+                    Categoria(
+                        nomeCategoria = nome,
+                        valorDespesa = 0.0,
+                        idUsuario = idUsuario
+                    )
 
                 val resposta =
-                    Retrofit.apiCategoria.criarCategoria(novaCategoria)
+                    Retrofit
+                        .apiCategoria
+                        .criarCategoria(novaCategoria)
+
+                println(resposta.body())
 
                 if (resposta.isSuccessful) {
 
-                    // BUSCA TUDO DE NOVO
+                    buscarCategorias(idUsuario)
+                }
+
+            } catch (e: Exception) {
+
+                e.printStackTrace()
+            }
+        }
+    }
+
+    fun atualizarValorCategoria(
+        categoria: Categoria,
+        novoValor: Double,
+        idUsuario: Int
+    ) {
+
+        viewModelScope.launch {
+
+            try {
+
+                val categoriaAtualizada =
+                    categoria.copy(
+                        valorDespesa = novoValor
+                    )
+
+                val resposta =
+                    Retrofit.apiCategoria.atualizarCategoria(
+                        categoria.idCategoria ?: 0,
+                        categoriaAtualizada
+                    )
+
+                if (resposta.isSuccessful) {
+
                     buscarCategorias(idUsuario)
                 }
 

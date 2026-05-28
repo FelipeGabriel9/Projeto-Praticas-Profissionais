@@ -124,18 +124,18 @@ fun AppNavigation() {
 
         // Rota para os detalhes de uma categoria
         composable(
-            route = "detalhescategoria/{nomeCategoria}/{idUsuario}",
+            route = "detalhescategoria/{idCategoria}/{idUsuario}",
             arguments = listOf(
-                navArgument("nomeCategoria") { type = NavType.StringType },
+                navArgument("idCategoria") { type = NavType.IntType },
                 navArgument("idUsuario") { type = NavType.IntType }
             )
         ) { tela ->
-            val nome = tela.arguments?.getString("nomeCategoria")
+            val idCategoria = tela.arguments?.getInt("idCategoria") ?: 0
             val idUsuario = tela.arguments?.getInt("idUsuario") ?: 0
 
             DetalheCategoriaScreen(
                 controleNavegacao = controleNavegacao,
-                nomeCategoria = nome,
+                idCategoria = idCategoria,
                 idUsuario = idUsuario
             )
         }

@@ -65,14 +65,7 @@ fun MetasScreen(
                 // Renderiza os botões dinâmicos com base nos objetos Meta
                 items(listaMetasApi) { meta ->
                     BotaoMeta(nome = meta.nomeMeta) {
-                        controleNavegacao.navigate("detalhemeta/${meta.nomeMeta}")
-                    }
-                }
-
-                // Botão fixo no final para Adicionar
-                item {
-                    BotaoMeta(nome = "Criar") {
-                        mostrarDialogo = true
+                        controleNavegacao.navigate("detalhemeta/${meta.nomeMeta}/${meta.idUsuario}")
                     }
                 }
             }

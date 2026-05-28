@@ -6,6 +6,7 @@ import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Path
 
 interface CategoriaApi {
@@ -17,5 +18,7 @@ interface CategoriaApi {
     @POST("/categorias/")
     suspend fun criarCategoria(@Body novaCategoria: Categoria): Response<Categoria>
 
-
+    // Atualiza o valor de uma despesa no BD
+    @PUT("/categorias/{idCategoria}")
+    suspend fun atualizarCategoria(@Path("idCategoria") idCategoria: Int, @Body categoria: Categoria): Response<Categoria>
 }
