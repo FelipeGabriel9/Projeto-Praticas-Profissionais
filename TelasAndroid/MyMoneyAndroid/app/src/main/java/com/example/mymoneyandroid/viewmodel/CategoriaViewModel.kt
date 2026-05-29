@@ -34,18 +34,7 @@ class CategoriaViewModel : ViewModel() {
 
             try {
 
-                // Mapeia a lista de nomes fixos para objetos do tipo Categoria
-                val listaFixasComoObjetos =
-                    categoriasFixas.map { nome ->
-
-                        Categoria(
-                            nomeCategoria = nome,
-                            valorDespesa = 0.0,
-                            idUsuario = idUsuario
-                        )
-                    }
-
-                // Busca o que o usuário já adicionou
+                // Busca categorias já existentes no banco
                 val resposta =
                     Retrofit
                         .apiCategoria
@@ -56,43 +45,50 @@ class CategoriaViewModel : ViewModel() {
                     val listaDoBanco =
                         resposta.body() ?: emptyList()
 
-                    println(listaDoBanco)
+                    // Pega apenas os nomes já existentes
+                    val nomesExistentes =
+                        listaDoBanco.map {
+                            it.nomeCategoria
+                        }
 
-                    val listaCompleta =
-                        (
-                                listaFixasComoObjetos +
-                                        listaDoBanco
-                                ).distinctBy {
-                                it.nomeCategoria
-                            }
+                    // Verifica quais categorias fixas ainda não existem
+                    val categoriasParaCriar =
+                        categoriasFixas.filter { nome ->
+                            nome !in nomesExistentes
+                        }
 
-                    _categorias.value =
-                        listaCompleta
+                    // Cria apenas as que faltam
+                    categoriasParaCriar.forEach { nome ->
 
-                } else {
+                        val novaCategoria =
+                            Categoria(
+                                nomeCategoria = nome,
+                                valorDespesa = 0.0,
+                                idUsuario = idUsuario
+                            )
 
-                    // Se a API falhar por algum motivo, mostra apenas categorias fixas na tela
-                    _categorias.value =
-                        listaFixasComoObjetos
+                        Retrofit
+                            .apiCategoria
+                            .criarCategoria(novaCategoria)
+                    }
+
+                    // Busca novamente após criar
+                    val novaResposta =
+                        Retrofit
+                            .apiCategoria
+                            .listarCategorias(idUsuario)
+
+                    if (novaResposta.isSuccessful) {
+
+                        _categorias.value =
+                            novaResposta.body() ?: emptyList()
+                    }
+
                 }
 
             } catch (e: Exception) {
 
                 e.printStackTrace()
-
-                // Se der erro de servidor desligado, garante que as fixas apareçam
-                val listaFixasComoObjetos =
-                    categoriasFixas.map { nome ->
-
-                        Categoria(
-                            nomeCategoria = nome,
-                            valorDespesa = 0.0,
-                            idUsuario = idUsuario
-                        )
-                    }
-
-                _categorias.value =
-                    listaFixasComoObjetos
             }
         }
     }
@@ -132,6 +128,65 @@ class CategoriaViewModel : ViewModel() {
         }
     }
 
+    fun criarCategoriaFixa(
+        nomeCategoria: String,
+        idUsuario: Int,
+        aoCriar: (Categoria) -> Unit
+    ) {
+
+        viewModelScope.launch {
+
+            try {
+
+                val categoriaExistente =
+                    _categorias.value.find {
+
+                        it.nomeCategoria.equals(
+                            nomeCategoria,
+                            ignoreCase = true
+                        )
+                    }
+
+                // Se já existir no banco/lista
+                if (categoriaExistente != null) {
+
+                    aoCriar(categoriaExistente)
+
+                } else {
+
+                    val novaCategoria =
+                        Categoria(
+                            nomeCategoria = nomeCategoria,
+                            valorDespesa = 0.0,
+                            idUsuario = idUsuario
+                        )
+
+                    val resposta =
+                        Retrofit
+                            .apiCategoria
+                            .criarCategoria(novaCategoria)
+
+                    if (resposta.isSuccessful) {
+
+                        val categoriaCriada =
+                            resposta.body()
+
+                        if (categoriaCriada != null) {
+
+                            buscarCategorias(idUsuario)
+
+                            aoCriar(categoriaCriada)
+                        }
+                    }
+                }
+
+            } catch (e: Exception) {
+
+                e.printStackTrace()
+            }
+        }
+    }
+
     fun atualizarValorCategoria(
         categoria: Categoria,
         novoValor: Double,
@@ -151,6 +206,32 @@ class CategoriaViewModel : ViewModel() {
                     Retrofit.apiCategoria.atualizarCategoria(
                         categoria.idCategoria ?: 0,
                         categoriaAtualizada
+                    )
+
+                if (resposta.isSuccessful) {
+
+                    buscarCategorias(idUsuario)
+                }
+
+            } catch (e: Exception) {
+
+                e.printStackTrace()
+            }
+        }
+    }
+
+    fun excluirCategoria(
+        idCategoria: Int,
+        idUsuario: Int
+    ) {
+
+        viewModelScope.launch {
+
+            try {
+
+                val resposta =
+                    Retrofit.apiCategoria.excluirCategoria(
+                        idCategoria
                     )
 
                 if (resposta.isSuccessful) {

@@ -13,6 +13,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 
 // Cores usadas na tela
@@ -142,10 +143,40 @@ fun DetalheMetaScreen(
                 shape = RoundedCornerShape(12.dp)
             ) {
                 Text(
-                    text = "SALVAR DINHEIRO",
+                    text = "Guardar",
                     fontWeight = FontWeight.Bold,
                     color = CorTextoPrincipal
                 )
+            }
+
+            // Botão de excluir uma categoria
+            Button(
+
+                onClick = {
+
+                    nomeMeta?.let {
+
+                        viewModel.excluirCategoria(
+                            idCategoria = it.idMeta ?: 0,
+                            idUsuario = idUsuario
+                        )
+
+                        controleNavegacao.popBackStack()
+                    }
+                },
+
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(50.dp),
+
+                shape = RoundedCornerShape(12.dp),
+
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color.Red
+                )
+            ) {
+
+                Text("EXCLUIR CATEGORIA")
             }
         }
     }

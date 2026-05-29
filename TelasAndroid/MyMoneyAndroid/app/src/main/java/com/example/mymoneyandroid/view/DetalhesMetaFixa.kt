@@ -13,39 +13,23 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.example.mymoneyandroid.viewmodel.CategoriaViewModel
 
 private val corFundo = Color(0xFF2E7D32)
 private val branco = Color(0XFFFFFFFF)
 
 @Composable
-fun DetalheCategoriaScreen(
+fun DetalheMetaFixaScreen(
     controleNavegacao: NavController,
-    idCategoria: Int,
-    idUsuario: Int,
-    viewModel: CategoriaViewModel = viewModel()
+    nomeMeta: String,
+    idUsuario: Int
 ) {
 
-    val listaCategorias by viewModel.categorias.collectAsState()
-
-    LaunchedEffect(Unit) {
-        viewModel.buscarCategorias(idUsuario)
-    }
-
-    val categoria = listaCategorias.find {
-        it.idCategoria == idCategoria
-    }
-
-    var valorDigitado by remember {
-        mutableStateOf("")
-    }
-
-    val totalAcumulado = categoria?.valorDespesa ?: 0.0
+    var valorDigitado by remember { mutableStateOf("") }
+    var totalAcumulado by remember { mutableStateOf(0.0) }
 
     MenuScreen(
-        tituloDaPagina = categoria?.nomeCategoria ?: "Categoria",
+        tituloDaPagina = nomeMeta,
         controleNagegacao = controleNavegacao,
         idUsuario = idUsuario
     ) { padding ->
@@ -61,11 +45,10 @@ fun DetalheCategoriaScreen(
         ) {
 
             Text(
-                "Total gasto em ${categoria?.nomeCategoria ?: "Categoria"}",
+                "Total gasto em $nomeMeta",
                 color = Color.Gray
             )
 
-            // Exibe o total acumulado formatado
             Text(
                 text = "R$ ${String.format("%.2f", totalAcumulado)}",
                 color = branco,
@@ -75,7 +58,6 @@ fun DetalheCategoriaScreen(
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            // Campo de texto para digitar o valor
             OutlinedTextField(
                 value = valorDigitado,
 
@@ -102,7 +84,6 @@ fun DetalheCategoriaScreen(
 
             Spacer(modifier = Modifier.height(20.dp))
 
-            // Botão para adicionar uma nova despesa
             Button(
 
                 onClick = {
@@ -112,17 +93,7 @@ fun DetalheCategoriaScreen(
                             .replace(",", ".")
                             .toDoubleOrNull() ?: 0.0
 
-                    val novoValor =
-                        totalAcumulado + valor
-
-                    categoria?.let {
-
-                        viewModel.atualizarValorCategoria(
-                            categoria = it,
-                            novoValor = novoValor,
-                            idUsuario = idUsuario
-                        )
-                    }
+                    totalAcumulado += valor
 
                     valorDigitado = ""
                 },
@@ -141,41 +112,8 @@ fun DetalheCategoriaScreen(
                 Text("ADICIONAR DESPESA")
             }
 
-            Spacer(modifier = Modifier.height(12.dp))
-
-            // Botão de excluir uma categoria
-            Button(
-
-                onClick = {
-
-                    categoria?.let {
-
-                        viewModel.excluirCategoria(
-                            idCategoria = it.idCategoria ?: 0,
-                            idUsuario = idUsuario
-                        )
-
-                        controleNavegacao.popBackStack()
-                    }
-                },
-
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(50.dp),
-
-                shape = RoundedCornerShape(12.dp),
-
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color.Red
-                )
-            ) {
-
-                Text("EXCLUIR CATEGORIA")
-            }
-
             Spacer(modifier = Modifier.height(32.dp))
 
-            // Histórico
             Text(
                 text = "Histórico",
                 color = branco,
@@ -186,7 +124,6 @@ fun DetalheCategoriaScreen(
 
             Spacer(modifier = Modifier.height(12.dp))
 
-            // Criando lista (enquanto não usa banco de dados)
             val transacoes = listOf("Gasto recente")
 
             transacoes.forEach {
@@ -204,12 +141,12 @@ fun DetalheCategoriaScreen(
                 ) {
 
                     Text(
-                        categoria?.nomeCategoria ?: "Gasto",
+                        nomeMeta,
                         color = Color.White
                     )
 
                     Text(
-                        "- R$ ${String.format("%.2f", totalAcumulado)}",
+                        "R$ ${String.format("%.2f", totalAcumulado)}",
                         color = Color(0xFFF44336)
                     )
                 }

@@ -4,6 +4,7 @@ package com.example.mymoneyandroid.network
 import com.example.mymoneyandroid.model.Categoria
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.PUT
@@ -21,4 +22,8 @@ interface CategoriaApi {
     // Atualiza o valor de uma despesa no BD
     @PUT("/categorias/{idCategoria}")
     suspend fun atualizarCategoria(@Path("idCategoria") idCategoria: Int, @Body categoria: Categoria): Response<Categoria>
+
+    // Exclui uma categoria do BD
+    @DELETE("/categorias/{idCategoria}")
+    suspend fun excluirCategoria(@Path("idCategoria") idCategoria: Int): Response<Unit>
 }

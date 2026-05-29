@@ -91,9 +91,23 @@ fun CategoriaScreen(
                     ) {
 
                         // Navega para a tela de detalhes enviando o nome da categoria selecionada
-                        controleNavegacao.navigate(
-                            "detalhescategoria/${categoria.idCategoria}/$idUsuario"
-                        )
+                        if (categoria.idCategoria != null) {
+
+                            controleNavegacao.navigate(
+                                "detalhescategoria/${categoria.idCategoria}/$idUsuario"
+                            )
+
+                        } else {
+
+                            viewModel.criarCategoriaFixa(
+                                nomeCategoria = categoria.nomeCategoria ?: "",
+                                idUsuario = idUsuario,
+                                aoCriar = { idGerado ->
+
+                                    controleNavegacao.navigate("detalhescategoria/$idGerado/$idUsuario")
+                                }
+                            )
+                        }
                     }
                 }
 

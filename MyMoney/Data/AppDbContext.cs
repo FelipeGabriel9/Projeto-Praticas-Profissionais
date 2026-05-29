@@ -30,24 +30,19 @@ namespace MyMoney.Data
 
             // Configuração da tabela Categoria
             modelBuilder.Entity<Categoria>().HasKey(c => c.idCategoria);
-            modelBuilder.Entity<Categoria>().Property(c => c.NomeCategoria).HasColumnType("varchar(30)");
-
             modelBuilder.Entity<Categoria>().Property(c => c.NomeCategoria).IsRequired().HasColumnType("varchar(30)");
             modelBuilder.Entity<Categoria>().HasIndex(c => c.NomeCategoria).IsUnique();
             modelBuilder.Entity<Categoria>().Property(c => c.ValorDespesa).IsRequired().HasColumnType("money");
             modelBuilder.Entity<Categoria>().HasOne<Usuario>().WithMany().HasForeignKey(c => c.idUsuario);
         
             // Configuração da tabela Meta
-            modelBuilder.Entity<Meta>().HasKey(c => c.idMeta);
+            modelBuilder.Entity<Meta>().HasKey(m => m.idMeta);
             modelBuilder.Entity<Meta>().HasOne<Usuario>().WithMany().HasForeignKey(c => c.idUsuario);
-            modelBuilder.Entity<Meta>().Property(c => c.NomeMeta).HasColumnType("varchar(30)");
-            modelBuilder.Entity<Meta>().HasIndex(c => c.NomeMeta).IsUnique();            modelBuilder.Entity<Meta>().Property(c => c.ValorObjetivo).IsRequired().HasColumnType("money");
-
-            modelBuilder.Entity<Meta>().Property(c => c.NomeMeta).IsRequired().HasColumnType("varchar(30)");
-            modelBuilder.Entity<Meta>().HasIndex(c => c.NomeMeta).IsUnique();
-            modelBuilder.Entity<Meta>().Property(c => c.ValorObjetivo).IsRequired().HasColumnType("money");
-            modelBuilder.Entity<Meta>().Property(c => c.ValorAtual).IsRequired().HasColumnType("money");
-            modelBuilder.Entity<Meta>().Property(c => c.DataCriacao).IsRequired().HasColumnType("datetime");
+            modelBuilder.Entity<Meta>().Property(m => m.NomeMeta).HasColumnType("varchar(30)");
+            modelBuilder.Entity<Meta>().HasIndex(m => m.NomeMeta).IsUnique();            
+            modelBuilder.Entity<Meta>().Property(m => m.ValorObjetivo).IsRequired().HasColumnType("money");
+            modelBuilder.Entity<Meta>().Property(m => m.ValorAtual).IsRequired().HasColumnType("money");
+            modelBuilder.Entity<Meta>().Property(m => m.DataCriacao).IsRequired().HasColumnType("datetime");
 
             // Configuração da tabela Mensagem
             modelBuilder.Entity<Mensagem>().HasKey(c => c.idMensagem);

@@ -9,6 +9,7 @@ import androidx.navigation.navArgument
 import com.example.mymoneyandroid.view.CadastroScreen
 import com.example.mymoneyandroid.view.LoginScreen
 import com.example.mymoneyandroid.view.CategoriaScreen
+import com.example.mymoneyandroid.view.DetalheCategoriaFixaScreen
 import com.example.mymoneyandroid.view.PrincipalScreen
 import com.example.mymoneyandroid.view.DetalheCategoriaScreen
 import com.example.mymoneyandroid.view.DetalheMetaScreen
@@ -140,6 +141,32 @@ fun AppNavigation() {
             )
         }
 
+        // Rota para uma categoria fixa
+        composable(
+            route = "detalhescategoriafixa/{nomeCategoria}/{idUsuario}",
+            arguments = listOf(
+                navArgument("nomeCategoria") {
+                    type = NavType.StringType
+                },
+                navArgument("idUsuario") {
+                    type = NavType.IntType
+                }
+            )
+        ) { tela ->
+
+            val nomeCategoria =
+                tela.arguments?.getString("nomeCategoria") ?: ""
+
+            val idUsuario =
+                tela.arguments?.getInt("idUsuario") ?: 0
+
+            DetalheCategoriaFixaScreen(
+                controleNavegacao = controleNavegacao,
+                nomeCategoria = nomeCategoria,
+                idUsuario = idUsuario
+            )
+        }
+
         // Rota para os detalhes de uma meta
         composable(
             route = "detalhemeta/{nomeMeta}/{idUsuario}",
@@ -154,6 +181,32 @@ fun AppNavigation() {
                 controleNavegacao = controleNavegacao,
                 nomeMeta = nome,
                 idUsuario = idUsuario)
+        }
+
+        // Rota para uma meta fixa
+        composable(
+            route = "detalhesmetafixa/{nomeMeta}/{idUsuario}",
+            arguments = listOf(
+                navArgument("nomeMeta") {
+                    type = NavType.StringType
+                },
+                navArgument("idUsuario") {
+                    type = NavType.IntType
+                }
+            )
+        ) { tela ->
+
+            val nomeMeta =
+                tela.arguments?.getString("nomeMeta") ?: ""
+
+            val idUsuario =
+                tela.arguments?.getInt("idUsuario") ?: 0
+
+            DetalheMetaScreen(
+                controleNavegacao = controleNavegacao,
+                nomeMeta = nomeMeta,
+                idUsuario = idUsuario
+            )
         }
     }
 }
