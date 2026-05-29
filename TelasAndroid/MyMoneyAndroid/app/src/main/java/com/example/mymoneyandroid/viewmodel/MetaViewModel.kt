@@ -78,4 +78,21 @@ class MetaViewModel : ViewModel() {
             }
         }
     }
+
+    // Adicione esta função dentro da classe MetaViewModel
+    fun excluirMeta(idMeta: Int, idUsuario: Int) {
+        viewModelScope.launch {
+            try {
+                // Substitua 'Retrofit.apiMeta' pelo nome real do seu objeto de conexão do Retrofit
+                val response = Retrofit.apiMeta.excluirMeta(idMeta, idUsuario)
+
+                if (response.isSuccessful) {
+                    // Se deletou no banco com sucesso, atualiza a lista de metas na tela
+                    buscarMetas(idUsuario)
+                }
+            } catch (e: Exception) {
+                // Trate o erro se necessário (ex: log ou mudar um estado de erro)
+            }
+        }
+    }
 }

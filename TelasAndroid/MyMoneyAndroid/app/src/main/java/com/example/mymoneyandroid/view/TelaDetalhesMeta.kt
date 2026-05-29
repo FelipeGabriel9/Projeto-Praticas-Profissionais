@@ -13,8 +13,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.lifecycle.viewmodel.compose.viewModel // Importante para o funcionamento do viewModel()
 import androidx.navigation.NavController
+import com.example.mymoneyandroid.viewmodel.MetaViewModel
 
 // Cores usadas na tela
 private val CorFundoEscuro = Color(0xFF0F0F0F)
@@ -29,8 +30,10 @@ private val CorFundoBarra = Color(0xFF2C2C2E)
 @Composable
 fun DetalheMetaScreen(
     controleNavegacao: NavController,
+    idMeta: Int,          // CORREÇÃO 1: Adicionado o idMeta que estava faltando aqui!
     nomeMeta: String?,
-    idUsuario: Int
+    idUsuario: Int,
+    viewModel: MetaViewModel = viewModel() // CORREÇÃO 2: Injetando o ViewModel corretamente por padrão
 ) {
     // Estados para os valores
     var valorObjetivo by remember { mutableStateOf("") }
@@ -41,7 +44,7 @@ fun DetalheMetaScreen(
     val objetivoTotal = valorObjetivo.replace(",", ".").toDoubleOrNull() ?: 1.0
     val progresso = (totalAcumulado / objetivoTotal).coerceIn(0.0, 1.0).toFloat()
 
-    MenuScreen(tituloDaPagina = nomeMeta ?: "Meta", controleNagegacao = controleNavegacao, idUsuario= idUsuario) { padding ->
+    MenuScreen(tituloDaPagina = nomeMeta ?: "Meta", controleNagegacao = controleNavegacao, idUsuario = idUsuario) { padding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -149,34 +152,21 @@ fun DetalheMetaScreen(
                 )
             }
 
-            // Botão de excluir uma categoria
+            // Botão de excluir meta
             Button(
-
                 onClick = {
-
-                    nomeMeta?.let {
-
-                        viewModel.excluirCategoria(
-                            idCategoria = it.idMeta ?: 0,
-                            idUsuario = idUsuario
-                        )
-
-                        controleNavegacao.popBackStack()
-                    }
+                    // Agora o viewModel e o idMeta estão acessíveis e vão funcionar de primeira!
+                    viewModel.excluirMeta(idMeta = idMeta, idUsuario = idUsuario)
+                    controleNavegacao.popBackStack()
                 },
-
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(50.dp),
-
+                    .height(50.dp)
+                    .padding(top = 16.dp),
                 shape = RoundedCornerShape(12.dp),
-
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color.Red
-                )
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFD32F2F))
             ) {
-
-                Text("EXCLUIR CATEGORIA")
+                Text("EXCLUIR META", color = Color.White, fontWeight = FontWeight.Bold)
             }
         }
     }

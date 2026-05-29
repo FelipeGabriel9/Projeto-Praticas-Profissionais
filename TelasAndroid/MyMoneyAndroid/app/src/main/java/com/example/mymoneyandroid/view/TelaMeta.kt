@@ -1,5 +1,6 @@
 package com.example.mymoneyandroid.view
 
+import android.net.Uri
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -63,9 +64,23 @@ fun MetasScreen(
                 modifier = Modifier.weight(1f)
             ) {
                 // Renderiza os botões dinâmicos com base nos objetos Meta
-                items(listaMetasApi) { meta ->
-                    BotaoMeta(nome = meta.nomeMeta) {
-                        controleNavegacao.navigate("detalhemeta/${meta.nomeMeta}/${meta.idUsuario}")
+                items(
+                    items = listaMetasApi,
+                    key = { it.nomeMeta } // Evita bugs de recomposição
+                ) { meta ->
+                    val nomeValido = meta.nomeMeta ?: "Sem Nome"
+                    BotaoMeta(nome = nomeValido) {
+                        val nomeTratado = Uri.encode(nomeValido)
+                        val idMetaValido = meta.idMeta ?: 0 // Garanta que seu Model 'Meta' tenha o campo idMeta
+
+                        // Passa idMeta, nome e idUsuario na rota atualizada
+                        controleNavegacao.navigate("detalhemeta/$idMetaValido/$nomeTratado/$idUsuario")
+                    }
+                }
+
+                item{
+                    BotaoMeta (nome = "Criar ") {
+                        mostrarDialogo = true
                     }
                 }
             }
