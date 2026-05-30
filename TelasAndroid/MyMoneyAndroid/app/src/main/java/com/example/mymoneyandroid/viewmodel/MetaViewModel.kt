@@ -74,7 +74,7 @@ class MetaViewModel : ViewModel() {
                     buscarMetas(idUsuario)
                 }
             } catch (e: Exception) {
-                // Trata o erro silenciosamente ou mantém o fluxo básico
+                e.printStackTrace()
             }
         }
     }

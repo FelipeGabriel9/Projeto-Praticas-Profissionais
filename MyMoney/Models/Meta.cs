@@ -10,6 +10,6 @@ public class Meta
     public required string NomeMeta { get; set; }
     public required decimal ValorObjetivo { get; set; }
     public required decimal ValorAtual { get; set; }
-    public required DateTime DataCriacao { get; set; }
+    public DateTime? DataCriacao { get; set; } 
 
 }

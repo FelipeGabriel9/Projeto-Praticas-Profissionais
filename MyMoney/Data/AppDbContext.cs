@@ -42,7 +42,7 @@ namespace MyMoney.Data
             modelBuilder.Entity<Meta>().HasIndex(m => m.NomeMeta).IsUnique();            
             modelBuilder.Entity<Meta>().Property(m => m.ValorObjetivo).IsRequired().HasColumnType("money");
             modelBuilder.Entity<Meta>().Property(m => m.ValorAtual).IsRequired().HasColumnType("money");
-            modelBuilder.Entity<Meta>().Property(m => m.DataCriacao).IsRequired().HasColumnType("datetime");
+            modelBuilder.Entity<Meta>().Property(m => m.DataCriacao).HasColumnType("datetime").IsRequired(false);
 
             // Configuração da tabela Mensagem
             modelBuilder.Entity<Mensagem>().HasKey(c => c.idMensagem);

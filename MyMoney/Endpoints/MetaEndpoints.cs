@@ -32,13 +32,21 @@ public static class MetaEndpoints
 
 
 		//POST
+		// No seu MetaEndpoints.cs dentro do MapMetaEndpoints
+
+		// POST
 		grupo.MapPost("/", async (Meta novaMeta, AppDbContext db) =>
 		{
-			db.Meta.Add(novaMeta); // Adiciona a nova meta
-			await db.SaveChangesAsync(); // Salva as altera��es no banco de dados
+			// Se o Android não mandou data, o servidor gera a data atual antes de salvar!
+			if (novaMeta.DataCriacao == null)
+			{
+				novaMeta.DataCriacao = DateTime.Now;
+			}
+
+			db.Meta.Add(novaMeta); 
+			await db.SaveChangesAsync(); 
 
 			return Results.Ok(novaMeta);
-
 		});
 
 
