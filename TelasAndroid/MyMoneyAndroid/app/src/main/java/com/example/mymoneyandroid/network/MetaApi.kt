@@ -9,7 +9,7 @@ import retrofit2.http.POST
 import retrofit2.http.Path
 
 interface MetaApi {
-    @GET("/metas/{idUsuario}")
+    @GET("/metas/usuario/{idUsuario}")
     suspend fun listarMetas(@Path("idUsuario") idUsuario: Int): Response<List<Meta>>
 
     // Cria uma nova meta

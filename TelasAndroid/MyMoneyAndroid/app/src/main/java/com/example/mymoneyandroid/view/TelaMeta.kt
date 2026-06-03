@@ -35,17 +35,15 @@ private val verdeGradiente = Color(0xFF1A2E1A)
 fun MetasScreen(
     controleNavegacao: NavController,
     idUsuario: Int,
-    viewModel: MetaViewModel = viewModel() // ViewModel Injetado
+    viewModel: MetaViewModel = viewModel()
 ) {
     var mostrarDialogo by remember { mutableStateOf(false) }
     var novoNomeMeta by remember { mutableStateOf("") }
 
-    // Roda a busca assim que o ID do usuário é validado
     LaunchedEffect(idUsuario) {
         viewModel.buscarMetas(idUsuario)
     }
 
-    // Coleta as metas em tempo real
     val listaMetasApi by viewModel.metas.collectAsState()
 
     MenuScreen(tituloDaPagina = "Minhas Metas", controleNagegacao = controleNavegacao, idUsuario = idUsuario) { padding ->
@@ -63,30 +61,59 @@ fun MetasScreen(
                 verticalArrangement = Arrangement.spacedBy(24.dp),
                 modifier = Modifier.weight(1f)
             ) {
-                // Renderiza os botões dinâmicos com base nos objetos Meta
+                // 1. Metas fixas nativas da tela
+                item {
+                    BotaoMeta(nome = "Viagens") {
+                        controleNavegacao.navigate("detalhesmetafixa/Viagens/$idUsuario")
+                    }
+                }
+                item {
+                    BotaoMeta(nome = "Casamento") {
+                        controleNavegacao.navigate("detalhesmetafixa/Casamento/$idUsuario")
+                    }
+                }
+                item {
+                    BotaoMeta(nome = "Compras") {
+                        controleNavegacao.navigate("detalhesmetafixa/Compras/$idUsuario")
+                    }
+                }
+
+                // 2. Metas dinâmicas do banco com chave composta contra bugs
                 items(
                     items = listaMetasApi,
-                    key = { it.nomeMeta } // Evita bugs de recomposição
+                    key = { "${it.idMeta}_${it.nomeMeta}" }
                 ) { meta ->
                     val nomeValido = meta.nomeMeta ?: "Sem Nome"
+                    val idMetaValido = meta.idMeta ?: 0
+
                     BotaoMeta(nome = nomeValido) {
                         val nomeTratado = Uri.encode(nomeValido)
-                        val idMetaValido = meta.idMeta ?: 0 // Garanta que seu Model 'Meta' tenha o campo idMeta
-
-                        // Passa idMeta, nome e idUsuario na rota atualizada
                         controleNavegacao.navigate("detalhemeta/$idMetaValido/$nomeTratado/$idUsuario")
                     }
                 }
 
-                item{
-                    BotaoMeta (nome = "Criar ") {
+                // 3. Botão de Criar
+                item {
+                    BotaoMeta(nome = "Criar ") {
                         mostrarDialogo = true
                     }
                 }
             }
 
-            // Repassa a lista cheia de dados para o gráfico calcular as fatias
-            CardGraficoMetas(metas = listaMetasApi)
+            // Evita crash e bugs visuais se o usuário não possuir metas registradas ainda
+            if (listaMetasApi.isNotEmpty()) {
+                CardGraficoMetas(metas = listaMetasApi)
+            } else {
+                Card(
+                    modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp),
+                    shape = RoundedCornerShape(16.dp),
+                    colors = CardDefaults.cardColors(containerColor = CorCardEscuro)
+                ) {
+                    Box(modifier = Modifier.fillMaxWidth().padding(24.dp), contentAlignment = Alignment.Center) {
+                        Text("Crie sua primeira meta personalizada acima!", color = CorTextoBranco, fontSize = 14.sp)
+                    }
+                }
+            }
 
             Spacer(modifier = Modifier.height(16.dp))
         }
@@ -132,7 +159,6 @@ fun MetasScreen(
 
 @Composable
 private fun CardGraficoMetas(metas: List<Meta>) {
-    //  Descobre a proporção de cada objetivo
     val objetivoTotal = metas.sumOf { it.valorObjetivo }
     val metasOrdenadas = metas.sortedByDescending { it.valorObjetivo }
 
