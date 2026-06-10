@@ -30,7 +30,6 @@ private val CorTextoBranco = Color(0xFFFFFFFF)
 private val CorVerdeBotao = Color(0xFF34C759)
 private val verdeGradiente = Color(0xFF1A2E1A)
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MetasScreen(
     controleNavegacao: NavController,
@@ -38,6 +37,7 @@ fun MetasScreen(
     viewModel: MetaViewModel = viewModel()
 ) {
     var mostrarDialogo by remember { mutableStateOf(false) }
+    // Voltamos com a variável para o nome da meta aqui pro topo!
     var novoNomeMeta by remember { mutableStateOf("") }
 
     LaunchedEffect(idUsuario) {
@@ -45,6 +45,25 @@ fun MetasScreen(
     }
 
     val listaMetasApi by viewModel.metas.collectAsState()
+
+    // 1. Criamos nossas opções de metas fixas (idMeta = 0 indica que ainda não estão no banco)
+    val metasFixas = remember(idUsuario) {
+        listOf(
+            Meta(idMeta = 0, idUsuario = idUsuario, nomeMeta = "Reserva", valorObjetivo = 0.0, valorAtual = 0.0),
+            Meta(idMeta = 0, idUsuario = idUsuario, nomeMeta = "Carro", valorObjetivo = 0.0, valorAtual = 0.0),
+            Meta(idMeta = 0, idUsuario = idUsuario, nomeMeta = "Viagem", valorObjetivo = 0.0, valorAtual = 0.0)
+        )
+    }
+
+    // 2. Filtramos e juntamos as listas.
+    // Se a meta já veio do banco, a opção fixa com o mesmo nome some!
+    val listaCompleta = remember(listaMetasApi, metasFixas) {
+        val nomesJaSalvos = listaMetasApi.map { it.nomeMeta }
+        val fixasDisponiveis = metasFixas.filter { it.nomeMeta !in nomesJaSalvos }
+
+        // Colocamos as metas do banco primeiro, e as sugestões fixas depois
+        listaMetasApi + fixasDisponiveis
+    }
 
     MenuScreen(tituloDaPagina = "Minhas Metas", controleNagegacao = controleNavegacao, idUsuario = idUsuario) { padding ->
         Column(
@@ -61,38 +80,33 @@ fun MetasScreen(
                 verticalArrangement = Arrangement.spacedBy(24.dp),
                 modifier = Modifier.weight(1f)
             ) {
-                // 1. Metas fixas nativas da tela
-                item {
-                    BotaoMeta(nome = "Viagens") {
-                        controleNavegacao.navigate("detalhesmetafixa/Viagens/$idUsuario")
-                    }
-                }
-                item {
-                    BotaoMeta(nome = "Casamento") {
-                        controleNavegacao.navigate("detalhesmetafixa/Casamento/$idUsuario")
-                    }
-                }
-                item {
-                    BotaoMeta(nome = "Compras") {
-                        controleNavegacao.navigate("detalhesmetafixa/Compras/$idUsuario")
-                    }
-                }
-
-                // 2. Metas dinâmicas do banco com chave composta contra bugs
                 items(
-                    items = listaMetasApi,
-                    key = { "${it.idMeta}_${it.nomeMeta}" }
+                    items = listaCompleta, // ...para usar a listaCompleta!
+                    key = { meta -> "${meta.idMeta}_${meta.nomeMeta}" } // Chave atualizada para evitar bugs de nomes iguais
                 ) { meta ->
-                    val nomeValido = meta.nomeMeta ?: "Sem Nome"
-                    val idMetaValido = meta.idMeta ?: 0
+                    val nomeValido = meta.nomeMeta ?: "Sem nome"
 
                     BotaoMeta(nome = nomeValido) {
-                        val nomeTratado = Uri.encode(nomeValido)
-                        controleNavegacao.navigate("detalhemeta/$idMetaValido/$nomeTratado/$idUsuario")
+
+                        // Se já tem ID, navega direto para a rota de meta dinâmica
+                        if (meta.idMeta != null && meta.idMeta != 0) {
+                            val nomeTratado = Uri.encode(nomeValido)
+                            controleNavegacao.navigate("detalhemeta/${meta.idMeta}/$nomeTratado/$idUsuario")
+                        } else {
+                            // Se NÃO tem ID, é uma meta fixa. Criamos ela e depois navegamos
+                            viewModel.criarMetaFixa(
+                                nomeMeta = nomeValido,
+                                idUsuario = idUsuario,
+                                aoCriar = { idGerado ->
+                                    val nomeTratado = Uri.encode(nomeValido)
+                                    controleNavegacao.navigate("detalhemeta/$idGerado/$nomeTratado/$idUsuario")
+                                }
+                            )
+                        }
                     }
                 }
 
-                // 3. Botão de Criar
+                // Botão de Criar Meta
                 item {
                     BotaoMeta(nome = "Criar ") {
                         mostrarDialogo = true
@@ -100,24 +114,12 @@ fun MetasScreen(
                 }
             }
 
-            // Evita crash e bugs visuais se o usuário não possuir metas registradas ainda
-            if (listaMetasApi.isNotEmpty()) {
-                CardGraficoMetas(metas = listaMetasApi)
-            } else {
-                Card(
-                    modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp),
-                    shape = RoundedCornerShape(16.dp),
-                    colors = CardDefaults.cardColors(containerColor = CorCardEscuro)
-                ) {
-                    Box(modifier = Modifier.fillMaxWidth().padding(24.dp), contentAlignment = Alignment.Center) {
-                        Text("Crie sua primeira meta personalizada acima!", color = CorTextoBranco, fontSize = 14.sp)
-                    }
-                }
-            }
+            CardGraficoMetas(metas = listaMetasApi)
 
             Spacer(modifier = Modifier.height(16.dp))
         }
 
+        // Aqui o AlertDialog fica direto na tela principal, sem função externa!
         if (mostrarDialogo) {
             AlertDialog(
                 onDismissRequest = { mostrarDialogo = false },
@@ -139,8 +141,8 @@ fun MetasScreen(
                 confirmButton = {
                     TextButton(onClick = {
                         if (novoNomeMeta.isNotBlank()) {
-                            viewModel.criarMeta(novoNomeMeta, idUsuario)
-                            novoNomeMeta = ""
+                            viewModel.criarMeta(novoNomeMeta.trim(), idUsuario)
+                            novoNomeMeta = "" // Limpa o campo para a próxima vez
                             mostrarDialogo = false
                         }
                     }) {
@@ -156,7 +158,6 @@ fun MetasScreen(
         }
     }
 }
-
 @Composable
 private fun CardGraficoMetas(metas: List<Meta>) {
     val objetivoTotal = metas.sumOf { it.valorObjetivo }

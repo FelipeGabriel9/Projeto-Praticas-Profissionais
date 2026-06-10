@@ -20,14 +20,15 @@ public static class MetaEndpoints
 
 
 		//GET BY ID
-		grupo.MapGet("/{id}", async (int id, AppDbContext db) =>
+		grupo.MapGet("/{idUsuario}", async (int idUsuario, AppDbContext db) =>
 		{
-			var metas = await db.Meta.FindAsync(id);
-			// busca uma meta adeterminado id no BD
+			var metas = await db.Meta
+				.Where(m => m.idUsuario == idUsuario)
+				.ToListAsync();
 
-			return metas is null ? Results.NotFound() : Results.Ok(metas);
-			// se n�o houver uma meta com o id (vari�vel meta � null),
-			// retorna um erro (404). Caso contr�rio, retorna a meta
+			return metas.Count == 0
+				? Results.NotFound()
+				: Results.Ok(metas);
 		});
 
 

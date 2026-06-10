@@ -90,6 +90,7 @@ fun AppNavigation() {
         }
 
         // Rota de Detalhes da Meta dinâmica vinda do banco
+        // Rota ÚNICA para detalhes da meta
         composable(
             route = "detalhemeta/{idMeta}/{nomeMeta}/{idUsuario}",
             arguments = listOf(
@@ -103,22 +104,13 @@ fun AppNavigation() {
             val nomeMeta = Uri.decode(nomeLogico) ?: "Meta"
             val idUsuario = backStackEntry.arguments?.getInt("idUsuario") ?: 0
 
-            DetalheMetaScreen(controleNavegacao = controleNavegacao, idMeta = idMeta, nomeMeta = nomeMeta, idUsuario = idUsuario)
-        }
-
-        // Rota para a Meta fixa (com Nome)
-        composable(
-            route = "detalhesmetafixa/{nomeMeta}/{idUsuario}",
-            arguments = listOf(
-                navArgument("nomeMeta") { type = NavType.StringType },
-                navArgument("idUsuario") { type = NavType.IntType }
+            // Chama a nossa nova tela unificada!
+            DetalheMetaScreen(
+                controleNavegacao = controleNavegacao,
+                idMeta = idMeta,
+                nomeMeta = nomeMeta,
+                idUsuario = idUsuario
             )
-        ) { tela ->
-            val nomeMetaLogico = tela.arguments?.getString("nomeMeta")
-            val nomeMeta = Uri.decode(nomeMetaLogico) ?: ""
-            val idUsuario = tela.arguments?.getInt("idUsuario") ?: 0
-
-            DetalheMetaFixaScreen(controleNavegacao = controleNavegacao, nomeMeta = nomeMeta, idUsuario = idUsuario)
         }
     }
 }

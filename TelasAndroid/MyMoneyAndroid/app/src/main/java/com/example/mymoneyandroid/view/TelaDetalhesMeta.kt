@@ -13,11 +13,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel // Importante para o funcionamento do viewModel()
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.mymoneyandroid.model.Meta
 import com.example.mymoneyandroid.viewmodel.MetaViewModel
 
-// Cores usadas na tela
 private val CorFundoEscuro = Color(0xFF0F0F0F)
 private val CorCardInterno = Color(0xFF1C1C1E)
 private val CorTextoPrincipal = Color(0xFFFFFFFF)
@@ -25,26 +25,48 @@ private val CorTextoSecundario = Color(0xFF8E8E93)
 private val CorVerdeDestaque = Color(0xFF2E7D32)
 private val CorBarraProgresso = Color(0xFF34C759)
 private val CorFundoBarra = Color(0xFF2C2C2E)
+private val CorVermelhoAlerta = Color(0xFFD32F2F) // Adicionado para padronizar o botão de excluir
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetalheMetaScreen(
     controleNavegacao: NavController,
-    idMeta: Int,          // CORREÇÃO 1: Adicionado o idMeta que estava faltando aqui!
-    nomeMeta: String?,
+    idMeta: Int,
+    nomeMeta: String,
     idUsuario: Int,
-    viewModel: MetaViewModel = viewModel() // CORREÇÃO 2: Injetando o ViewModel corretamente por padrão
+    viewModel: MetaViewModel = viewModel()
 ) {
-    // Estados para os valores
-    var valorObjetivo by remember { mutableStateOf("") }
+    val listaMetas by viewModel.metas.collectAsState()
+
+    LaunchedEffect(Unit) {
+        viewModel.buscarMetas(idUsuario)
+    }
+
+    val meta = listaMetas.find { it.idMeta == idMeta }
+
+    var valorObjetivoInput by remember { mutableStateOf("") }
     var valorGuardadoAgora by remember { mutableStateOf("") }
-    var totalAcumulado by remember { mutableStateOf(0.0) }
 
-    // Cálculo do progresso para a barra (0.0 a 1.0)
-    val objetivoTotal = valorObjetivo.replace(",", ".").toDoubleOrNull() ?: 1.0
-    val progresso = (totalAcumulado / objetivoTotal).coerceIn(0.0, 1.0).toFloat()
+    LaunchedEffect(meta) {
+        meta?.let {
+            if (valorObjetivoInput.isEmpty() && it.valorObjetivo > 0) {
+                valorObjetivoInput = it.valorObjetivo.toString()
+            }
+        }
+    }
 
-    MenuScreen(tituloDaPagina = nomeMeta ?: "Meta", controleNagegacao = controleNavegacao, idUsuario = idUsuario) { padding ->
+    // Lendo DIRETO do banco de dados (se for nulo, mostra 0.0)
+    val totalAcumulado = meta?.valorAtual ?: 0.0
+    val objetivoTotal = valorObjetivoInput.replace(",", ".").toDoubleOrNull() ?: 0.0
+
+    val progresso = if (objetivoTotal > 0) {
+        (totalAcumulado / objetivoTotal).coerceIn(0.0, 1.0).toFloat()
+    } else {
+        0f
+    }
+
+    val tituloTela = meta?.nomeMeta ?: nomeMeta
+
+    MenuScreen(tituloDaPagina = tituloTela, controleNagegacao = controleNavegacao, idUsuario = idUsuario) { padding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -54,14 +76,13 @@ fun DetalheMetaScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "Meu objetivo para: $nomeMeta",
+                text = "Meu objetivo para: $tituloTela",
                 color = CorTextoSecundario
             )
 
-            // Campo para definir a meta final
             OutlinedTextField(
-                value = valorObjetivo,
-                onValueChange = { valorObjetivo = it },
+                value = valorObjetivoInput,
+                onValueChange = { valorObjetivoInput = it },
                 label = { Text("Quanto quer poupar no total? (R$)") },
                 modifier = Modifier.fillMaxWidth().padding(top = 8.dp),
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
@@ -75,39 +96,45 @@ fun DetalheMetaScreen(
 
             Spacer(modifier = Modifier.height(32.dp))
 
-            // BARRA DE PROGRESSO
+            Button(
+                onClick = {
+                    meta?.let {
+                        val metaAtualizada = it.copy(valorObjetivo = objetivoTotal)
+                        viewModel.atualizarMeta(metaAtualizada)
+                    }
+                },
+                modifier = Modifier.fillMaxWidth().height(50.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = CorVerdeDestaque),
+                shape = RoundedCornerShape(12.dp)
+            ) {
+                Text("Salvar Objetivo", fontWeight = FontWeight.Bold, color = CorTextoPrincipal)
+            }
+
+            Spacer(modifier = Modifier.height(32.dp))
+
             Text(
                 text = "Progresso: ${(progresso * 100).toInt()}%",
                 color = CorTextoPrincipal,
                 fontWeight = FontWeight.Bold
             )
+
             LinearProgressIndicator(
                 progress = { progresso },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(12.dp)
-                    .padding(vertical = 8.dp),
+                modifier = Modifier.fillMaxWidth().height(12.dp).padding(vertical = 8.dp),
                 color = CorBarraProgresso,
                 trackColor = CorFundoBarra
             )
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            // Card com o total já guardado
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 colors = CardDefaults.cardColors(containerColor = CorCardInterno)
             ) {
-                Column(
-                    modifier = Modifier.padding(16.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
+                Column(modifier = Modifier.padding(16.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+                    Text("Total acumulado", color = CorTextoSecundario, fontSize = 14.sp)
                     Text(
-                        text = "Total acumulado",
-                        color = CorTextoSecundario,
-                        fontSize = 14.sp
-                    )
-                    Text(
+                        // O valor aqui agora é 100% o que está no BD
                         text = "R$ ${String.format("%.2f", totalAcumulado)}",
                         color = CorTextoPrincipal,
                         fontSize = 32.sp,
@@ -118,7 +145,6 @@ fun DetalheMetaScreen(
 
             Spacer(modifier = Modifier.height(32.dp))
 
-            // Campo para adicionar valor agora
             OutlinedTextField(
                 value = valorGuardadoAgora,
                 onValueChange = { valorGuardadoAgora = it },
@@ -137,36 +163,37 @@ fun DetalheMetaScreen(
 
             Button(
                 onClick = {
-                    val valor = valorGuardadoAgora.replace(",", ".").toDoubleOrNull() ?: 0.0
-                    totalAcumulado += valor
-                    valorGuardadoAgora = ""
+                    val valorDigitado = valorGuardadoAgora.replace(",", ".").toDoubleOrNull() ?: 0.0
+                    if (valorDigitado > 0) {
+                        meta?.let {
+                            // Somamos o valor e mandamos para o ViewModel
+                            val metaAtualizada = it.copy(valorAtual = it.valorAtual + valorDigitado)
+                            viewModel.atualizarMeta(metaAtualizada)
+                        }
+                        valorGuardadoAgora = ""
+                    }
                 },
                 modifier = Modifier.fillMaxWidth().height(50.dp),
                 colors = ButtonDefaults.buttonColors(containerColor = CorVerdeDestaque),
                 shape = RoundedCornerShape(12.dp)
             ) {
-                Text(
-                    text = "Guardar",
-                    fontWeight = FontWeight.Bold,
-                    color = CorTextoPrincipal
-                )
+                Text("Guardar", fontWeight = FontWeight.Bold, color = CorTextoPrincipal)
             }
 
-            // Botão de excluir meta
+            Spacer(modifier = Modifier.weight(1f))
+
             Button(
                 onClick = {
-                    // Agora o viewModel e o idMeta estão acessíveis e vão funcionar de primeira!
-                    viewModel.excluirMeta(idMeta = idMeta, idUsuario = idUsuario)
-                    controleNavegacao.popBackStack()
+                    meta?.let {
+                        viewModel.excluirMeta(it.idMeta)
+                        controleNavegacao.popBackStack()
+                    }
                 },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(50.dp)
-                    .padding(top = 16.dp),
+                modifier = Modifier.fillMaxWidth().height(50.dp),
                 shape = RoundedCornerShape(12.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFD32F2F))
+                colors = ButtonDefaults.buttonColors(containerColor = CorVermelhoAlerta)
             ) {
-                Text("EXCLUIR META", color = Color.White, fontWeight = FontWeight.Bold)
+                Text("EXCLUIR META", color = CorTextoPrincipal, fontWeight = FontWeight.Bold)
             }
         }
     }

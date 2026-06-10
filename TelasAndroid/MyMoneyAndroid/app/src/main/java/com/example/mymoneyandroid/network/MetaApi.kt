@@ -6,10 +6,11 @@ import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Path
 
 interface MetaApi {
-    @GET("/metas/usuario/{idUsuario}")
+    @GET("/metas/{idUsuario}")
     suspend fun listarMetas(@Path("idUsuario") idUsuario: Int): Response<List<Meta>>
 
     // Cria uma nova meta
@@ -17,6 +18,9 @@ interface MetaApi {
     suspend fun criarMeta(@Body novaMeta: Meta): Response<Meta>
 
     // Rota para deletar uma meta
-    @DELETE("/metas/{idMeta}/{idUsuario}")
-    suspend fun excluirMeta(@Path("idMeta") idMeta: Int, @Path("idUsuario") idUsuario: Int): Response<Unit>
+    @DELETE("/metas/{idMeta}")
+    suspend fun excluirMeta(@Path("idMeta") idMeta: Int): Response<Unit>
+
+    @PUT("/metas/{idMeta}")
+    suspend fun atualizarMeta(@Path("idMeta") idMeta: Int, @Body meta: Meta): Response<Unit>
 }
